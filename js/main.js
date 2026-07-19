@@ -1,4 +1,4 @@
-// Firsky Designs — shared interactivity
+// Frisky Designs — shared interactivity
 
 document.addEventListener('DOMContentLoaded', () => {
   // Footer year

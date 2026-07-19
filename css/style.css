@@ -1,5 +1,5 @@
 /* ===========================================================
-   Firsky Designs — Design System
+   Frisky Designs — Design System
    Bold, colour-obsessed, maximalist agency theme
 =========================================================== */
 
@@ -40,23 +40,23 @@
   --container: 1220px;
 }
 
-/* Home page only: gradients desaturated to greyscale.
-   Each accent below is a luminance-matched grey of its colour
-   counterpart, so every gradient/derived rule that references
-   --pink/--purple/etc. (buttons, CTA band, hero blobs, stats,
-   thumbnails, testimonial avatars) automatically resolves grey
-   on this page while every other page stays in full colour. */
+/* Home page only: premium black theme.
+   Every gradient/derived rule that references --pink/--purple/etc.
+   (buttons, CTA band, hero blobs, stats, thumbnails, testimonial
+   avatars) is built from these, so redefining them here recolours
+   the whole page to a black/charcoal palette with a muted gold
+   accent, while every other page keeps the original bright colours. */
 body.home {
-  --purple: #7c7c7c;
-  --purple-2: #515151;
-  --pink: #777777;
-  --orange: #9b9b9b;
-  --yellow: #cfcfcf;
-  --lime: #cecece;
-  --blue: #a8a8a8;
+  --purple: #3a3a3a;    /* charcoal sheen (gradient midpoint) */
+  --purple-2: #161616;  /* near-black */
+  --pink: #0a0a0a;      /* black (gradient start) */
+  --orange: #1f1f1f;    /* dark charcoal (gradient end) */
+  --yellow: #c9a35f;    /* muted gold — star ratings */
+  --lime: #c9a35f;      /* muted gold — primary accent (dot, underline, checkmarks, hovers) */
+  --blue: #3a3a3a;       /* charcoal touch */
 }
-body.home .btn-primary { box-shadow: 0 10px 30px -8px rgba(119, 119, 119, 0.55); }
-body.home .btn-primary:hover { box-shadow: 0 16px 40px -8px rgba(155, 155, 155, 0.6); }
+body.home .btn-primary { box-shadow: 0 10px 30px -8px rgba(201, 163, 95, 0.3); }
+body.home .btn-primary:hover { box-shadow: 0 16px 40px -8px rgba(201, 163, 95, 0.45); }
 
 /* ---------- Reset ---------- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -117,6 +117,22 @@ h3 { font-size: clamp(1.05rem, 1.6vw, 1.3rem); }
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Home hero only: smaller black-gradient text on a sleek faded white pill */
+body.home .text-grad {
+  display: inline;
+  font-size: 0.56em;
+  padding: 0.02em 0.5em;
+  border-radius: 999px;
+  background-image:
+    linear-gradient(90deg, #000000, #3a3a3a),
+    linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82));
+  background-clip: text, padding-box;
+  -webkit-background-clip: text, padding-box;
+  color: transparent;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .eyebrow {
@@ -201,6 +217,24 @@ h3 { font-size: clamp(1.05rem, 1.6vw, 1.3rem); }
   z-index: 500;
   padding-top: 18px;
 }
+.corner-logo {
+  position: absolute;
+  top: 50%;
+  left: 28px;
+  transform: translateY(-50%);
+  z-index: 501;
+}
+.corner-logo img {
+  display: block;
+  width: 68px;
+  height: 68px;
+}
+body.home .nav-wrap {
+  padding-top: 0;
+  height: 108px;
+  display: flex;
+  align-items: center;
+}
 
 .nav {
   display: flex;
@@ -213,14 +247,28 @@ h3 { font-size: clamp(1.05rem, 1.6vw, 1.3rem); }
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
 }
+body.home .nav {
+  max-width: 960px;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.7);
+}
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: 'Unbounded', sans-serif;
   font-weight: 700;
   font-size: 1.2rem;
   letter-spacing: -0.02em;
 }
 .logo span { color: var(--lime); }
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
 
 .nav-links {
   display: flex;
@@ -294,6 +342,18 @@ h3 { font-size: clamp(1.05rem, 1.6vw, 1.3rem); }
 .blob-1 { width: 480px; height: 480px; background: var(--pink); top: -140px; left: -100px; }
 .blob-2 { width: 420px; height: 420px; background: var(--purple); top: 100px; right: -140px; animation-delay: -4s; }
 .blob-3 { width: 360px; height: 360px; background: var(--orange); bottom: -160px; left: 30%; animation-delay: -8s; }
+
+/* Premium background dressing, home hero only */
+.hero .blob-field::before,
+.hero .blob-field::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 163, 95, 0.25);
+  pointer-events: none;
+}
+.hero .blob-field::before { width: 640px; height: 640px; top: -240px; right: -220px; }
+.hero .blob-field::after { width: 300px; height: 300px; bottom: -120px; left: 8%; border-color: rgba(255, 255, 255, 0.1); }
 
 @keyframes float {
   0%, 100% { transform: translate(0, 0) scale(1); }
@@ -611,6 +671,16 @@ section { padding: 80px 0; position: relative; }
 .cta-band p { color: rgba(255,255,255,0.85); max-width: 500px; margin: 0 auto 36px; }
 .cta-band .btn-outline { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); }
 .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
+
+body.home .cta-band {
+  background-image:
+    linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.55) 55%, rgba(10, 10, 10, 0.9)),
+    url('../assets/collage/work-collage.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 112px 50px;
+}
+body.home .cta-band h2 { margin-bottom: 18px; }
 
 /* ---------- Footer ---------- */
 .footer { padding: 90px 0 0; border-top: 1px solid var(--border); background: var(--bg-alt); }
