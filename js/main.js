@@ -38,6 +38,41 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => el.classList.add('in'));
   }
 
+  // Animated stat counters
+  const statNums = document.querySelectorAll('.hero-stats .num');
+  if (statNums.length) {
+    const animateCount = (el) => {
+      const text = el.textContent.trim();
+      const match = text.match(/^([\d.]+)(.*)$/);
+      if (!match) return;
+      const endStr = match[1];
+      const suffix = match[2];
+      const decimals = endStr.includes('.') ? endStr.split('.')[1].length : 0;
+      const end = parseFloat(endStr);
+      const duration = 2600;
+      const start = performance.now();
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = end * eased;
+        el.textContent = (decimals ? current.toFixed(decimals) : Math.round(current)) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    if ('IntersectionObserver' in window) {
+      const statsIo = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.num').forEach(animateCount);
+            statsIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      document.querySelectorAll('.hero-stats').forEach(el => statsIo.observe(el));
+    }
+  }
+
   // Portfolio filters
   const filterBtns = document.querySelectorAll('.filter-btn');
   const workItems = document.querySelectorAll('.work-item');
