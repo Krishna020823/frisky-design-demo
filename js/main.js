@@ -101,26 +101,96 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Budget pills (contact form)
+  // Budget pills (grouped by radio name, so multiple pill groups on one page don't clash)
   document.querySelectorAll('.budget-pill').forEach(pill => {
     pill.addEventListener('click', () => {
-      document.querySelectorAll('.budget-pill').forEach(p => p.classList.remove('checked'));
-      pill.classList.add('checked');
       const input = pill.querySelector('input');
-      if (input) input.checked = true;
+      if (!input) return;
+      document.querySelectorAll(`.budget-pill input[name="${input.name}"]`).forEach(i => {
+        i.closest('.budget-pill').classList.remove('checked');
+      });
+      pill.classList.add('checked');
+      input.checked = true;
     });
   });
 
-  // Contact form submit (static demo — no backend)
-  const form = document.getElementById('contact-form');
-  const success = document.querySelector('.form-success');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (success) success.classList.add('show');
-      form.reset();
-      document.querySelectorAll('.budget-pill').forEach(p => p.classList.remove('checked'));
-      if (success) success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Multi-step project enquiry form (contact page)
+  const projectForm = document.getElementById('project-form-el');
+  if (projectForm) {
+    const steps = Array.from(projectForm.querySelectorAll('.form-step'));
+    const backBtn = projectForm.querySelector('.form-back');
+    const nextBtn = projectForm.querySelector('.form-next');
+    const submitBtn = projectForm.querySelector('.form-submit');
+    const stepCurrentEl = document.getElementById('step-current');
+    const successDetail = document.querySelector('.form-success-detail');
+    let current = 0;
+
+    const buildOptions = projectForm.querySelectorAll('input[name="buildType"]');
+    const branchGroups = projectForm.querySelectorAll('.branch-fields');
+
+    const updateBranches = () => {
+      const selected = projectForm.querySelector('input[name="buildType"]:checked');
+      const value = selected ? selected.value : null;
+      branchGroups.forEach(group => {
+        const branches = group.dataset.branch.split(',');
+        group.style.display = value && branches.includes(value) ? 'block' : 'none';
+      });
+    };
+    buildOptions.forEach(opt => opt.addEventListener('change', updateBranches));
+    updateBranches();
+
+    const showStep = (index) => {
+      steps.forEach((step, i) => step.classList.toggle('active', i === index));
+      if (stepCurrentEl) stepCurrentEl.textContent = index + 1;
+      backBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
+      const isLast = index === steps.length - 1;
+      nextBtn.style.display = isLast ? 'none' : 'inline-flex';
+      submitBtn.style.display = isLast ? 'inline-flex' : 'none';
+    };
+
+    const stepIsValid = (index) => {
+      const step = steps[index];
+      const required = Array.from(step.querySelectorAll('[required]'));
+      return required.every(field => {
+        if (field.type === 'radio') {
+          return step.querySelector(`input[name="${field.name}"]:checked`);
+        }
+        return field.value.trim() !== '';
+      });
+    };
+
+    nextBtn.addEventListener('click', () => {
+      if (!stepIsValid(current)) {
+        const invalidField = Array.from(steps[current].querySelectorAll('[required]'))
+          .find(field => field.type === 'radio'
+            ? !steps[current].querySelector(`input[name="${field.name}"]:checked`)
+            : field.value.trim() === '');
+        if (invalidField && invalidField.reportValidity) invalidField.reportValidity();
+        return;
+      }
+      if (current < steps.length - 1) {
+        current += 1;
+        showStep(current);
+      }
     });
+
+    backBtn.addEventListener('click', () => {
+      if (current > 0) {
+        current -= 1;
+        showStep(current);
+      }
+    });
+
+    projectForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!stepIsValid(current)) return;
+      projectForm.style.display = 'none';
+      if (successDetail) {
+        successDetail.classList.add('show');
+        successDetail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+
+    showStep(current);
   }
 });
