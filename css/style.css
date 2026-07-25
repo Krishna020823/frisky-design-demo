@@ -200,6 +200,10 @@ body.home .text-grad {
   color: var(--lime);
   transform: translateY(-3px);
 }
+.featured-case .btn-outline:hover {
+  border-color: #fff;
+  color: #fff;
+}
 body.home .btn-outline:hover {
   border-color: #fff;
   color: #fff;
@@ -932,7 +936,7 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 .page-hero { padding: 140px 0 50px; text-align: center; }
 .page-hero .eyebrow { justify-content: center; }
 .page-hero h1 { margin: 0 auto 20px; }
-.page-hero .lead { margin: 0 auto; text-align: center; }
+.page-hero .lead { margin: 0 auto; text-align: center; max-width: 880px; }
 
 /* ---------- About page ---------- */
 .about-grid {
