@@ -377,6 +377,22 @@ body.home .text-grad {
   position: relative;
   padding: 90px 0 37px;
 }
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -2;
+}
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(12, 12, 12, 0.55) 0%, rgba(12, 12, 12, 0.75) 60%, rgba(12, 12, 12, 0.95) 100%);
+}
 .hero-inner { text-align: center; display: flex; flex-direction: column; align-items: center; }
 .hero h1 { max-width: 980px; margin-bottom: 18px; }
 .hero-tagline {
