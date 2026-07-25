@@ -944,6 +944,25 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 .process-step h3 { margin-bottom: 10px; }
 .process-step p { color: var(--text-dim); max-width: 560px; }
 
+.process-horizontal {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px 36px;
+}
+.process-horizontal::before { display: none; }
+.process-horizontal .process-step {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0;
+}
+@media (max-width: 900px) {
+  .process-horizontal { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .process-horizontal { grid-template-columns: 1fr; }
+}
+
 /* ---------- Services page ---------- */
 .service-block {
   display: grid;
