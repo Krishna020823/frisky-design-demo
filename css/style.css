@@ -205,11 +205,11 @@ body.home .text-grad {
   color: #fff;
 }
 .hero-actions .btn-white {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.45);
   border-color: rgba(255, 255, 255, 0.9);
   color: #0a0a0a;
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
 }
 .hero-actions .btn-white:hover {
   background: rgba(255, 255, 255, 0.92);
