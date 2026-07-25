@@ -204,6 +204,18 @@ body.home .text-grad {
   border-color: #fff;
   color: #fff;
 }
+.hero-actions .btn-white {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.9);
+  color: #0a0a0a;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+}
+.hero-actions .btn-white:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #fff;
+  color: #0a0a0a;
+}
 
 .btn-block { width: 100%; justify-content: center; }
 
