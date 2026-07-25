@@ -289,7 +289,12 @@ body.home .btn-outline:hover {
 .nav-links a { position: relative; padding: 4px 0; color: var(--text-dim); transition: color 0.25s; }
 .nav-links a:hover, .nav-links a.active { color: var(--text); }
 .nav-links a.active::after {
-  display: none;
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%; height: 2px;
+  background: #fff;
+  border-radius: 2px;
 }
 
 .btn-nav {
