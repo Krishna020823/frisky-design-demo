@@ -954,10 +954,30 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 0;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-soft);
+  position: relative;
+}
+.process-horizontal .process-num {
+  font-size: 1.3rem;
+}
+.process-horizontal .process-step h3 {
+  font-size: 1.5rem;
+}
+.process-horizontal .process-step:not(:nth-child(3n))::after {
+  content: '→';
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  transform: translateY(-50%);
+  font-size: 1.3rem;
+  color: var(--text-faint);
 }
 @media (max-width: 900px) {
   .process-horizontal { grid-template-columns: repeat(2, 1fr); }
+  .process-horizontal .process-step:not(:nth-child(3n))::after { display: none; }
 }
 @media (max-width: 560px) {
   .process-horizontal { grid-template-columns: 1fr; }
