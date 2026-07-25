@@ -205,16 +205,15 @@ body.home .text-grad {
   color: #fff;
 }
 .hero-actions .btn-white {
-  background: rgba(255, 255, 255, 0.45);
-  border-color: rgba(255, 255, 255, 0.9);
+  background: #ffffff;
+  border-color: #ffffff;
   color: #0a0a0a;
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
 }
 .hero-actions .btn-white:hover {
-  background: rgba(255, 255, 255, 0.92);
-  border-color: #fff;
+  background: #ffffff;
+  border-color: #ffffff;
   color: #0a0a0a;
+  box-shadow: 0 8px 24px -6px rgba(255, 255, 255, 0.5);
 }
 
 .btn-block { width: 100%; justify-content: center; }
