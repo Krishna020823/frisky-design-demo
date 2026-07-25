@@ -786,8 +786,7 @@ section { padding: 80px 0; position: relative; }
   display: flex; align-items: center; justify-content: center;
   transition: all 0.3s var(--ease);
 }
-.work-item:hover .work-arrow { background: var(--lime); color: #0c0c0c; border-color: var(--lime); transform: rotate(45deg); }
-body.home .work-item:hover .work-arrow { background: #fff; color: #0c0c0c; border-color: #fff; }
+.work-item:hover .work-arrow { background: #fff; color: #0c0c0c; border-color: #fff; transform: rotate(45deg); }
 
 /* ---------- Editorial work grid (varied rhythm, not equal cards) ---------- */
 .editorial-grid {
