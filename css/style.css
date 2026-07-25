@@ -244,7 +244,7 @@ body.home .btn-outline:hover {
   border-color: #ffffff;
   color: #0a0a0a;
 }
-.hero-actions .btn-white:hover {
+body.home .hero-actions .btn-white:hover {
   background: #ffffff;
   border-color: #ffffff;
   color: #0a0a0a;
@@ -339,7 +339,7 @@ body.home .btn-outline:hover {
 .btn-nav:hover {
   background: #ffffff;
   color: #000000;
-  box-shadow: 0 8px 20px -8px rgba(255, 255, 255, 0.5);
+  box-shadow: none;
 }
 
 .nav-toggle {
@@ -852,7 +852,7 @@ section { padding: 80px 0; position: relative; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 50px;
-  align-items: center;
+  align-items: start;
 }
 .featured-case h2 { margin-bottom: 16px; }
 .eyebrow-badge {
@@ -1173,11 +1173,12 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   overflow: hidden;
 }
 .solution-card {
+  display: block;
   background: var(--bg);
   padding: 48px 40px;
   transition: background 0.4s var(--ease);
 }
-.solution-card:hover { background: var(--bg-alt); }
+.solution-card:hover, .solution-card:focus { background: var(--bg-alt); }
 .solution-num {
   font-size: 0.78rem;
   color: var(--text-faint);
@@ -1195,6 +1196,7 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   transition: max-height 0.5s var(--ease), opacity 0.4s var(--ease), margin-bottom 0.4s var(--ease);
 }
 .solution-card:hover .solution-reveal,
+.solution-card:focus .solution-reveal,
 .solution-card:focus-within .solution-reveal { max-height: 320px; opacity: 1; margin-bottom: 20px; }
 .solution-reveal-label {
   font-size: 0.75rem;
