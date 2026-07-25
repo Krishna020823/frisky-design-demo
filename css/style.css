@@ -497,10 +497,7 @@ body.home .text-grad {
   font-family: 'Inter', sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
-  background: var(--grad-lime);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #ffffff;
 }
 .hero-stats .label { font-size: 0.68rem; color: var(--text-faint); margin-top: 2px; }
 
