@@ -200,6 +200,10 @@ body.home .text-grad {
   color: var(--lime);
   transform: translateY(-3px);
 }
+body.home .btn-outline:hover {
+  border-color: #fff;
+  color: #fff;
+}
 .hero-actions .btn-outline:hover {
   border-color: #fff;
   color: #fff;
@@ -783,6 +787,7 @@ section { padding: 80px 0; position: relative; }
   transition: all 0.3s var(--ease);
 }
 .work-item:hover .work-arrow { background: var(--lime); color: #0c0c0c; border-color: var(--lime); transform: rotate(45deg); }
+body.home .work-item:hover .work-arrow { background: #fff; color: #0c0c0c; border-color: #fff; }
 
 /* ---------- Editorial work grid (varied rhythm, not equal cards) ---------- */
 .editorial-grid {
@@ -1092,7 +1097,7 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 }
 .solution-reveal ul { display: flex; flex-direction: column; gap: 8px; }
 .solution-reveal ul li { font-size: 0.88rem; color: var(--text-dim); display: flex; gap: 10px; }
-.solution-reveal ul li::before { content: '—'; color: var(--lime); }
+.solution-reveal ul li::before { content: '—'; color: #fff; }
 .solution-best {
   font-size: 0.82rem;
   color: var(--text-faint);
