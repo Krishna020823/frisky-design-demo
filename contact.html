@@ -78,7 +78,9 @@
       </div>
     </div>
 
-    <form id="project-form-el" class="reveal">
+    <form id="project-form-el" class="reveal" name="project-enquiry" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="project-enquiry">
+      <p style="position:absolute;left:-9999px;"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
       <div class="step-indicator">Step <span id="step-current">1</span> of 5</div>
 
       <div class="form-step active" data-step="1">
@@ -101,53 +103,53 @@
 
         <div class="branch-fields" data-branch="Brand Launch,Packaging Design">
           <div class="form-group"><label>Website (Optional)</label><input type="text" name="website"></div>
-          <div class="form-group"><label>Tell us about your business.</label><textarea rows="3"></textarea></div>
-          <div class="form-group"><label>Who is your target audience?</label><textarea rows="3"></textarea></div>
-          <div class="form-group"><label>What makes your brand different?</label><textarea rows="3"></textarea></div>
+          <div class="form-group"><label>Tell us about your business.</label><textarea rows="3" name="businessDetails"></textarea></div>
+          <div class="form-group"><label>Who is your target audience?</label><textarea rows="3" name="targetAudience"></textarea></div>
+          <div class="form-group"><label>What makes your brand different?</label><textarea rows="3" name="differentiator"></textarea></div>
           <div class="form-group">
             <label>Which deliverables do you need?</label>
             <div class="checkbox-row">
-              <label><input type="checkbox"> Logo</label>
-              <label><input type="checkbox"> Brand Guidelines</label>
-              <label><input type="checkbox"> Packaging</label>
-              <label><input type="checkbox"> Social Kit</label>
+              <label><input type="checkbox" name="deliverables" value="Logo"> Logo</label>
+              <label><input type="checkbox" name="deliverables" value="Brand Guidelines"> Brand Guidelines</label>
+              <label><input type="checkbox" name="deliverables" value="Packaging"> Packaging</label>
+              <label><input type="checkbox" name="deliverables" value="Social Kit"> Social Kit</label>
             </div>
           </div>
-          <div class="form-group"><label>Do you already have a name?</label><input type="text"></div>
+          <div class="form-group"><label>Do you already have a name?</label><input type="text" name="hasName"></div>
         </div>
 
         <div class="branch-fields" data-branch="Commerce Growth">
           <div class="form-group"><label>Which marketplace?</label>
-            <select><option>Amazon</option><option>Flipkart</option><option>Shopify</option><option>Others</option></select>
+            <select name="marketplace"><option>Amazon</option><option>Flipkart</option><option>Shopify</option><option>Others</option></select>
           </div>
-          <div class="form-group"><label>How many products?</label><input type="text"></div>
-          <div class="form-group"><label>Current listing (link)</label><input type="text"></div>
-          <div class="form-group"><label>Competitors</label><input type="text"></div>
+          <div class="form-group"><label>How many products?</label><input type="text" name="productCount"></div>
+          <div class="form-group"><label>Current listing (link)</label><input type="text" name="currentListing"></div>
+          <div class="form-group"><label>Competitors</label><input type="text" name="competitors"></div>
           <div class="form-group">
             <label>What do you need?</label>
             <div class="checkbox-row">
-              <label><input type="checkbox"> A+ Content</label>
-              <label><input type="checkbox"> Listing Images</label>
-              <label><input type="checkbox"> Brand Store</label>
-              <label><input type="checkbox"> Lifestyle Images</label>
+              <label><input type="checkbox" name="commerceNeeds" value="A+ Content"> A+ Content</label>
+              <label><input type="checkbox" name="commerceNeeds" value="Listing Images"> Listing Images</label>
+              <label><input type="checkbox" name="commerceNeeds" value="Brand Store"> Brand Store</label>
+              <label><input type="checkbox" name="commerceNeeds" value="Lifestyle Images"> Lifestyle Images</label>
             </div>
           </div>
         </div>
 
         <div class="branch-fields" data-branch="Creative Partnership">
-          <div class="form-group"><label>Current creative challenges?</label><textarea rows="3"></textarea></div>
-          <div class="form-group"><label>Monthly design volume?</label><input type="text"></div>
-          <div class="form-group"><label>Do you already have a brand guideline?</label><input type="text"></div>
-          <div class="form-group"><label>Current team size?</label><input type="text"></div>
-          <div class="form-group"><label>Expected hours/month?</label><input type="text"></div>
+          <div class="form-group"><label>Current creative challenges?</label><textarea rows="3" name="creativeChallenges"></textarea></div>
+          <div class="form-group"><label>Monthly design volume?</label><input type="text" name="designVolume"></div>
+          <div class="form-group"><label>Do you already have a brand guideline?</label><input type="text" name="hasGuideline"></div>
+          <div class="form-group"><label>Current team size?</label><input type="text" name="teamSize"></div>
+          <div class="form-group"><label>Expected hours/month?</label><input type="text" name="hoursPerMonth"></div>
         </div>
 
         <div class="branch-fields" data-branch="Website Design & Development">
-          <div class="form-group"><label>Current Website</label><input type="text"></div>
-          <div class="form-group"><label>Number of Pages</label><input type="text"></div>
-          <div class="form-group"><label>Need CMS?</label><input type="text"></div>
-          <div class="form-group"><label>Need E-commerce?</label><input type="text"></div>
-          <div class="form-group"><label>Need Copywriting?</label><input type="text"></div>
+          <div class="form-group"><label>Current Website</label><input type="text" name="currentWebsite"></div>
+          <div class="form-group"><label>Number of Pages</label><input type="text" name="pageCount"></div>
+          <div class="form-group"><label>Need CMS?</label><input type="text" name="needsCMS"></div>
+          <div class="form-group"><label>Need E-commerce?</label><input type="text" name="needsEcommerce"></div>
+          <div class="form-group"><label>Need Copywriting?</label><input type="text" name="needsCopywriting"></div>
         </div>
       </div>
 
@@ -175,7 +177,7 @@
       <div class="form-step" data-step="5">
         <div class="form-group">
           <label for="pf-story">Tell us your story.</label>
-          <textarea id="pf-story" rows="5" placeholder="Tell us about your business, your goals and why this project matters to you." required></textarea>
+          <textarea id="pf-story" name="story" rows="5" placeholder="Tell us about your business, your goals and why this project matters to you." required></textarea>
         </div>
       </div>
 

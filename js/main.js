@@ -184,11 +184,22 @@ document.addEventListener('DOMContentLoaded', () => {
     projectForm.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!stepIsValid(current)) return;
-      projectForm.style.display = 'none';
-      if (successDetail) {
-        successDetail.classList.add('show');
-        successDetail.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+
+      const showSuccess = () => {
+        projectForm.style.display = 'none';
+        if (successDetail) {
+          successDetail.classList.add('show');
+          successDetail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      };
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(projectForm)).toString(),
+      })
+        .then(showSuccess)
+        .catch(showSuccess);
     });
 
     showStep(current);
