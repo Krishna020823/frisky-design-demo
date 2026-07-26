@@ -582,7 +582,7 @@ body.home .hero-actions .btn-white:hover {
   display: flex;
   gap: 24px;
   width: max-content;
-  animation: scroll-left 45s linear infinite;
+  animation: scroll-left 105s linear infinite;
 }
 .image-slider:hover .image-slider-track {
   animation-play-state: paused;
@@ -612,6 +612,7 @@ body.home .hero-actions .btn-white:hover {
   font-weight: 600;
   padding: 6px 14px;
   border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(4px);
 }
 @media (max-width: 760px) {
@@ -650,6 +651,22 @@ section { padding: 80px 0; position: relative; }
   letter-spacing: -0.01em;
 }
 .logo-row .client-name:hover { opacity: 1; color: var(--lime); }
+.client-logo {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 44px;
+}
+.client-logo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s var(--ease);
+}
+.client-logo .logo-color { opacity: 0; }
+.client-logo:hover .logo-color { opacity: 1; }
 
 /* ---------- Bento / cards ---------- */
 .bento {
@@ -952,10 +969,10 @@ section { padding: 80px 0; position: relative; }
 body.home .cta-band {
   background-image:
     linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.55) 55%, rgba(10, 10, 10, 0.9)),
-    url('../assets/collage/work-collage.jpg');
+    url('../assets/collage/bottom-brand-journey-banner.png');
   background-size: cover;
   background-position: center;
-  padding: 112px 50px;
+  padding: 70px 50px;
 }
 body.home .cta-band h2 { color: #fff; margin-bottom: 18px; }
 body.home .cta-band p { color: rgba(255,255,255,0.85); }
@@ -966,7 +983,7 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 .footer {
   padding: 90px 0 0;
   border-top: 1px solid var(--border);
-  background: var(--bg-alt);
+  background: #000000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -995,6 +1012,18 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   color: var(--text-faint);
   flex-wrap: wrap;
   gap: 10px;
+}
+.footer-illustration {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  opacity: 0.7;
+}
+.footer-illustration img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* ---------- Page hero (inner pages) ---------- */

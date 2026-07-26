@@ -148,6 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.style.display = isLast ? 'inline-flex' : 'none';
     };
 
+    const fieldIsInvalid = (field) => {
+      if (field.type === 'radio') return !steps[current].querySelector(`input[name="${field.name}"]:checked`);
+      if (field.type === 'checkbox') return !field.checked;
+      return field.value.trim() === '';
+    };
+
     const stepIsValid = (index) => {
       const step = steps[index];
       const required = Array.from(step.querySelectorAll('[required]'));
@@ -155,16 +161,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (field.type === 'radio') {
           return step.querySelector(`input[name="${field.name}"]:checked`);
         }
+        if (field.type === 'checkbox') {
+          return field.checked;
+        }
         return field.value.trim() !== '';
       });
     };
 
     nextBtn.addEventListener('click', () => {
       if (!stepIsValid(current)) {
-        const invalidField = Array.from(steps[current].querySelectorAll('[required]'))
-          .find(field => field.type === 'radio'
-            ? !steps[current].querySelector(`input[name="${field.name}"]:checked`)
-            : field.value.trim() === '');
+        const invalidField = Array.from(steps[current].querySelectorAll('[required]')).find(fieldIsInvalid);
         if (invalidField && invalidField.reportValidity) invalidField.reportValidity();
         return;
       }
@@ -184,10 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     projectForm.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!stepIsValid(current)) {
-        const invalidField = Array.from(steps[current].querySelectorAll('[required]'))
-          .find(field => field.type === 'radio'
-            ? !steps[current].querySelector(`input[name="${field.name}"]:checked`)
-            : field.value.trim() === '');
+        const invalidField = Array.from(steps[current].querySelectorAll('[required]')).find(fieldIsInvalid);
         if (invalidField && invalidField.reportValidity) invalidField.reportValidity();
         return;
       }

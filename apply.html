@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply Now — Frisky Academy</title>
+<meta name="description" content="Apply to Frisky Academy's cohort-based program. This is a selective application, not a general enquiry.">
+<link rel="icon" type="image/png" href="assets/favicon-black.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="nav-wrap">
+  <a href="index.html" class="corner-logo"><img src="assets/logo.png" alt="Frisky Designs"></a>
+  <nav class="nav container">
+    <a href="index.html" class="logo">Frisky Designs<span></span></a>
+    <ul class="nav-links">
+      <li><a href="portfolio.html">Work</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="learn.html" class="active">Academy</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html#project-form" class="btn btn-primary btn-nav">Start a Project</a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<div class="mobile-panel">
+  <a href="portfolio.html">Work</a>
+  <a href="services.html">Services</a>
+  <a href="learn.html">Academy</a>
+  <a href="about.html">About</a>
+  <a href="insights.html">Insights</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="eyebrow" style="justify-content:center;">Frisky Academy</div>
+    <h1>Apply Now</h1>
+    <p class="lead">This is an application, not an enquiry. Tell us about yourself so our admissions team can review your fit for the program.</p>
+  </div>
+</section>
+
+<section id="apply-form" class="section-tight">
+  <div class="container" style="max-width:760px;">
+
+    <form id="project-form-el" class="reveal" action="https://formspree.io/f/mjgnpdeg" method="POST">
+      <input type="hidden" name="_subject" value="New Academy Application — Frisky Academy">
+      <input type="text" name="_gotcha" style="position:absolute;left:-9999px;" tabindex="-1" autocomplete="off">
+      <div class="step-indicator">Step <span id="step-current">1</span> of 5</div>
+
+      <div class="form-step active" data-step="1">
+        <h3 style="margin-bottom:18px;">Personal Information</h3>
+        <div class="form-row">
+          <div class="form-group"><label for="ap-name">Full Name</label><input type="text" id="ap-name" name="fullName" placeholder="Jane Doe" required></div>
+          <div class="form-group"><label for="ap-email">Email</label><input type="email" id="ap-email" name="email" placeholder="jane@email.com" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label for="ap-phone">Phone Number</label><input type="tel" id="ap-phone" name="phone" required></div>
+          <div class="form-group"><label for="ap-city">City</label><input type="text" id="ap-city" name="city" required></div>
+        </div>
+        <div class="form-group"><label for="ap-dob">Date of Birth (optional)</label><input type="date" id="ap-dob" name="dob"></div>
+      </div>
+
+      <div class="form-step" data-step="2">
+        <h3 style="margin-bottom:18px;">Current Status</h3>
+        <div class="budget-pills">
+          <label class="budget-pill"><input type="radio" name="currentStatus" value="Student" required>Student</label>
+          <label class="budget-pill"><input type="radio" name="currentStatus" value="Fresher">Fresher</label>
+          <label class="budget-pill"><input type="radio" name="currentStatus" value="Freelancer">Freelancer</label>
+          <label class="budget-pill"><input type="radio" name="currentStatus" value="Working Professional">Working Professional</label>
+          <label class="budget-pill"><input type="radio" name="currentStatus" value="Business Owner">Business Owner</label>
+        </div>
+
+        <h3 style="margin:32px 0 18px;">What do you want to achieve?</h3>
+        <div class="checkbox-row" style="flex-wrap:wrap;">
+          <label><input type="checkbox" name="goals" value="Start Freelancing"> Start Freelancing</label>
+          <label><input type="checkbox" name="goals" value="Get a Job"> Get a Job</label>
+          <label><input type="checkbox" name="goals" value="Switch Career"> Switch Career</label>
+          <label><input type="checkbox" name="goals" value="Improve Skills"> Improve Skills</label>
+          <label><input type="checkbox" name="goals" value="Start My Agency"> Start My Agency</label>
+          <label><input type="checkbox" name="goals" value="Build Portfolio"> Build Portfolio</label>
+        </div>
+      </div>
+
+      <div class="form-step" data-step="3">
+        <div class="form-group">
+          <label for="ap-portfolio">Portfolio / Behance / Drive Link (optional)</label>
+          <input type="text" id="ap-portfolio" name="portfolioLink" placeholder="https://">
+        </div>
+      </div>
+
+      <div class="form-step" data-step="4">
+        <h3 style="margin-bottom:18px;">How do you plan to pay?</h3>
+        <div class="budget-pills">
+          <label class="budget-pill"><input type="radio" name="paymentPlan" value="Full Payment" required>Full Payment</label>
+          <label class="budget-pill"><input type="radio" name="paymentPlan" value="EMI">EMI</label>
+          <label class="budget-pill"><input type="radio" name="paymentPlan" value="Need Counselling">Need Counselling</label>
+        </div>
+      </div>
+
+      <div class="form-step" data-step="5">
+        <label style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:var(--text-dim);">
+          <input type="checkbox" name="agreement" value="Agreed" required>
+          I understand this is a selective cohort-based program.
+        </label>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn btn-outline form-back" style="visibility:hidden;">← Back</button>
+        <button type="button" class="btn btn-primary form-next">Continue →</button>
+        <button type="submit" class="btn btn-primary form-submit" style="display:none;">Submit Application</button>
+      </div>
+    </form>
+
+    <div class="form-success-detail">
+      <h3>Application Received.</h3>
+      <p class="lead" style="margin-bottom:0;">Thank you for applying to Frisky Academy.</p>
+      <p style="color:var(--text-dim);margin-top:14px;">Our admissions team will review your application and contact you within 48 hours.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><img src="assets/logo.png" alt="Frisky Designs" class="logo-mark">Frisky Designs<span></span></a>
+      <p>Independent branding and creative studio, building brands people choose.</p>
+      <div class="footer-contact">
+        <a href="mailto:info@friskydesigns.com">info@friskydesigns.com</a>
+        <a href="tel:+917017306096">+91-7017306096</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Studio</h4>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="portfolio.html">Work</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Academy</h4>
+      <a href="learn.html">Learn</a>
+      <a href="learn.html">Career Tracks</a>
+      <a href="learn.html">Student Projects</a>
+      <a href="learn.html">FAQs</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="careers.html">Careers</a>
+      <a href="about.html">Culture</a>
+      <a href="insights.html">Insights / Blog</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="#">Instagram</a>
+      <a href="#">Behance</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Dribbble</a>
+    </div>
+  </div>
+  <div class="footer-illustration"><img src="assets/footer-illustration.png" alt="" aria-hidden="true"></div>
+
+  <div class="footer-bottom container">
+    <p>&copy; <span id="year"></span> Frisky Designs. All rights reserved.</p>
+    <p>Designed with intention.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
