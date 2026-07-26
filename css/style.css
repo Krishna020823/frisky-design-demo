@@ -911,6 +911,29 @@ section { padding: 80px 0; position: relative; }
 .testi-name { font-weight: 600; font-size: 0.92rem; }
 .testi-role { font-size: 0.78rem; color: var(--text-faint); }
 
+/* ---------- Google Reviews slider ---------- */
+.reviews-slider { overflow: hidden; padding: 10px 0 6px; margin-top: 10px; }
+.reviews-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: scroll-left 60s linear infinite;
+}
+.reviews-slider:hover .reviews-track { animation-play-state: paused; }
+.review-card {
+  flex-shrink: 0;
+  width: 340px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 32px;
+}
+.review-badge { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+.review-badge span { font-family: 'Inter', sans-serif; font-size: 0.76rem; font-weight: 600; color: var(--text-faint); }
+@media (max-width: 760px) {
+  .review-card { width: 280px; }
+}
+
 /* ---------- CTA band ---------- */
 .cta-band {
   border-radius: var(--radius-lg);
@@ -978,6 +1001,69 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 .page-hero .eyebrow { justify-content: center; }
 .page-hero h1 { margin: 0 auto 20px; }
 .page-hero .lead { margin: 0 auto; text-align: center; max-width: 1000px; }
+.page-hero .hero-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: center;
+  margin: 22px 0 0;
+}
+.page-hero .hero-actions { margin-top: 28px; margin-bottom: 0; }
+
+/* ---------- Trust checklist ---------- */
+.trust-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 30px; }
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 14px 22px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.trust-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  color: #0c0c0c;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.66rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.trust-note { text-align: center; color: var(--text-faint); font-size: 0.8rem; margin-top: 20px; }
+
+/* ---------- Mastery grid (What You'll Master) ---------- */
+.mastery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.mastery-grid .skill-list { list-style: none; padding: 0; margin: 0; color: var(--text-dim); font-size: 0.92rem; }
+.mastery-grid .skill-list li { padding: 7px 0; border-top: 1px solid var(--border); }
+.mastery-grid .skill-list li:first-child { border-top: none; }
+@media (max-width: 900px) { .mastery-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .mastery-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Timeline (Your 6-Month Journey) ---------- */
+.timeline-list { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.timeline-step { display: flex; align-items: center; gap: 20px; width: 100%; max-width: 420px; }
+.timeline-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  color: #0c0c0c;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.timeline-month { font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 2px; }
+.timeline-step h3 { margin: 0; font-size: 1.1rem; }
+.timeline-arrow { width: 48px; text-align: center; color: var(--text-faint); padding: 4px 0; }
 
 /* ---------- Insight articles ---------- */
 .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-faint); font-size: 0.85rem; font-weight: 600; margin-bottom: 28px; transition: color 0.25s; }
