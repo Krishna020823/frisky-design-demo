@@ -183,7 +183,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     projectForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!stepIsValid(current)) return;
+      if (!stepIsValid(current)) {
+        const invalidField = Array.from(steps[current].querySelectorAll('[required]'))
+          .find(field => field.type === 'radio'
+            ? !steps[current].querySelector(`input[name="${field.name}"]:checked`)
+            : field.value.trim() === '');
+        if (invalidField && invalidField.reportValidity) invalidField.reportValidity();
+        return;
+      }
 
       const showSuccess = () => {
         projectForm.style.display = 'none';
@@ -193,13 +200,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       };
 
-      fetch('/', {
+      // Exclude fields from branches the user never saw, so the email only
+      // shows the questions relevant to the build type they picked.
+      const inactiveFields = [];
+      branchGroups.forEach(group => {
+        if (group.style.display === 'none') {
+          group.querySelectorAll('input, textarea, select').forEach(field => {
+            if (!field.disabled) {
+              field.disabled = true;
+              inactiveFields.push(field);
+            }
+          });
+        }
+      });
+
+      const formData = new FormData(projectForm);
+      inactiveFields.forEach(field => { field.disabled = false; });
+
+      fetch(projectForm.action, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(projectForm)).toString(),
+        headers: { 'Accept': 'application/json' },
+        body: formData,
       })
-        .then(showSuccess)
-        .catch(showSuccess);
+        .then((response) => {
+          if (response.ok) {
+            showSuccess();
+          } else {
+            alert('Something went wrong sending your enquiry. Please try again or email us directly.');
+          }
+        })
+        .catch(() => {
+          alert('Something went wrong sending your enquiry. Please try again or email us directly.');
+        });
     });
 
     showStep(current);
