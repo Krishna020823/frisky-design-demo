@@ -93,7 +93,7 @@ body::before {
 
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--purple-2); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: #ffffff; border-radius: 10px; }
 
 .container {
   max-width: var(--container);
@@ -244,6 +244,7 @@ body.home .btn-outline:hover {
   border-color: #ffffff;
   color: #0a0a0a;
 }
+.hero-actions .btn-white:hover,
 body.home .hero-actions .btn-white:hover {
   background: #ffffff;
   border-color: #ffffff;
@@ -1449,7 +1450,7 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  background: var(--grad-lime);
+  background: #ffffff;
 }
 .package-grid .price-card:hover {
   transform: translateY(-6px);
@@ -1485,7 +1486,7 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 .price-card .price-amount { font-family: 'Inter', sans-serif; font-size: 2.4rem; font-weight: 700; margin-bottom: 20px; }
 .price-card ul { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; flex-grow: 1; }
 .price-card ul li { font-size: 0.9rem; color: var(--text-dim); display: flex; gap: 10px; }
-.price-card ul li::before { content: '✓'; color: var(--lime); font-weight: 700; }
+.price-card ul li::before { content: '✓'; color: #ffffff; font-weight: 700; }
 
 /* ---------- Contact page ---------- */
 .contact-grid {
@@ -1632,7 +1633,7 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   font-size: 0.98rem;
   font-weight: 600;
 }
-.faq-plus { font-size: 1.3rem; color: var(--lime); transition: transform 0.3s var(--ease); }
+.faq-plus { font-size: 1.3rem; color: #ffffff; transition: transform 0.3s var(--ease); }
 .faq-item.open .faq-plus { transform: rotate(45deg); }
 .faq-a {
   max-height: 0;
