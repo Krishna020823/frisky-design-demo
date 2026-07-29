@@ -1119,6 +1119,17 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   .article-hero-img img { height: 240px; }
 }
 
+/* ---------- Case study pages ---------- */
+.case-body { max-width: 980px; margin: 0 auto; }
+.case-body > p { color: var(--text-dim); font-size: 1.02rem; line-height: 1.75; margin-bottom: 22px; max-width: 720px; }
+.case-body h2 { font-size: 1.7rem; margin: 56px 0 18px; }
+.case-body img { width: 100%; border-radius: var(--radius-md); display: block; }
+.case-full-img { margin: 32px 0; }
+.case-gallery-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; align-items: start; }
+@media (max-width: 760px) {
+  .case-gallery-2 { grid-template-columns: 1fr; }
+}
+
 /* ---------- About page ---------- */
 .about-grid {
   display: grid;
