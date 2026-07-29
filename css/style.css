@@ -1125,9 +1125,11 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 .case-body h2 { font-size: 1.7rem; margin: 56px 0 18px; }
 .case-body img { width: 100%; border-radius: var(--radius-md); display: block; }
 .case-full-img { margin: 32px 0; }
-.case-gallery-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; align-items: start; }
+.case-gallery-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; align-items: stretch; }
+.case-gallery-2 img { height: 100%; object-fit: cover; }
 @media (max-width: 760px) {
   .case-gallery-2 { grid-template-columns: 1fr; }
+  .case-gallery-2 img { height: 340px; }
 }
 
 /* ---------- About page ---------- */
