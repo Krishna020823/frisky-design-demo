@@ -430,6 +430,14 @@ body.home .hero-actions .btn-white:hover {
   position: relative;
   padding: 90px 0 37px;
 }
+@media (min-width: 1024px) {
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+  .hero-inner { width: 100%; }
+}
 .hero-video-wrap {
   position: absolute;
   inset: 0;
