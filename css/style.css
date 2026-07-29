@@ -1613,6 +1613,25 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 .build-option .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; transition: all 0.25s; }
 .build-option:has(input:checked) { border-color: #fff; background: rgba(255, 255, 255, 0.06); }
 .build-option:has(input:checked) .dot { border-color: #fff; background: #fff; }
+.color-swatch-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+.color-swatch { cursor: pointer; text-align: center; }
+.color-swatch input { display: none; }
+.color-swatch img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  display: block;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.color-swatch:has(input:checked) img { border-color: #fff; border-width: 3px; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18); transform: scale(1.04); }
+.color-swatch span { display: block; margin-top: 8px; font-size: 0.78rem; color: var(--text-dim); }
+.color-swatch:has(input:checked) span { color: #fff; font-weight: 800; }
+@media (max-width: 640px) {
+  .color-swatch-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
 .checkbox-row { display: flex; gap: 8px; flex-wrap: nowrap; }
 .checkbox-row label {
   display: flex;
