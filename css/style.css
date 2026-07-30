@@ -1152,6 +1152,17 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   .case-gallery-2 { grid-template-columns: 1fr; }
   .case-gallery-2 img { height: 340px; }
 }
+.logo-folio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 32px 0; }
+.logo-folio-grid figure { margin: 0; background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.logo-folio-grid img { width: 100%; height: 220px; object-fit: contain; padding: 20px; box-sizing: border-box; border-radius: 0; display: block; background: #0c0c0c; }
+.logo-folio-grid figcaption { padding: 14px 18px 18px; font-size: 0.85rem; color: var(--text-dim); text-align: center; border-top: 1px solid var(--border); }
+@media (max-width: 760px) {
+  .logo-folio-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .logo-folio-grid img { height: 150px; padding: 14px; }
+}
+@media (max-width: 480px) {
+  .logo-folio-grid { grid-template-columns: 1fr; }
+}
 
 /* ---------- About page ---------- */
 .about-grid {
