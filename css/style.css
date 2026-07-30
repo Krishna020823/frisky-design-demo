@@ -885,7 +885,7 @@ section { padding: 80px 0; position: relative; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 50px;
-  align-items: start;
+  align-items: stretch;
 }
 .featured-case h2 { margin-bottom: 16px; }
 .eyebrow-badge {
@@ -899,7 +899,6 @@ section { padding: 80px 0; position: relative; }
 .featured-case-visual {
   border-radius: var(--radius-lg);
   overflow: hidden;
-  aspect-ratio: 4/3;
 }
 .featured-case-visual img { width: 100%; height: 100%; object-fit: cover; }
 .featured-case .btn-primary {
@@ -915,6 +914,7 @@ section { padding: 80px 0; position: relative; }
 .featured-case-stage p { color: var(--text-dim); font-size: 0.94rem; }
 @media (max-width: 860px) {
   .featured-case { grid-template-columns: 1fr; }
+  .featured-case-visual { aspect-ratio: 4/3; }
 }
 
 .thumb-1 { background: linear-gradient(135deg, var(--pink), var(--purple-2)); }
