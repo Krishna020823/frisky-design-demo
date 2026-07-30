@@ -1080,6 +1080,16 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 }
 .page-hero .hero-actions { margin-top: 28px; margin-bottom: 0; }
 
+.error-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: clamp(6rem, 18vw, 11rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.16);
+  margin-bottom: 10px;
+}
+
 /* ---------- Trust checklist ---------- */
 .trust-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 30px; }
 .trust-item {
