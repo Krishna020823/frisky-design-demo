@@ -728,6 +728,22 @@ section { padding: 80px 0; position: relative; }
 .card-glow-purple .card-icon { background: linear-gradient(135deg, var(--purple), var(--blue)); }
 .card-glow-lime .card-icon { background: var(--grad-lime); color: #0c0c0c; }
 
+.card-num {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+.card-numbered { padding: 22px 20px; }
+.card-numbered .card-num { font-size: 1.4rem; top: 12px; right: 14px; }
+.card-numbered h3 { font-size: 1.05rem; line-height: 1.3; padding-right: 32px; margin-bottom: 0; }
+
 .card-feature {
   background: var(--grad-hero);
   color: #fff;
