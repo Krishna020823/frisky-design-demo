@@ -114,6 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Design style preference sliders (live value readout)
+  document.querySelectorAll('.style-slider').forEach(slider => {
+    const out = slider.nextElementSibling;
+    if (!out || !out.classList.contains('scale-value')) return;
+    slider.addEventListener('input', () => { out.textContent = slider.value; });
+  });
+
   // Multi-step project enquiry form (contact page)
   const projectForm = document.getElementById('project-form-el');
   if (projectForm) {
@@ -148,15 +155,46 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.style.display = isLast ? 'inline-flex' : 'none';
     };
 
+    // A required field inside a build-type branch the user didn't pick stays
+    // in the DOM (just display:none), so it must be excluded from validation.
+    const visibleRequiredFields = (step) => Array.from(step.querySelectorAll('[required]')).filter(field => {
+      const branch = field.closest('.branch-fields');
+      return !branch || branch.style.display !== 'none';
+    });
+
     const fieldIsInvalid = (field) => {
       if (field.type === 'radio') return !steps[current].querySelector(`input[name="${field.name}"]:checked`);
       if (field.type === 'checkbox') return !field.checked;
       return field.value.trim() === '';
     };
 
+    // Radio/checkbox inputs are visually hidden (styled as pills/swatches), so
+    // the red boundary goes on the enclosing .form-group instead of the input.
+    const invalidTarget = (field) => (field.type === 'radio' || field.type === 'checkbox')
+      ? (field.closest('.form-group') || field)
+      : field;
+
+    const markFieldValidity = (field, invalid) => {
+      invalidTarget(field).classList.toggle('field-invalid', invalid);
+    };
+
+    const highlightInvalidFields = (step) => {
+      const fields = visibleRequiredFields(step);
+      fields.forEach(field => markFieldValidity(field, fieldIsInvalid(field)));
+      return fields.find(fieldIsInvalid);
+    };
+
+    // Clear a field's red boundary the moment the user starts fixing it.
+    projectForm.addEventListener('input', (e) => {
+      if (e.target.hasAttribute('required')) markFieldValidity(e.target, fieldIsInvalid(e.target));
+    });
+    projectForm.addEventListener('change', (e) => {
+      if (e.target.hasAttribute('required')) markFieldValidity(e.target, fieldIsInvalid(e.target));
+    });
+
     const stepIsValid = (index) => {
       const step = steps[index];
-      const required = Array.from(step.querySelectorAll('[required]'));
+      const required = visibleRequiredFields(step);
       return required.every(field => {
         if (field.type === 'radio') {
           return step.querySelector(`input[name="${field.name}"]:checked`);
@@ -170,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nextBtn.addEventListener('click', () => {
       if (!stepIsValid(current)) {
-        const invalidField = Array.from(steps[current].querySelectorAll('[required]')).find(fieldIsInvalid);
+        const invalidField = highlightInvalidFields(steps[current]);
         if (invalidField && invalidField.reportValidity) invalidField.reportValidity();
         return;
       }
@@ -190,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     projectForm.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!stepIsValid(current)) {
-        const invalidField = Array.from(steps[current].querySelectorAll('[required]')).find(fieldIsInvalid);
+        const invalidField = highlightInvalidFields(steps[current]);
         if (invalidField && invalidField.reportValidity) invalidField.reportValidity();
         return;
       }

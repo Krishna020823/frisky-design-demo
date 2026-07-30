@@ -101,6 +101,7 @@
         <div class="form-group"><label for="pf-company">Company / Brand</label><input type="text" id="pf-company" name="company"></div>
 
         <div class="branch-fields" data-branch="Brand Launch,Packaging Design">
+          <div class="form-group"><label>Contact Number</label><input type="tel" name="contactNumber" required></div>
           <div class="form-group"><label>Website (Optional)</label><input type="text" name="website"></div>
           <div class="form-group"><label>Tell us about your business.</label><textarea rows="3" name="businessDetails"></textarea></div>
           <div class="form-group"><label>Who is your target audience?</label><textarea rows="3" name="targetAudience"></textarea></div>
@@ -131,6 +132,109 @@
               <label class="color-swatch"><input type="checkbox" name="colorsToExplore" value="Let Designer Choose"><img loading="lazy" src="assets/colors/let-designer-choose.jpg" alt="Let Designer Choose"><span>Let Designer Choose</span></label>
             </div>
           </div>
+
+          <div class="form-group">
+            <label>Industry (Line of Business)</label>
+            <select name="industry" required>
+              <option value="" selected disabled>Select your industry</option>
+              <option>Accounting &amp; Financial</option>
+              <option>Automotive</option>
+              <option>Agriculture</option>
+              <option>Animal &amp; Pet</option>
+              <option>Architectural</option>
+              <option>Business &amp; Consulting</option>
+              <option>Beauty &amp; Cosmetics</option>
+              <option>Construction &amp; Real Estate</option>
+              <option>Cleaning &amp; Maintenance</option>
+              <option>Computers</option>
+              <option>Community &amp; Non Profit</option>
+              <option>Education</option>
+              <option>E-commerce</option>
+              <option>Entertainment</option>
+              <option>Environmental</option>
+              <option>Food &amp; Drinks</option>
+              <option>Fashion</option>
+              <option>Gaming</option>
+              <option>Health &amp; Physical Fitness</option>
+              <option>Hotel &amp; Travels</option>
+              <option>Home &amp; Furnishing</option>
+              <option>Internet</option>
+              <option>Law</option>
+              <option>Manufacturing &amp; Industrial</option>
+              <option>Medical &amp; Pharma</option>
+              <option>Photography</option>
+              <option>Retail</option>
+              <option>Religious</option>
+              <option>Restaurant</option>
+              <option>Security</option>
+              <option>Sports</option>
+              <option>Technology</option>
+              <option>Travel &amp; Hotel</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Have you paid an advance?</label>
+            <div class="budget-pills">
+              <label class="budget-pill"><input type="radio" name="advancePaid" value="Yes" required>Yes</label>
+              <label class="budget-pill"><input type="radio" name="advancePaid" value="No">No</label>
+            </div>
+          </div>
+          <div class="form-group"><label>If yes, how much did you pay? (Optional)</label><input type="text" name="advanceAmount"></div>
+
+          <div class="form-group"><label>Reference (Optional)</label><textarea rows="3" name="reference" placeholder="Any reference brands, portfolios or links you'd like us to see?"></textarea></div>
+
+          <div class="form-group">
+            <label>Terms &amp; Conditions</label>
+            <div class="budget-pills">
+              <label class="budget-pill"><input type="radio" name="termsAgreement" value="I agree" required>I agree</label>
+              <label class="budget-pill"><input type="radio" name="termsAgreement" value="I dont agree">I don't agree</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="branch-fields" data-branch="Brand Launch">
+          <div class="form-group"><label>Name to Incorporate in Logo</label><input type="text" name="logoName" required></div>
+          <div class="form-group"><label>Slogan to Incorporate in Logo (Optional)</label><input type="text" name="logoSlogan"></div>
+
+          <div class="form-group">
+            <label>Design Style Preference (Optional)</label>
+            <div class="scale-row">
+              <span class="scale-label">Modern</span>
+              <input type="range" class="style-slider" name="stylePrefModern" min="1" max="5" step="1" value="3">
+              <span class="scale-value">3</span>
+            </div>
+            <div class="scale-row">
+              <span class="scale-label">Classic / Vintage</span>
+              <input type="range" class="style-slider" name="stylePrefClassic" min="1" max="5" step="1" value="3">
+              <span class="scale-value">3</span>
+            </div>
+            <div class="scale-row">
+              <span class="scale-label">Abstract</span>
+              <input type="range" class="style-slider" name="stylePrefAbstract" min="1" max="5" step="1" value="3">
+              <span class="scale-value">3</span>
+            </div>
+            <div class="scale-row">
+              <span class="scale-label">Luxurious</span>
+              <input type="range" class="style-slider" name="stylePrefLuxurious" min="1" max="5" step="1" value="3">
+              <span class="scale-value">3</span>
+            </div>
+            <div class="scale-row">
+              <span class="scale-label">Organic</span>
+              <input type="range" class="style-slider" name="stylePrefOrganic" min="1" max="5" step="1" value="3">
+              <span class="scale-value">3</span>
+            </div>
+          </div>
+
+          <div class="form-group"><label>Design Inspirations (Optional)</label><textarea rows="3" name="designInspiration" placeholder="Any logos or brands you love for style inspiration? Share names or links."></textarea></div>
+        </div>
+
+        <div class="branch-fields" data-branch="Packaging Design">
+          <div class="form-group"><label>Package Type</label><input type="text" name="packageType" placeholder="e.g. Pouch, Box, Bottle" required></div>
+          <div class="form-group"><label>Product Name</label><input type="text" name="productName" required></div>
+          <div class="form-group"><label>Product Description &amp; Target Audience (Optional)</label><textarea rows="3" name="productDescription"></textarea></div>
+          <div class="form-group"><label>Package Dimensions</label><input type="text" name="packageDimensions" placeholder="L x W x H" required></div>
         </div>
 
         <div class="branch-fields" data-branch="Commerce Growth">
@@ -270,24 +374,25 @@
     </div>
     <div class="footer-col">
       <h4>Studio</h4>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
+      <a href="index.html">Home</a>
       <a href="portfolio.html">Work</a>
+      <a href="services.html">Services</a>
+      <a href="learn.html">Academy</a>
+      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </div>
     <div class="footer-col">
       <h4>Academy</h4>
       <a href="learn.html">Learn</a>
-      <a href="learn.html">Career Tracks</a>
-      <a href="learn.html">Student Projects</a>
-      <a href="learn.html">FAQs</a>
+      <a href="learn.html#timeline">Career Tracks</a>
+      <a href="learn.html#student-outcome">Student Projects</a>
+      <a href="learn.html#faq">FAQs</a>
     </div>
     <div class="footer-col">
       <h4>Company</h4>
-      <a href="careers.html">Careers</a>
       <a href="about.html">Culture</a>
       <a href="insights.html">Insights / Blog</a>
-      <a href="#">Privacy Policy</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
     </div>
     <div class="footer-col">
       <h4>Connect</h4>

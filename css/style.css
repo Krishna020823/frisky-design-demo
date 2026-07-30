@@ -662,8 +662,8 @@ section { padding: 80px 0; position: relative; }
 .client-logo {
   position: relative;
   display: inline-block;
-  width: 120px;
-  height: 44px;
+  width: 144px;
+  height: 53px;
 }
 .client-logo img {
   position: absolute;
@@ -1593,7 +1593,8 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   color: var(--text-dim);
 }
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 16px 18px;
   border-radius: var(--radius-sm);
@@ -1601,9 +1602,70 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   background: var(--surface);
   color: var(--text);
   transition: border-color 0.3s;
+  font-family: inherit;
+  font-size: 0.92rem;
+}
+.form-group select {
+  color-scheme: dark;
+}
+.form-group select option {
+  background: #1a1a1a;
+  color: var(--text);
+}
+.field-invalid {
+  outline: 1.5px solid #ff4d4d;
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+.form-group.field-invalid > label {
+  color: #ff4d4d;
 }
 .form-group input:focus,
-.form-group textarea:focus { outline: none; border-color: #fff; }
+.form-group textarea:focus,
+.form-group select:focus { outline: none; border-color: #fff; }
+.scale-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.scale-row .scale-label { font-size: 0.85rem; color: var(--text-dim); width: 150px; flex-shrink: 0; }
+.scale-row .scale-value { font-size: 0.85rem; color: var(--text); font-weight: 700; min-width: 14px; text-align: center; flex-shrink: 0; }
+.style-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+.style-slider:focus,
+.style-slider:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.style-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.style-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.style-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+.style-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border);
+}
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .budget-pills { display: flex; gap: 10px; flex-wrap: wrap; }
 .budget-pill {
