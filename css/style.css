@@ -983,6 +983,59 @@ section { padding: 80px 0; position: relative; }
 .testi-name { font-weight: 600; font-size: 0.92rem; }
 .testi-role { font-size: 0.78rem; color: var(--text-faint); }
 
+/* ---------- Interactive globe ---------- */
+.globe-section { padding-bottom: 0; overflow: hidden; }
+/* Crops the square stage below so only the top of the globe shows as a horizon. */
+.globe-viewport {
+  position: relative;
+  width: 100%;
+  height: clamp(240px, 33vw, 500px);
+  overflow: hidden;
+  margin-top: 20px;
+}
+.globe-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+#globe-canvas {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  touch-action: pan-y;
+}
+#globe-canvas:active { cursor: grabbing; }
+#globe-canvas canvas { display: block; width: 100%; height: 100%; }
+#globe-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.globe-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  background: #ffffff;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 6px 20px -6px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s var(--ease);
+  will-change: transform;
+}
+.globe-label.is-visible { opacity: 1; visibility: visible; }
+@media (max-width: 600px) {
+  .globe-label { font-size: 0.72rem; padding: 5px 12px; }
+}
+
 /* ---------- About page client logo slider ---------- */
 .logo-strip-block { border-top: 1px solid var(--border); background: var(--bg-alt); margin-top: 20px; margin-bottom: 20px; }
 .logo-strip-head-standalone { margin: 0 0 24px; }
