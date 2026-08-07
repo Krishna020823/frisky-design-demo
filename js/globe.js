@@ -52,8 +52,8 @@ function initGlobe() {
   const maxAniso = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
   const loader = new THREE.TextureLoader();
   // Anisotropic filtering keeps the surface sharp where it curves toward the limb.
-  const load = (url, colorSpace) => {
-    const t = loader.load(url);
+  const load = (url, colorSpace, onReady) => {
+    const t = loader.load(url, () => onReady && onReady());
     t.anisotropy = maxAniso;
     if (colorSpace) t.colorSpace = colorSpace;
     return t;
@@ -63,8 +63,12 @@ function initGlobe() {
   const globe = new THREE.Group();
   scene.add(globe);
 
+  // Nothing is shown until the surface texture lands, otherwise the untextured
+  // sphere renders as a black disc while the download is in flight.
+  const reveal = () => canvasHost.classList.add('is-ready');
+
   const earthMat = new THREE.MeshPhongMaterial({
-    map: load(SRC.color, THREE.SRGBColorSpace),
+    map: load(SRC.color, THREE.SRGBColorSpace, reveal),
     bumpMap: load(SRC.bump),
     bumpScale: 0.014,
     specular: new THREE.Color(0x151515),
@@ -87,7 +91,7 @@ function initGlobe() {
 
   // Clouds sit just above the surface and drift slightly faster than the globe.
   const cloudMat = new THREE.MeshLambertMaterial({
-    map: load(SRC.clouds, THREE.SRGBColorSpace),
+    map: load(SRC.clouds, THREE.SRGBColorSpace, () => { clouds.visible = true; }),
     transparent: true,
     opacity: 1,
     depthWrite: false,
@@ -103,6 +107,7 @@ function initGlobe() {
   };
 
   const clouds = new THREE.Mesh(new THREE.SphereGeometry(RADIUS * 1.004, 64, 64), cloudMat);
+  clouds.visible = false; // switched on by its own texture callback above
   clouds.rotation.y = earth.rotation.y;
   globe.add(clouds);
 
@@ -138,7 +143,12 @@ function initGlobe() {
   scene.add(fill);
 
   // Drag spins the globe on its own axis, unlimited on both axes so it never stops.
+  const DRAG_SPEED = 0.0021; // radians per pixel — deliberately gentle
+  const DRAG_THRESHOLD = 4;  // px of travel before a press counts as a drag
+  let pointerDown = false;
   let dragging = false;
+  let downX = 0;
+  let downY = 0;
   let lastX = 0;
   let lastY = 0;
   let velY = 0;
@@ -148,31 +158,45 @@ function initGlobe() {
   const el = renderer.domElement;
 
   el.addEventListener('pointerdown', (e) => {
-    dragging = true;
-    idleFor = 0;
-    lastX = e.clientX;
-    lastY = e.clientY;
+    // Note: `dragging` stays false here, so a plain click never halts the spin.
+    pointerDown = true;
+    downX = lastX = e.clientX;
+    downY = lastY = e.clientY;
     el.setPointerCapture(e.pointerId);
   });
 
   el.addEventListener('pointermove', (e) => {
-    if (!dragging) return;
+    if (!pointerDown) return;
+
+    if (!dragging) {
+      // Wait for real travel before taking over from the idle spin.
+      if (Math.hypot(e.clientX - downX, e.clientY - downY) < DRAG_THRESHOLD) return;
+      dragging = true;
+      idleFor = 0;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      return;
+    }
+
     const dx = e.clientX - lastX;
     const dy = e.clientY - lastY;
     lastX = e.clientX;
     lastY = e.clientY;
 
-    globe.rotation.y += dx * 0.005;
-    globe.rotation.x += dy * 0.005;
+    globe.rotation.y += dx * DRAG_SPEED;
+    globe.rotation.x += dy * DRAG_SPEED;
     // Carried into the spin-down after release.
-    velY = dx * 0.005;
-    velX = dy * 0.005;
+    velY = dx * DRAG_SPEED;
+    velX = dy * DRAG_SPEED;
   });
 
   const endDrag = (e) => {
-    if (!dragging) return;
-    dragging = false;
-    idleFor = 0;
+    if (!pointerDown) return;
+    pointerDown = false;
+    if (dragging) {
+      dragging = false;
+      idleFor = 0;
+    }
     if (e.pointerId !== undefined && el.hasPointerCapture(e.pointerId)) {
       el.releasePointerCapture(e.pointerId);
     }
@@ -250,8 +274,8 @@ function initGlobe() {
       }
       idleFor += dt;
       const ease = Math.min(idleFor / 1.2, 1);
-      earth.rotation.y += dt * 0.05 * ease;
-      clouds.rotation.y += dt * 0.058 * ease;
+      earth.rotation.y += dt * 0.02 * ease;
+      clouds.rotation.y += dt * 0.024 * ease;
     }
 
     renderer.render(scene, camera);
@@ -267,7 +291,7 @@ if (stage && canvasHost && labelHost) {
       if (!entry.isIntersecting) return;
       warmup.disconnect();
       initGlobe();
-    }, { rootMargin: '700px' });
+    }, { rootMargin: '1400px' });
     warmup.observe(stage);
   } else {
     initGlobe();
