@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://krishna020823.github.io/frisky-design-demo/sitemap.xml
+Sitemap: https://friskydesigns.com/sitemap.xml
