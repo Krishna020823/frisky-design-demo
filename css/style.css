@@ -1079,13 +1079,27 @@ section { padding: 80px 0; position: relative; }
 }
 
 /* ---------- CTA band ---------- */
+/* Full bleed: the band is nested in .container, so it cancels the container's
+   width and padding to run edge to edge. body already clips overflow-x, so the
+   scrollbar's share of 100vw is trimmed instead of causing a sideways scroll. */
 .cta-band {
-  border-radius: var(--radius-lg);
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   background: #ffffff;
-  padding: 70px 50px;
+  padding: 70px 28px;
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+/* The band is always the last thing before the footer, so drop the section's
+   bottom padding and let the white run straight into it with no dark gap. */
+.section-tight:has(.cta-band) { padding-bottom: 0; }
+/* The fill spans the window, but the wording stays on the site's usual measure. */
+.cta-band > * {
+  max-width: calc(var(--container) - 56px);
+  margin-left: auto;
+  margin-right: auto;
 }
 .cta-band h2 { color: #0a0a0a; margin-bottom: 18px; }
 .cta-band p { color: rgba(10,10,10,0.7); max-width: 620px; margin: 0 auto 36px; }
@@ -1098,12 +1112,80 @@ body.home .cta-band {
     url('../assets/collage/bottom-brand-journey-banner.png');
   background-size: cover;
   background-position: center;
-  padding: 70px 50px;
+  padding: 70px 28px;
 }
 body.home .cta-band h2 { color: #fff; margin-bottom: 18px; }
 body.home .cta-band p { color: rgba(255,255,255,0.85); }
 body.home .cta-band .btn-outline { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); color: var(--text); }
 body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
+
+/* ---------- CTA band scroll reveal ---------- */
+/* Switched on by main.js, which also drives --cta-p (the wipe) and --cta-fade
+   (the wording). The section becomes a tall runway; the container pins to the
+   viewport inside it and the band is wiped open from the bottom edge upward.
+   Because the panel is pinned, the wording sits still while the wipe passes
+   over it, so the band reads as stretching open rather than sliding up.
+   Without JS — or on phones, or under reduced motion — none of this applies
+   and the band stays the plain full-bleed block it is above. */
+/* The lift pulls the runway back over the preceding section, so the panel pins
+   while that content still fills the screen and the wipe opens straight over
+   it. Without it the panel would pin against an empty viewport of its own.
+   main.js sets the value, shrinking it on pages with little content above. */
+.section-tight.cta-scroll {
+  padding: 0;
+  height: 175vh;
+  margin-top: calc(-1 * var(--cta-lift, 0px));
+  /* The lifted runway is a tall transparent box sitting on top of the section
+     above it, so it must not swallow that content's clicks. pointer-events
+     inherits, so switching it off here covers the container too; the band
+     turns it back on, and its clip-path means only the part actually wiped
+     open is hit-testable. */
+  pointer-events: none;
+}
+.section-tight.cta-scroll > .container {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  max-width: none;
+  padding: 0;
+}
+.cta-scroll .cta-band { pointer-events: auto; }
+.cta-scroll .cta-band {
+  --cta-p: 0;
+  --cta-fade: 0;
+  height: 100vh;
+  width: 100%;          /* the container is already full width here */
+  margin-left: 0;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  clip-path: inset(calc((1 - var(--cta-p)) * 100%) 0 0 0);
+}
+/* The band drives its own entrance here, so the shared .reveal fade is off. */
+.cta-scroll .cta-band.reveal { opacity: 1; transform: none; transition: none; }
+.cta-scroll .cta-band > * { opacity: var(--cta-fade); }
+/* Only the text is offset — the button keeps its transform free for :hover. */
+.cta-scroll .cta-band > h2,
+.cta-scroll .cta-band > p { transform: translateY(calc((1 - var(--cta-fade)) * 26px)); }
+
+/* ---------- tawk.to ---------- */
+/* tawk is loaded for visitor analytics only and hidden via hideWidget(). This
+   is the belt-and-braces half: it stops the launcher painting for the frame or
+   two before the API is ready, so the widget never flickers into view over the
+   WhatsApp button. Tracking is unaffected — the script still reports the visit. */
+/* Widget v4 mounts into a container whose id is a freshly generated UUID, so
+   there is nothing stable to name on the wrapper itself. Its inner nodes do
+   have fixed ids though — min-widget is the launcher, chat-bubble the "We are
+   here!" greeting, message-preview the popped-out message — so the wrapper is
+   reached through :has() and the parts are hidden directly as a backstop.
+   None of these ids appear anywhere in this site's own markup. */
+body > div:has(> #min-widget),
+#min-widget,
+#max-widget,
+#chat-bubble,
+#message-preview,
+#branding-widget { display: none !important; }
 
 /* ---------- Footer ---------- */
 .footer {
@@ -1257,17 +1339,17 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
   .case-gallery-2 { grid-template-columns: 1fr; }
   .case-gallery-2 img { height: 340px; }
 }
-.logo-folio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 32px 0; }
-.logo-folio-grid figure { margin: 0; background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
-.logo-folio-grid img { width: 100%; height: 220px; object-fit: contain; padding: 20px; box-sizing: border-box; border-radius: 0; display: block; background: #0c0c0c; }
-.logo-folio-grid figcaption { padding: 14px 18px 18px; font-size: 0.85rem; color: var(--text-dim); text-align: center; border-top: 1px solid var(--border); }
-@media (max-width: 760px) {
-  .logo-folio-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
-  .logo-folio-grid img { height: 150px; padding: 14px; }
+/* The source slides are finished black artboards that already carry their own
+   labels, so they stack edge to edge as one continuous scroll rather than
+   sitting in captioned cards. Corners are rounded on the stack, not per image. */
+.logo-folio-stack {
+  margin: 32px 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #0c0c0c;
 }
-@media (max-width: 480px) {
-  .logo-folio-grid { grid-template-columns: 1fr; }
-}
+.logo-folio-stack figure { margin: 0; }
+.logo-folio-stack img { width: 100%; height: auto; display: block; border-radius: 0; }
 
 /* ---------- About page ---------- */
 .about-grid {
@@ -1961,6 +2043,76 @@ body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
 }
 
 /* ---------- WhatsApp floating button ---------- */
+/* ---------- Floating site search ---------- */
+/* Held back over the hero and faded in by main.js once the landing view has
+   scrolled away, so it never competes with the opening statement. Sits under
+   the WhatsApp button (z 999) and clear of it horizontally. */
+.site-search {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  z-index: 600;
+  width: min(600px, calc(100vw - 220px));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 24px;
+  border-radius: var(--radius-pill);
+  /* Frosted rather than solid: the fill is translucent enough for the blur to
+     actually read, which it can't at near-full opacity. saturate() stops the
+     blurred-through imagery going grey and flat. */
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.66);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: 0 14px 40px -12px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(16px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), visibility 0.5s;
+}
+.site-search.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.site-search svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: rgba(10, 10, 10, 0.45);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.site-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 0.95rem;
+  color: #0a0a0a;
+}
+.site-search input::placeholder { color: rgba(10, 10, 10, 0.5); }
+/* Solidify while typing — frosted glass is nice to look at, poor to read against. */
+.site-search:focus-within {
+  border-color: rgba(0, 0, 0, 0.18);
+  background: rgba(255, 255, 255, 0.97);
+}
+/* Safari/Firefox without backdrop-filter would leave the text on a see-through
+   panel, so those browsers get the solid fill instead of a broken frost. */
+@supports not (backdrop-filter: blur(1px)) {
+  .site-search { background: rgba(255, 255, 255, 0.95); }
+}
+/* Chrome's own clear button clashes with the pill's styling. */
+.site-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
+@media (max-width: 860px) {
+  /* Too narrow to sit beside the WhatsApp button, so it stacks above it. */
+  .site-search { width: calc(100vw - 36px); bottom: 96px; padding: 13px 20px; }
+  .site-search input { font-size: 0.88rem; }
+}
+
 .whatsapp-float {
   position: fixed;
   bottom: 24px;

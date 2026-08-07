@@ -1,5 +1,75 @@
 // Frisky Designs — shared interactivity
 
+// ---------------------------------------------------------------------------
+// tawk.to — loaded for visitor analytics only, with the chat widget suppressed.
+// Conversations already go through the WhatsApp button, so this is here purely
+// for the visitor/traffic monitoring and the weekly report email.
+//
+// The property is "Frisky Designs" in the tawk.to dashboard; the embed URL comes
+// from Administration → Chat Widget. Blanking it stops tawk loading entirely —
+// no script, no cookies — which is the switch to flip if it ever needs pulling.
+// ---------------------------------------------------------------------------
+const TAWK_EMBED_SRC = 'https://embed.tawk.to/6a7618cfe014d81d4ab6224d/1jvel1qqb';
+
+if (TAWK_EMBED_SRC) {
+  window.Tawk_API = window.Tawk_API || {};
+  window.Tawk_LoadStart = new Date();
+
+  // hideWidget() only becomes callable once tawk has finished booting — six
+  // bundles, kicked off at window.onload — which is the several-second gap the
+  // launcher was visible for. Closing it means hiding the node ourselves the
+  // moment it appears. Tawk's outer wrapper carries a freshly generated UUID
+  // for an id, so there is nothing stable to match on it; its inner parts do
+  // have fixed ids, so we find one of those and hide whatever body-level
+  // element it sits in. None of these ids exist in this site's own markup.
+  const TAWK_PARTS = '#min-widget, #max-widget, #chat-bubble, #message-preview';
+
+  const hideTawk = (root) => {
+    if (!root || root.nodeType !== 1) return;
+    const part = root.matches(TAWK_PARTS) ? root : root.querySelector(TAWK_PARTS);
+    if (!part) return;
+    // Hide the whole wrapper, not just the part, so nothing is left holding
+    // the corner of the screen.
+    (part.closest('body > *') || root).style.setProperty('display', 'none', 'important');
+  };
+
+  const tawkWatcher = new MutationObserver((records) => {
+    records.forEach((record) => record.addedNodes.forEach(hideTawk));
+  });
+  tawkWatcher.observe(document.body, { childList: true, subtree: true });
+
+  // The observer alone still let it flash: tawk appends the wrapper empty and
+  // fills it in afterwards, so at insert time there is no part to match on.
+  // Sweeping every frame closes that to a frame or two rather than the half
+  // second a timer would cost. Frames are cheap here — four id lookups.
+  const deadline = Date.now() + 8000;
+  const sweepTawk = () => {
+    document.querySelectorAll(TAWK_PARTS).forEach(hideTawk);
+    if (Date.now() < deadline) requestAnimationFrame(sweepTawk);
+  };
+  requestAnimationFrame(sweepTawk);
+
+  // Ask tawk itself as well. onBeforeLoad fires ahead of the widget rendering,
+  // so if hideWidget is callable by then it never paints in the first place;
+  // onLoad is the guaranteed-but-late backstop.
+  window.Tawk_API.onBeforeLoad = function () {
+    if (typeof window.Tawk_API.hideWidget === 'function') window.Tawk_API.hideWidget();
+  };
+  window.Tawk_API.onLoad = function () {
+    if (typeof window.Tawk_API.hideWidget === 'function') window.Tawk_API.hideWidget();
+    tawkWatcher.disconnect();
+  };
+
+  // Injected from here rather than inline in 23 HTML files; tawk still records
+  // the page view, so visitor counts and the weekly report are unaffected.
+  const tawkScript = document.createElement('script');
+  tawkScript.async = true;
+  tawkScript.src = TAWK_EMBED_SRC;
+  tawkScript.charset = 'UTF-8';
+  tawkScript.setAttribute('crossorigin', '*');
+  document.head.appendChild(tawkScript);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Footer year
   document.querySelectorAll('#year').forEach(el => {
@@ -36,6 +106,109 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => io.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('in'));
+  }
+
+  // CTA band scroll reveal — the band pins to the viewport and is wiped open
+  // from its bottom edge as the runway scrolls past, with the wording fading in
+  // just behind the wipe. Held off on phones (the runway costs a lot of scroll
+  // on a small screen) and under reduced-motion; the CSS falls back cleanly.
+  const ctaBand = document.querySelector('.cta-band');
+  const ctaSection = ctaBand && ctaBand.closest('.section-tight');
+  if (ctaSection) {
+    const wide = window.matchMedia('(min-width: 861px)');
+    const stillness = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // The wipe completes before the runway ends, so the panel holds fully open
+    // for a beat rather than snapping straight on into the footer.
+    const WIPE = 0.72;
+    const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+    let queued = false;
+    let lift = 0;
+
+    // How far the runway is pulled back over the section above it — a viewport,
+    // unless there isn't that much page above, in which case take what there is
+    // so the panel can't start wiping in over the hero on a short page.
+    const measureLift = () => {
+      const naturalTop = ctaSection.getBoundingClientRect().top + window.scrollY + lift;
+      lift = Math.min(window.innerHeight, Math.max(naturalTop - 80, 0));
+      ctaSection.style.setProperty('--cta-lift', lift + 'px');
+    };
+
+    const update = () => {
+      queued = false;
+      const rect = ctaSection.getBoundingClientRect();
+      const runway = rect.height - window.innerHeight; // distance it stays pinned
+      const p = runway > 0 ? clamp01(-rect.top / (runway * WIPE)) : 1;
+      ctaBand.style.setProperty('--cta-p', p.toFixed(4));
+      // Trails the wipe, so the words read as fading in rather than riding it up.
+      ctaBand.style.setProperty('--cta-fade', clamp01((p - 0.28) / 0.4).toFixed(4));
+    };
+
+    const onScroll = () => {
+      if (queued || !ctaSection.classList.contains('cta-scroll')) return;
+      queued = true;
+      requestAnimationFrame(update);
+    };
+
+    const sync = () => {
+      const on = wide.matches && !stillness.matches;
+      ctaSection.classList.toggle('cta-scroll', on);
+      if (on) {
+        measureLift();
+        update();
+      } else {
+        // Hand the band back to the plain stylesheet rather than leaving it
+        // clipped at whatever the last scroll position happened to be.
+        lift = 0;
+        ctaSection.style.removeProperty('--cta-lift');
+        ctaBand.style.removeProperty('--cta-p');
+        ctaBand.style.removeProperty('--cta-fade');
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', sync);
+    // Lazy-loaded imagery above the band settles the page height late, which
+    // moves where the runway should start.
+    window.addEventListener('load', sync);
+    wide.addEventListener('change', sync);
+    stillness.addEventListener('change', sync);
+    sync();
+  }
+
+  // Floating search bar — kept out of the way over the landing view, then faded
+  // in once the hero has scrolled off. Threshold is the hero's own height, so
+  // it appears at the moment the opening screen is behind you rather than at
+  // some fixed pixel count that would be wrong on every other viewport.
+  const siteSearch = document.querySelector('.site-search');
+  if (siteSearch) {
+    const hero = document.querySelector('.hero, .page-hero');
+    let trigger = 0;
+    let searchQueued = false;
+
+    const measureTrigger = () => {
+      trigger = hero ? hero.offsetTop + hero.offsetHeight * 0.75 : window.innerHeight * 0.75;
+    };
+
+    const applySearch = () => {
+      searchQueued = false;
+      siteSearch.classList.toggle('is-visible', window.scrollY > trigger);
+    };
+
+    const onSearchScroll = () => {
+      if (searchQueued) return;
+      searchQueued = true;
+      requestAnimationFrame(applySearch);
+    };
+
+    // Nothing to submit to yet, so keep Enter from reloading the page with a
+    // stray ?q= on the URL. Remove this once the search itself is built.
+    siteSearch.addEventListener('submit', (e) => e.preventDefault());
+
+    window.addEventListener('scroll', onSearchScroll, { passive: true });
+    window.addEventListener('resize', () => { measureTrigger(); onSearchScroll(); });
+    window.addEventListener('load', () => { measureTrigger(); applySearch(); });
+    measureTrigger();
+    applySearch();
   }
 
   // Animated stat counters
