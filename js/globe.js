@@ -16,14 +16,30 @@ const SRC = useHiRes
 
 const RADIUS = 1;
 
-// Cities where the studio has shipped work. Spread apart so the pills don't collide.
+// Markets where the studio has shipped work. City entries sit on the city itself;
+// country entries sit on the country's centre so the pill doesn't read as a capital.
+// Several of these cluster tightly, so updateLabels() culls overlapping pills.
 const markers = [
   { name: 'Delhi NCR', lat: 28.61, lon: 77.21 },
-  { name: 'Dubai', lat: 25.20, lon: 55.27 },
-  { name: 'London', lat: 51.51, lon: -0.13 },
-  { name: 'New York', lat: 40.71, lon: -74.01 },
+  { name: 'Mumbai', lat: 19.08, lon: 72.88 },
+  { name: 'Hyderabad', lat: 17.39, lon: 78.49 },
+  { name: 'Bangalore', lat: 12.97, lon: 77.59 },
+  { name: 'Chennai', lat: 13.08, lon: 80.27 },
   { name: 'Singapore', lat: 1.35, lon: 103.82 },
   { name: 'Sydney', lat: -33.87, lon: 151.21 },
+  { name: 'Dubai', lat: 25.20, lon: 55.27 },
+  { name: 'Abu Dhabi', lat: 24.45, lon: 54.38 },
+  { name: 'UAE', lat: 23.60, lon: 54.60 },
+  { name: 'Lebanon', lat: 33.85, lon: 35.86 },
+  { name: 'Greece', lat: 39.07, lon: 21.82 },
+  { name: 'Ukraine', lat: 48.85, lon: 31.17 },
+  { name: 'Germany', lat: 51.16, lon: 10.45 },
+  { name: 'Denmark', lat: 55.68, lon: 12.57 },
+  { name: 'Norway', lat: 59.91, lon: 10.75 },
+  { name: 'Netherlands', lat: 52.37, lon: 4.90 },
+  { name: 'London', lat: 51.51, lon: -0.13 },
+  { name: 'New York', lat: 40.71, lon: -74.01 },
+  { name: 'USA', lat: 39.83, lon: -98.58 },
 ];
 
 const latLonToVec3 = (lat, lon, r) => {
@@ -127,8 +143,15 @@ function initGlobe() {
     el.textContent = name;
     labelHost.appendChild(el);
 
-    return { dot, el, world: new THREE.Vector3(), shown: false };
+    return {
+      dot, el, world: new THREE.Vector3(), shown: false,
+      x: 0, y: 0, facing: -1, want: false,
+      lx: 0, ly: 0, slot: 0, // resolved pill position, and which slot it settled in
+    };
   });
+
+  // Reused each frame to rank pills by how face-on they are; never re-allocated.
+  const byFacing = pins.slice();
 
   // Daylight setup: key light near the camera axis keeps the facing hemisphere lit,
   // with enough fill that the limb falls off softly instead of going black.
@@ -226,31 +249,78 @@ function initGlobe() {
   }
 
   const toCam = new THREE.Vector3();
+  const proj = new THREE.Vector3();
+  const LABEL_GAP = 4;   // px of breathing room kept between neighbouring pills
+  const DOT_GAP = 9;     // px between a dot and the pill anchored to it
+  const EDGE = 6;        // px a pill must stay clear of the stage edges
+  // Where a pill may sit relative to its dot, best first: beside it, then above or
+  // below, then the diagonals. A pill is only dropped if every slot is taken.
+  const SLOTS = [[1, 0], [-1, 0], [0, -1], [0, 1], [1, -1], [-1, -1], [1, 1], [-1, 1]];
+  const placed = [];     // pill boxes already granted a slot this frame
+
   const updateLabels = () => {
     const w = stage.clientWidth;
     const h = stage.clientHeight;
     const viewportH = stage.parentElement.clientHeight;
 
+    // Pass 1 — where each dot lands on screen, and how face-on it is.
     pins.forEach((pin) => {
       pin.dot.getWorldPosition(pin.world);
       // Facing check: hide pins that have rotated round the back of the globe.
       toCam.copy(camera.position).sub(pin.world).normalize();
-      const facing = pin.world.clone().normalize().dot(toCam) > 0.12;
+      pin.facing = proj.copy(pin.world).normalize().dot(toCam);
 
-      const p = pin.world.clone().project(camera);
-      const x = (p.x * 0.5 + 0.5) * w;
-      const y = (-p.y * 0.5 + 0.5) * h;
-      // Hide anything the section's crop or the side edges would slice through.
-      const margin = pin.el.offsetWidth / 2 + 8;
-      const inFrame = y > 16 && y < viewportH - 12 && x > margin && x < w - margin;
+      proj.copy(pin.world).project(camera);
+      pin.x = (proj.x * 0.5 + 0.5) * w;
+      pin.y = (-proj.y * 0.5 + 0.5) * h;
+      pin.want = pin.facing > 0.12 &&
+        pin.y > 4 && pin.y < viewportH - 4 && pin.x > 4 && pin.x < w - 4;
+    });
 
-      const show = facing && inFrame;
+    // Pass 2 — clusters like NW Europe or southern India put several dots within a
+    // pill's width of each other, so pills are nudged off their dot into whichever
+    // neighbouring slot is still free. Dots nearest the centre of the visible disc
+    // choose first; only a pin with no free slot at all loses its label.
+    byFacing.sort((a, b) => b.facing - a.facing);
+    placed.length = 0;
+
+    byFacing.forEach((pin) => {
+      let show = false;
+
+      if (pin.want) {
+        const halfW = pin.el.offsetWidth / 2;
+        const halfH = pin.el.offsetHeight / 2;
+        const boxW = halfW + LABEL_GAP;
+        const boxH = halfH + LABEL_GAP;
+
+        // Last frame's slot is tried first so a pill doesn't hop about as the
+        // globe turns; it only moves once that slot is genuinely blocked.
+        for (let i = 0; i <= SLOTS.length; i++) {
+          const [ox, oy] = SLOTS[i === 0 ? pin.slot : i - 1];
+          const cx = pin.x + ox * (halfW + DOT_GAP);
+          const cy = pin.y + oy * (halfH + DOT_GAP);
+
+          // Skip slots the stage edges or the section's crop would slice through.
+          if (cx - halfW < EDGE || cx + halfW > w - EDGE) continue;
+          if (cy - halfH < EDGE || cy + halfH > viewportH - EDGE) continue;
+          if (placed.some((r) =>
+            Math.abs(cx - r.x) < boxW + r.halfW && Math.abs(cy - r.y) < boxH + r.halfH)) continue;
+
+          placed.push({ x: cx, y: cy, halfW: boxW, halfH: boxH });
+          pin.slot = i === 0 ? pin.slot : i - 1;
+          pin.lx = cx;
+          pin.ly = cy;
+          show = true;
+          break;
+        }
+      }
+
       if (show !== pin.shown) {
         pin.el.classList.toggle('is-visible', show);
         pin.shown = show;
       }
       if (show) {
-        pin.el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+        pin.el.style.transform = `translate(-50%, -50%) translate(${pin.lx}px, ${pin.ly}px)`;
       }
     });
   };
