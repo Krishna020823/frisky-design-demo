@@ -246,6 +246,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // What We Do — hovering (or focusing) a service row cross-fades the matching
+  // icon into the sticky panel beside it. Pointer-driven only: below 860px the
+  // panel is hidden by CSS and each row carries its own inline icon instead.
+  const showcase = document.querySelector('.service-showcase');
+  if (showcase) {
+    const rows = showcase.querySelectorAll('.service-row');
+    const visuals = showcase.querySelectorAll('.service-visual');
+    if (rows.length && visuals.length) {
+      const activate = (index) => {
+        visuals.forEach((v, i) => v.classList.toggle('is-active', i === index));
+      };
+      rows.forEach((row, i) => {
+        row.addEventListener('mouseenter', () => activate(i));
+        row.addEventListener('focus', () => activate(i));
+      });
+      activate(0);
+    }
+  }
+
   // Portfolio filters
   const filterBtns = document.querySelectorAll('.filter-btn');
   const workItems = document.querySelectorAll('.work-item');

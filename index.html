@@ -60,6 +60,8 @@
       <a href="/contact/#project-form" class="btn btn-outline btn-white">Start a Project →</a>
       <a href="/portfolio/" class="btn btn-outline">View Our Work</a>
     </div>
+  </div>
+  <div class="container hero-foot">
     <div class="hero-stats reveal">
       <div class="stat"><div class="num">1119+</div><div class="label">Projects Shipped</div></div>
       <div class="stat"><div class="num">545+</div><div class="label">Happy Clients</div></div>
@@ -104,7 +106,7 @@
 </div>
 
 <!-- FEATURED WORK -->
-<section class="bg-alt">
+<section class="bg-alt" id="selected-work">
   <div class="container">
     <div class="section-head reveal">
       <div>
@@ -188,51 +190,60 @@
       </div>
       <p class="lead lead-inline">From strategy to execution, we build brands designed to stand out and scale.</p>
     </div>
-    <div class="solutions-grid">
-      <a href="/services/#solutions" class="solution-card reveal">
-        <div class="solution-head">
-          <img class="solution-icon" src="/assets/icons/brand.png?v=3" alt="" loading="lazy">
-          <div class="solution-titles">
-            <h2>Brand Identity</h2>
+    <div class="service-showcase">
+      <div class="service-visual-panel reveal" aria-hidden="true">
+        <div class="service-visual"><img src="/assets/icons/brand.png?v=3" alt="" loading="lazy"></div>
+        <div class="service-visual"><img src="/assets/icons/ecommerce.png?v=3" alt="" loading="lazy"></div>
+        <div class="service-visual"><img src="/assets/icons/creative.png?v=3" alt="" loading="lazy"></div>
+        <div class="service-visual"><img src="/assets/icons/digital.png?v=3" alt="" loading="lazy"></div>
+      </div>
+
+      <div class="service-rows">
+        <a href="/services/#solutions" class="service-row reveal">
+          <span class="service-row-index">01</span>
+          <div class="service-row-body">
+            <img class="service-row-icon" src="/assets/icons/brand.png?v=3" alt="" loading="lazy">
+            <h3 class="service-row-title">Brand Identity</h3>
+            <p class="service-row-tagline">Launch with confidence. Build a brand people remember.</p>
+            <p class="service-row-desc">We create complete brand systems that help new businesses enter the market with clarity, consistency and lasting impact.</p>
+            <p class="service-row-best">Ideal for: Startups, D2C brands and product launches.</p>
           </div>
-        </div>
-        <p class="solution-tagline">Launch with confidence. Build a brand people remember.</p>
-        <p class="solution-desc">We create complete brand systems that help new businesses enter the market with clarity, consistency and lasting impact.</p>
-        <div class="solution-best">Ideal for: Startups, D2C brands and product launches.</div>
-      </a>
-      <a href="/services/#solutions" class="solution-card reveal">
-        <div class="solution-head">
-          <img class="solution-icon" src="/assets/icons/ecommerce.png?v=3" alt="" loading="lazy">
-          <div class="solution-titles">
-            <h2>E-Commerce Growth</h2>
+          <span class="service-row-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a href="/services/#solutions" class="service-row reveal">
+          <span class="service-row-index">02</span>
+          <div class="service-row-body">
+            <img class="service-row-icon" src="/assets/icons/ecommerce.png?v=3" alt="" loading="lazy">
+            <h3 class="service-row-title">E-Commerce Growth</h3>
+            <p class="service-row-tagline">Designed to convert browsers into buyers.</p>
+            <p class="service-row-desc">We create high-performing marketplace assets that strengthen your product presentation and improve the online shopping experience.</p>
+            <p class="service-row-best">Ideal for: Amazon, Flipkart and D2C brands.</p>
           </div>
-        </div>
-        <p class="solution-tagline">Designed to convert browsers into buyers.</p>
-        <p class="solution-desc">We create high-performing marketplace assets that strengthen your product presentation and improve the online shopping experience.</p>
-        <div class="solution-best">Ideal for: Amazon, Flipkart and D2C brands.</div>
-      </a>
-      <a href="/services/#solutions" class="solution-card reveal">
-        <div class="solution-head">
-          <img class="solution-icon" src="/assets/icons/creative.png?v=3" alt="" loading="lazy">
-          <div class="solution-titles">
-            <h2>Creative Partnership</h2>
+          <span class="service-row-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a href="/services/#solutions" class="service-row reveal">
+          <span class="service-row-index">03</span>
+          <div class="service-row-body">
+            <img class="service-row-icon" src="/assets/icons/creative.png?v=3" alt="" loading="lazy">
+            <h3 class="service-row-title">Creative Partnership</h3>
+            <p class="service-row-tagline">Your dedicated creative team — without the overhead.</p>
+            <p class="service-row-desc">A flexible monthly partnership that provides consistent, high-quality design support across every brand touchpoint.</p>
+            <p class="service-row-best">Ideal for: Growing businesses needing continuous creative execution.</p>
           </div>
-        </div>
-        <p class="solution-tagline">Your dedicated creative team — without the overhead.</p>
-        <p class="solution-desc">A flexible monthly partnership that provides consistent, high-quality design support across every brand touchpoint.</p>
-        <div class="solution-best">Ideal for: Growing businesses needing continuous creative execution.</div>
-      </a>
-      <a href="/services/#solutions" class="solution-card reveal">
-        <div class="solution-head">
-          <img class="solution-icon" src="/assets/icons/digital.png?v=3" alt="" loading="lazy">
-          <div class="solution-titles">
-            <h2>Digital Experiences</h2>
+          <span class="service-row-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a href="/services/#solutions" class="service-row reveal">
+          <span class="service-row-index">04</span>
+          <div class="service-row-body">
+            <img class="service-row-icon" src="/assets/icons/digital.png?v=3" alt="" loading="lazy">
+            <h3 class="service-row-title">Digital Experiences</h3>
+            <p class="service-row-tagline">Designed to perform, built to convert.</p>
+            <p class="service-row-desc">We design and develop modern websites that communicate your brand clearly, build credibility and convert visitors into customers.</p>
+            <p class="service-row-best">Ideal for: Businesses ready to establish a stronger digital presence.</p>
           </div>
-        </div>
-        <p class="solution-tagline">Designed to perform, built to convert.</p>
-        <p class="solution-desc">We design and develop modern websites that communicate your brand clearly, build credibility and convert visitors into customers.</p>
-        <div class="solution-best">Ideal for: Businesses ready to establish a stronger digital presence.</div>
-      </a>
+          <span class="service-row-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>

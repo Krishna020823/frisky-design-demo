@@ -31,12 +31,16 @@
   --grad-warm: linear-gradient(135deg, var(--orange), var(--pink));
   --grad-text: linear-gradient(90deg, #ffffff 0%, #a8a8b3 55%, #55555f 100%);
 
-  --radius-sm: 10px;
-  --radius-md: 18px;
-  --radius-lg: 28px;
+  /* Boxes are square-cornered. Only genuinely pill-shaped elements — chips,
+     tags, the nav capsule — keep a radius, via --radius-pill. */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
   --radius-pill: 999px;
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Shared easing for the hover wipes and line draws. */
+  --ease-draw: cubic-bezier(0.22, 1, 0.36, 1);
   --container: 1220px;
 }
 
@@ -93,7 +97,7 @@ body::before {
 
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #ffffff; border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: #ffffff; }
 
 .container {
   max-width: var(--container);
@@ -168,19 +172,44 @@ body.home .text-grad {
   padding: 16px 48px;
 }
 
-/* ---------- Buttons ---------- */
+/* ---------- Buttons ----------
+   Every button fills on hover: the fill rises from the bottom edge rather
+   than fading, so the box reads as being painted in. Transparent buttons
+   take a white fill with dark text; buttons that are already white invert
+   to black, so the same gesture reads on both. The fill is a pseudo-element
+   behind the label (z-index:-1 inside the button's own stacking context),
+   which is why the button needs isolation + overflow:hidden. */
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.92rem;
   padding: 16px 30px;
+  border: 1.5px solid transparent;
   border-radius: var(--radius-pill);
-  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s var(--ease);
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.45s var(--ease-draw), border-color 0.45s var(--ease-draw),
+              background-color 0.45s var(--ease-draw), transform 0.2s var(--ease-draw);
   white-space: nowrap;
 }
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #ffffff;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s var(--ease-draw);
+}
+.btn:hover::after,
+.btn:focus-visible::after { transform: scaleY(1); }
+.btn:active { transform: translateY(1px); }
 
 .btn-primary {
   background: var(--grad-hero);
@@ -189,77 +218,63 @@ body.home .text-grad {
   box-shadow: 0 10px 30px -8px rgba(255, 46, 138, 0.55);
 }
 .btn-primary:hover {
-  transform: translateY(-3px) scale(1.02);
-  background-position: 100% 0;
-  box-shadow: 0 16px 40px -8px rgba(255, 122, 61, 0.6);
+  color: #0a0a0a;
+  box-shadow: 0 16px 40px -8px rgba(255, 122, 61, 0.35);
 }
 
 .btn-outline {
-  border: 1.5px solid var(--border);
+  border-color: var(--border);
   color: var(--text);
   background: var(--surface);
   backdrop-filter: blur(6px);
 }
-.btn-outline:hover {
-  border-color: var(--lime);
-  color: var(--lime);
-  transform: translateY(-3px);
-}
-.featured-case .btn-outline:hover {
-  border-color: #fff;
-  color: #fff;
-}
+.btn-outline:hover,
+.btn-outline:focus-visible,
+.featured-case .btn-outline:hover,
 .contact-info-card .btn-outline:hover,
-.form-back:hover {
-  border-color: #fff;
-  color: #fff;
-}
-.form-next {
-  background: #ffffff;
-  color: #0a0a0a;
-  box-shadow: none;
-}
-.form-next:hover {
-  background: #ffffff;
-  color: #0a0a0a;
-  transform: translateY(-3px);
-  box-shadow: none;
-}
-.form-submit {
-  background: #ffffff;
-  color: #0a0a0a;
-  box-shadow: none;
-}
-.form-submit:hover {
-  background: #ffffff;
-  color: #0a0a0a;
-  transform: translateY(-3px);
-  box-shadow: none;
-}
-body.home .btn-outline:hover {
-  border-color: #fff;
-  color: #fff;
-}
+.form-back:hover,
+body.home .btn-outline:hover,
 .hero-actions .btn-outline:hover {
-  border-color: #fff;
-  color: #fff;
+  border-color: #ffffff;
+  color: #0a0a0a;
 }
+
+/* Already-white buttons invert instead, so the fill is still visible. */
+.btn-nav,
+.btn-white,
+.form-next,
+.form-submit,
 .hero-actions .btn-white {
   background: #ffffff;
   border-color: #ffffff;
   color: #0a0a0a;
+  box-shadow: none;
 }
+.btn-nav::after,
+.btn-white::after,
+.form-next::after,
+.form-submit::after,
+.hero-actions .btn-white::after { background: #0a0a0a; }
+.btn-nav:hover,
+.btn-white:hover,
+.form-next:hover,
+.form-submit:hover,
 .hero-actions .btn-white:hover,
 body.home .hero-actions .btn-white:hover {
   background: #ffffff;
   border-color: #ffffff;
-  color: #0a0a0a;
+  color: #ffffff;
+  box-shadow: none;
 }
+
+/* The CTA band sits on white, so its button is the dark one there. */
+.cta-band .btn-outline::after { background: #ffffff; }
 
 .btn-block { width: 100%; justify-content: center; }
 
 /* ---------- Nav ---------- */
-#project-form { scroll-margin-top: 90px; }
+#project-form,
+#selected-work { scroll-margin-top: 90px; }
 
 .nav-wrap {
   position: fixed;
@@ -344,9 +359,12 @@ body.home .hero-actions .btn-white:hover {
   color: #000000;
   box-shadow: none;
 }
-.btn-nav:hover {
+/* This rule sits after the button block, so it has to flip the label itself —
+   the fill behind it is black, and keeping the text black hid it completely. */
+.btn-nav:hover,
+.btn-nav:focus-visible {
   background: #ffffff;
-  color: #000000;
+  color: #ffffff;
   box-shadow: none;
 }
 
@@ -431,17 +449,45 @@ body.home .hero-actions .btn-white:hover {
 }
 
 /* ---------- Hero ---------- */
+/* The opening screen fills the viewport. svh rather than vh so mobile browser
+   chrome collapsing doesn't leave a strip of the next section showing. The
+   headline block centres in the space left over, and the stats + scroll cue
+   are pushed to the bottom edge. */
 .hero {
   position: relative;
-  padding: 80px 0 20px;
+  min-height: 100svh;
+  padding: 96px 0 0;
+  display: flex;
+  flex-direction: column;
 }
-@media (min-width: 1024px) {
-  .hero {
-    min-height: calc(100vh - 73px);
-    display: flex;
-    align-items: center;
-  }
-  .hero-inner { width: 100%; }
+/* Bottom spacing is margin, not padding: .container sets `padding: 0 18px`
+   inside the small-screen media query, and that shorthand would wipe out any
+   padding-bottom set here. */
+/* The stats capsule keeps its place at the foot of the screen; the headline
+   block is bottom-aligned so it sits close above it instead of floating in
+   the middle with a long gap underneath. Bottom-aligning rather than nudging
+   a centred block down is what keeps that gap the same on every screen — a
+   proportional nudge drifted from 67px to 227px across viewport heights.
+   The leftover space collects above the headline, which reads as room to
+   breathe over a full-bleed video. */
+.hero-inner {
+  width: 100%;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  margin-bottom: clamp(30px, 8vh, 86px);
+}
+.hero-foot {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-bottom: clamp(24px, 4.5vh, 52px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+@media (max-width: 760px) {
+  .hero { padding-top: 84px; }
 }
 .hero-video-wrap {
   position: absolute;
@@ -460,7 +506,16 @@ body.home .hero-actions .btn-white:hover {
   background: linear-gradient(to bottom, rgba(12, 12, 12, 0.25) 0%, rgba(12, 12, 12, 0.4) 60%, rgba(12, 12, 12, 0.65) 100%);
 }
 .hero-inner { text-align: center; display: flex; flex-direction: column; align-items: center; }
-.hero h1 { max-width: 980px; margin-bottom: 18px; }
+/* The landing headline runs larger than the global h1 scale — it is the one
+   piece of type carrying the whole opening screen. The measure widens with it
+   so "Designing Brands That" still holds its own line. */
+.hero h1 {
+  font-size: clamp(2.4rem, 6.6vw, 5.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  max-width: 1180px;
+  margin-bottom: 22px;
+}
 .hero-tagline {
   font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
@@ -613,7 +668,10 @@ body.home .hero-actions .btn-white:hover {
   height: 100%;
   object-fit: cover;
   display: block;
+  transform: scale(1);
+  transition: transform 1.1s var(--ease-draw);
 }
+.slider-img:hover img { transform: scale(1.07); }
 .slider-label {
   position: absolute;
   left: 16px;
@@ -711,7 +769,7 @@ section { padding: 80px 0; position: relative; }
 .card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.25); }
 .card-icon {
   width: 52px; height: 52px;
-  border-radius: 14px;
+  border-radius: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.4rem;
   margin-bottom: 22px;
@@ -796,18 +854,19 @@ section { padding: 80px 0; position: relative; }
   grid-template-columns: repeat(2, 1fr);
   gap: 26px;
 }
+/* Cards lost their frame: the image carries the item and the heading is
+   separated by a hairline rule instead of a boxed panel. */
 .work-item {
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  border-radius: 0;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  transition: transform 0.4s var(--ease);
+  border: none;
+  background: none;
+  overflow: visible;
 }
 .work-item.hidden { display: none; }
-.work-item:hover { transform: translateY(-6px); }
 .work-thumb {
   height: 320px;
   flex: 1 1 auto;
@@ -816,13 +875,17 @@ section { padding: 80px 0; position: relative; }
   justify-content: center;
   position: relative;
   overflow: hidden;
+  background: var(--bg-soft);
 }
 .work-meta { flex-shrink: 0; }
 .work-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1);
+  transition: transform 1.1s var(--ease-draw);
 }
+.work-item:hover .work-thumb img { transform: scale(1.07); }
 .work-grid.masonry {
   display: block;
   column-count: 2;
@@ -847,8 +910,20 @@ section { padding: 80px 0; position: relative; }
   font-weight: 700;
   color: rgba(255,255,255,0.22);
 }
-.work-meta { padding: 24px; background: var(--bg-soft); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.work-meta h3 { font-size: 1.1rem; margin-bottom: 10px; }
+/* The rule above the heading is the divider now — no panel, no card fill. */
+.work-meta {
+  padding: 18px 0 0;
+  margin-top: 18px;
+  background: none;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  transition: border-color 0.4s var(--ease-draw);
+}
+.work-item:hover .work-meta { border-top-color: rgba(255, 255, 255, 0.4); }
+.work-meta h3 { font-size: 1.25rem; margin-bottom: 10px; }
 .work-meta .tag { font-size: 0.78rem; color: var(--text-faint); }
 .work-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .work-tags .pill {
@@ -914,40 +989,125 @@ section { padding: 80px 0; position: relative; }
 }
 
 /* ---------- Featured case study ---------- */
+/* Two rows: the picture and the written part share the first, the buttons sit
+   alone in the second. That makes the image span exactly from the project
+   name down to the last line of Solution — it no longer has to stretch past
+   the buttons, which is what was forcing the crop. */
 .featured-case {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
-  align-items: stretch;
+  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-rows: auto auto;
+  column-gap: clamp(30px, 4vw, 72px);
+  row-gap: 30px;
+  align-items: start;
 }
+.featured-case-body { grid-column: 2; grid-row: 1; }
+/* The pair spans the full measure of the copy above, so the row lines up with
+   the text on the right edge as well as the left. They share the width
+   evenly, and drop to one per line once there isn't room for two. */
+.featured-case-actions {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.featured-case-actions .btn { flex: 1 1 220px; }
 .featured-case h2 { margin-bottom: 16px; }
+/* Small white capsule. */
 .eyebrow-badge {
+  display: inline-flex;
+  align-items: center;
   background: #ffffff;
   color: #0a0a0a;
-  font-size: 0.8rem;
-  padding: 8px 20px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 7px 16px;
   border-radius: var(--radius-pill);
   margin-bottom: 16px;
 }
 .featured-case-visual {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: stretch;
+  min-height: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
-.featured-case-visual img { width: 100%; height: 100%; object-fit: cover; }
+.featured-case-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 1.2s var(--ease-draw);
+}
+.featured-case:hover .featured-case-visual img,
+.featured-case-visual:hover img { transform: scale(1.06); }
+/* Already white, so it inverts on hover like the other white buttons rather
+   than filling white on white. */
 .featured-case .btn-primary {
   background: #ffffff;
   color: #0a0a0a;
   box-shadow: none;
 }
-.featured-case .btn-primary:hover {
+.featured-case .btn-primary::after { background: #0a0a0a; }
+.featured-case .btn-primary:hover,
+.featured-case .btn-primary:focus-visible {
+  color: #ffffff;
+  border-color: #ffffff;
   box-shadow: none;
 }
-.featured-case-stages { display: flex; flex-direction: column; gap: 18px; margin: 24px 0 30px; }
-.featured-case-stage h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: #fff; font-weight: 800; margin-bottom: 6px; font-family: 'Inter', sans-serif; }
-.featured-case-stage p { color: var(--text-dim); font-size: 0.94rem; }
+/* Challenge / Approach / Solution as a stack of ruled entries: the set opens
+   on a hairline and every stage closes on one, with its label sitting
+   directly above its own text. */
+.featured-case-stages {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 26px 0 32px;
+  border-top: 1px solid var(--border);
+}
+.featured-case-stage {
+  position: relative;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+/* A white line draws left to right along the rule on hover, the same gesture
+   the What We Do rows use. It sits on top of the existing hairline rather
+   than replacing it, so nothing shifts. */
+.featured-case-stage::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s var(--ease-draw);
+}
+.featured-case-stage:hover::after,
+.featured-case-stage:focus-within::after { transform: scaleX(1); }
+.featured-case-stage h4 {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+}
+.featured-case-stage p { color: var(--text-dim); font-size: 0.94rem; line-height: 1.6; }
 @media (max-width: 860px) {
+  /* Stacked in source order, so the image takes its own proportions back. */
   .featured-case { grid-template-columns: 1fr; }
-  .featured-case-visual { aspect-ratio: 4/3; }
+  .featured-case-visual,
+  .featured-case-body,
+  .featured-case-actions { grid-column: 1; grid-row: auto; }
+  .featured-case-visual { align-self: auto; aspect-ratio: 1414 / 1113; }
 }
 
 .thumb-1 { background: linear-gradient(135deg, var(--pink), var(--purple-2)); }
@@ -1103,8 +1263,15 @@ section { padding: 80px 0; position: relative; }
 }
 .cta-band h2 { color: #0a0a0a; margin-bottom: 18px; }
 .cta-band p { color: rgba(10,10,10,0.7); max-width: 620px; margin: 0 auto 36px; }
-.cta-band .btn-outline { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
-.cta-band .btn-outline:hover { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+/* 2px, not the default 1.5px: on hover the fill goes white and the border
+   becomes the only thing holding the shape against a white band, and a
+   hairline reads as a missing edge next to the solid resting state. */
+.cta-band .btn-outline { background: #0a0a0a; border-color: #0a0a0a; border-width: 2px; color: #fff; }
+/* This band is white, so a white fill would dissolve the button into the
+   background. Solid dark inverts to outlined dark: the fill goes white, the
+   label flips dark, and the border stays dark to hold the shape. */
+.cta-band .btn-outline:hover,
+.cta-band .btn-outline:focus-visible { background: #0a0a0a; color: #0a0a0a; border-color: #0a0a0a; }
 
 body.home .cta-band {
   background-image:
@@ -1117,7 +1284,8 @@ body.home .cta-band {
 body.home .cta-band h2 { color: #fff; margin-bottom: 18px; }
 body.home .cta-band p { color: rgba(255,255,255,0.85); }
 body.home .cta-band .btn-outline { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); color: var(--text); }
-body.home .cta-band .btn-outline:hover { color: #fff; border-color: #fff; }
+body.home .cta-band .btn-outline:hover,
+body.home .cta-band .btn-outline:focus-visible { color: #0a0a0a; border-color: #ffffff; }
 
 /* ---------- CTA band scroll reveal ---------- */
 /* Switched on by main.js, which also drives --cta-p (the wipe) and --cta-fade
@@ -1307,7 +1475,18 @@ body > div:has(> #min-widget),
 .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-faint); font-size: 0.85rem; font-weight: 600; margin-bottom: 28px; transition: color 0.25s; }
 .back-link:hover { color: var(--text); }
 .article-hero-img { border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 40px; border: 1px solid var(--border); }
-.article-hero-img img { width: 100%; height: 420px; object-fit: cover; display: block; }
+.article-hero-img img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+  transform: scale(1);
+  transition: transform 1.2s var(--ease-draw);
+}
+.article-hero-img:hover img { transform: scale(1.05); }
+/* About-page portrait */
+.about-visual img { transform: scale(1); transition: transform 1.2s var(--ease-draw); }
+.about-visual:hover img { transform: scale(1.05); }
 .article-meta-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
 .article-meta-row .pill { font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: 1px solid var(--border); color: var(--text-faint); }
 .article-meta-row .date { font-size: 0.85rem; color: var(--text-faint); }
@@ -1351,6 +1530,64 @@ body > div:has(> #min-widget),
 .logo-folio-stack figure { margin: 0; }
 .logo-folio-stack img { width: 100%; height: auto; display: block; border-radius: 0; }
 
+/* ---------- Case study foot navigation ----------
+   Sits between the story and the closing CTA: a way back to the grid on the
+   left, the next project on the right. The last study loops to the first. */
+.case-nav-section { padding-top: clamp(40px, 5vw, 70px); }
+.case-nav {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.case-nav a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 30px 4px;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.3s var(--ease-draw), gap 0.3s var(--ease-draw);
+}
+.case-nav-back {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.case-nav-back:hover { color: var(--text); gap: 22px; }
+.case-nav-next { text-align: right; color: var(--text-faint); }
+.case-nav-next:hover { color: var(--text); gap: 22px; }
+.case-nav-text { display: flex; flex-direction: column; gap: 6px; }
+.case-nav-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.case-nav-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.3rem, 2.4vw, 2rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.case-nav-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .case-nav { flex-direction: column; gap: 0; }
+  .case-nav a { padding: 22px 0; }
+  .case-nav-back { border-bottom: 1px solid var(--border); }
+  .case-nav-next { text-align: left; flex-direction: row-reverse; justify-content: flex-end; }
+}
+
 /* ---------- About page ---------- */
 .about-grid {
   display: grid;
@@ -1379,11 +1616,28 @@ body > div:has(> #min-widget),
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
+/* A white rule draws across the top edge on hover, left to right. */
 .principle-box {
-  align-items: center;
-  text-align: center;
-  padding: 40px 24px;
+  align-items: flex-start;
+  text-align: left;
+  padding: 40px 26px;
+  position: relative;
+  overflow: hidden;
 }
+.principle-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s var(--ease-draw);
+}
+.principle-box:hover::before,
+.principle-box:focus-within::before { transform: scaleX(1); }
 .principle-box p {
   font-family: 'Fraunces', serif;
   font-size: 1.2rem;
@@ -1440,35 +1694,64 @@ body > div:has(> #min-widget),
 }
 .values-grid.wrap-5 .card { flex: 1 1 200px; max-width: 230px; }
 
+/* Team: a hairline-ruled table of people rather than a row of floating cards.
+   Avatars are monochrome initials so nobody's tile competes with the work. */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--border);
 }
 .team-card {
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  padding: 36px 28px;
-  text-align: center;
-  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  background: none;
+  padding: 34px 28px;
+  text-align: left;
+  transition: background 0.4s var(--ease-draw);
 }
-.team-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.25); }
+.team-card:hover { transform: none; background: rgba(255, 255, 255, 0.03); }
+.team-card:nth-child(4n) { border-right: none; }
 .team-avatar {
-  width: 84px; height: 84px;
+  width: 56px; height: 56px;
   border-radius: 50%;
-  margin: 0 auto 20px;
+  margin: 0 0 18px;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Fraunces', serif;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #0c0c0c;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  /* Overrides the per-person inline gradients in the markup. */
+  background: var(--bg-soft) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--text) !important;
 }
-.team-card h3 { margin-bottom: 6px; }
-.team-card .role { color: var(--text-faint); font-size: 0.85rem; }
+.team-card h3 { margin-bottom: 6px; font-size: 1.2rem; }
+.team-card .role {
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
 .team-card .bio { color: var(--text-dim); font-size: 0.88rem; line-height: 1.6; margin-top: 14px; }
-@media (max-width: 760px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .team-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) {
+  .team-grid { grid-template-columns: repeat(3, 1fr); }
+  .team-card:nth-child(4n) { border-right: 1px solid var(--border); }
+  .team-card:nth-child(3n) { border-right: none; }
+}
+@media (max-width: 760px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-card:nth-child(3n), .team-card:nth-child(4n) { border-right: 1px solid var(--border); }
+  .team-card:nth-child(2n) { border-right: none; }
+}
+@media (max-width: 480px) {
+  .team-grid { grid-template-columns: 1fr; }
+  .team-card, .team-card:nth-child(2n), .team-card:nth-child(3n), .team-card:nth-child(4n) { border-right: none; }
+}
 
 .process-list { position: relative; display: flex; flex-direction: column; }
 .process-list::before {
@@ -1588,78 +1871,137 @@ body > div:has(> #min-widget),
   border-color: rgba(255, 255, 255, 0.35);
   background: var(--surface-strong);
 }
-.service-visual {
-  border-radius: var(--radius-lg);
-  aspect-ratio: 4/3;
-  display: flex; align-items: center; justify-content: center;
-}
-.service-visual span { font-family: 'Inter', sans-serif; font-size: 3.2rem; font-weight: 800; color: rgba(255,255,255,0.3); }
 
-/* ---------- Services solutions (monochrome hover cards) ---------- */
-.solutions-grid {
+/* ---------- What We Do — numbered service rows ----------
+   Replaces the four solution cards. Each row is a link; hovering one draws a
+   white rule along its bottom edge, nudges it right, and cross-fades the
+   matching icon into the sticky panel beside it (driven by main.js). All
+   accents here are white — no gold anywhere in this section. */
+.service-showcase {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--border);
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(30px, 4vw, 70px);
+  align-items: start;
+}
+.service-visual-panel {
+  position: sticky;
+  top: 110px;
+  aspect-ratio: 4 / 5;
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  background: var(--bg-soft);
   overflow: hidden;
+  display: grid;
+  place-items: center;
 }
-.solution-card {
-  display: block;
-  background: var(--bg);
-  padding: 48px 40px;
+.service-visual {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(30px, 5vw, 70px);
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.8s var(--ease-draw), transform 0.8s var(--ease-draw);
+  border-radius: 0;
+  aspect-ratio: auto;
 }
-.solution-card:hover, .solution-card:focus { box-shadow: inset 0 0 0 1.5px #fff; }
-.solution-card:nth-child(1) { border-top-left-radius: var(--radius-lg); }
-.solution-card:nth-child(2) { border-top-right-radius: var(--radius-lg); }
-.solution-card:nth-child(3) { border-bottom-left-radius: var(--radius-lg); }
-.solution-card:nth-child(4) { border-bottom-right-radius: var(--radius-lg); }
-@media (max-width: 760px) {
-  .solution-card:nth-child(1), .solution-card:nth-child(2), .solution-card:nth-child(3) {
-    border-radius: 0;
-  }
-  .solution-card:nth-child(1) { border-top-left-radius: var(--radius-lg); border-top-right-radius: var(--radius-lg); }
-  .solution-card:nth-child(4) { border-bottom-left-radius: var(--radius-lg); border-bottom-right-radius: var(--radius-lg); }
+.service-visual img { width: 100%; max-width: 220px; height: auto; object-fit: contain; }
+.service-visual.is-active { opacity: 1; transform: scale(1); }
+
+.service-rows { border-top: 1px solid var(--border); }
+.service-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: clamp(16px, 2.4vw, 34px);
+  padding: clamp(26px, 3vw, 40px) 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.8s var(--ease-draw);
 }
-.solution-head {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  margin-bottom: 18px;
+/* The moving line. */
+.service-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s var(--ease-draw);
 }
-.solution-icon {
-  display: block;
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  object-position: left center;
-  flex-shrink: 0;
+.service-row:hover::before,
+.service-row:focus-visible::before { transform: scaleX(1); }
+@media (hover: hover) and (min-width: 861px) {
+  .service-row:hover { padding-left: 14px; }
 }
-.solution-titles {
-  display: flex;
-  flex-direction: column;
+.service-row-index {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  padding-top: 12px;
+  transition: color 0.45s var(--ease-draw);
 }
-.solution-num {
+.service-row:hover .service-row-index { color: #ffffff; }
+.service-row-body { display: block; min-width: 0; }
+.service-row-title {
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.service-row-tagline {
+  color: var(--text);
+  font-size: clamp(0.98rem, 1.3vw, 1.1rem);
+  margin-bottom: 12px;
+}
+.service-row-desc {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  max-width: 52ch;
+  margin-bottom: 14px;
+}
+.service-row-best {
   font-size: 0.78rem;
-  color: var(--text-faint);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.solution-card h2 { margin-bottom: 10px; }
-.solution-tagline { color: var(--text-dim); font-size: 1rem; margin-bottom: 16px; }
-.solution-desc { color: var(--text-faint); font-size: 0.9rem; margin-bottom: 20px; }
-.solution-best {
-  font-size: 0.82rem;
   color: var(--text-faint);
-  font-style: italic;
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
 }
-@media (max-width: 760px) {
-  .solutions-grid { grid-template-columns: 1fr; }
+.service-row-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  transition: all 0.45s var(--ease-draw);
+}
+.service-row:hover .service-row-arrow {
+  background: #ffffff;
+  color: #0c0c0c;
+  border-color: #ffffff;
+  transform: rotate(45deg);
+}
+.service-row-icon { display: none; }
+@media (max-width: 860px) {
+  .service-showcase { grid-template-columns: 1fr; }
+  .service-visual-panel { display: none; }
+  .service-row { grid-template-columns: auto minmax(0, 1fr); }
+  .service-row-arrow { display: none; }
+  .service-row-icon {
+    display: block;
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    margin-bottom: 16px;
+  }
 }
 
 .pricing-grid {
@@ -1904,8 +2246,37 @@ body > div:has(> #min-widget),
 }
 .social-row a:hover { background: var(--lime); color: #0c0c0c; border-color: var(--lime); transform: translateY(-3px); }
 
-/* ---------- Multi-step project form ---------- */
-.step-indicator { font-size: 0.8rem; color: var(--text-faint); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+/* ---------- Multi-step project form ----------
+   Split layout: the section title stays pinned beside the form so you can
+   always see what you're filling in, however deep the branch questions run. */
+.form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(30px, 5vw, 80px);
+  align-items: start;
+}
+.form-layout-aside {
+  position: sticky;
+  top: 120px;
+}
+.form-layout-aside h2 { margin: 0; }
+.form-layout-main { min-width: 0; max-width: 680px; }
+@media (max-width: 900px) {
+  .form-layout { grid-template-columns: 1fr; gap: 34px; }
+  .form-layout-aside { position: static; }
+  .form-layout-main { max-width: none; }
+}
+
+.step-indicator {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
 .form-step { display: none; }
 .form-step.active { display: block; }
 .build-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
@@ -2034,12 +2405,36 @@ body > div:has(> #min-widget),
   .form-row { grid-template-columns: 1fr; }
 }
 
+/* Very narrow phones: the long email button can't fit on one line inside a
+   padded card, so buttons are allowed to wrap and the card loses some inset. */
+@media (max-width: 400px) {
+  .btn {
+    white-space: normal;
+    padding: 14px 20px;
+    font-size: 0.85rem;
+    max-width: 100%;
+  }
+  .contact-info-card { padding: 26px 20px; }
+}
+
+/* Two across rather than four stacked: a single column of four ran taller
+   than the hero, which is now a fixed screen height, and pushed the last
+   figure off the bottom edge. */
+@media (max-width: 560px) {
+  .hero-stats { flex-wrap: wrap; width: 100%; border-radius: 0; }
+  .hero-stats .stat {
+    flex: 1 1 50%;
+    min-width: 50%;
+    padding: 16px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-stats .stat:nth-child(2n) { border-right: none; }
+  .hero-stats .stat:nth-last-child(-n+2) { border-bottom: none; }
+}
+
 @media (max-width: 480px) {
   .container { padding: 0 18px; }
   .values-grid { grid-template-columns: 1fr; }
-  .hero-stats { flex-direction: column; width: 100%; border-radius: var(--radius-lg); }
-  .hero-stats .stat { border-right: none; border-bottom: 1px solid var(--border); }
-  .hero-stats .stat:last-child { border-bottom: none; }
 }
 
 /* ---------- WhatsApp floating button ---------- */
