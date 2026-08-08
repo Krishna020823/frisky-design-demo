@@ -332,7 +332,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const value = selected ? selected.value : null;
       branchGroups.forEach(group => {
         const branches = group.dataset.branch.split(',');
-        group.style.display = value && branches.includes(value) ? 'block' : 'none';
+        const active = !!value && branches.includes(value);
+        group.style.display = active ? 'block' : 'none';
+        // Disabled, not merely hidden. display:none does NOT exempt a field
+        // from the browser's own constraint validation, and that pass runs
+        // before our submit listener — so a required field in a branch the
+        // visitor never saw silently blocked the whole form, whichever build
+        // type they picked. Disabling also keeps those answers out of the
+        // FormData, so the email only carries the questions actually asked.
+        group.querySelectorAll('input, textarea, select').forEach(field => {
+          field.disabled = !active;
+        });
       });
     };
     buildOptions.forEach(opt => opt.addEventListener('change', updateBranches));
@@ -433,22 +443,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       };
 
-      // Exclude fields from branches the user never saw, so the email only
-      // shows the questions relevant to the build type they picked.
-      const inactiveFields = [];
-      branchGroups.forEach(group => {
-        if (group.style.display === 'none') {
-          group.querySelectorAll('input, textarea, select').forEach(field => {
-            if (!field.disabled) {
-              field.disabled = true;
-              inactiveFields.push(field);
-            }
-          });
-        }
-      });
-
+      // Fields from branches the visitor never saw are already disabled by
+      // updateBranches(), so FormData skips them and the email carries only
+      // the questions relevant to the build type they picked. Disabling them
+      // here would have been too late to matter — validation has already run
+      // by this point.
       const formData = new FormData(projectForm);
-      inactiveFields.forEach(field => { field.disabled = false; });
 
       fetch(projectForm.action, {
         method: 'POST',
