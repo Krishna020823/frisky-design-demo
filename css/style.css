@@ -1530,6 +1530,63 @@ body > div:has(> #min-widget),
 .logo-folio-stack figure { margin: 0; }
 .logo-folio-stack img { width: 100%; height: auto; display: block; border-radius: 0; }
 
+/* Short factual lists inside a case study — values, features, deliverables.
+   Ruled rather than bulleted, to match the rest of the page furniture. */
+.case-facts {
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  max-width: 720px;
+  border-top: 1px solid var(--border);
+}
+.case-facts li {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.96rem;
+}
+.case-facts li::before {
+  content: '—';
+  color: #fff;
+  flex-shrink: 0;
+}
+/* The one-line summary of how the work was made. */
+.case-process {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem !important;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint) !important;
+  line-height: 2 !important;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 0 0 26px !important;
+  max-width: 720px;
+}
+
+/* A brand mark shown on its own, on a light panel — most logo files are drawn
+   for white and disappear against the page's dark surface. */
+.brand-mark-panel {
+  margin: 32px 0;
+  padding: clamp(40px, 7vw, 90px) clamp(24px, 5vw, 70px);
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-mark-panel img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+}
+
 /* ---------- Case study foot navigation ----------
    Sits between the story and the closing CTA: a way back to the grid on the
    left, the next project on the right. The last study loops to the first. */
