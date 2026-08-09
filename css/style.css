@@ -886,6 +886,12 @@ section { padding: 80px 0; position: relative; }
   transition: transform 1.1s var(--ease-draw);
 }
 .work-item:hover .work-thumb img { transform: scale(1.07); }
+/* Some thumbnails are centred artwork on a white artboard rather than a photo —
+   cover would slice the wordmark off the sides, so fit the whole frame and let
+   the tile take the artboard's own white. */
+.work-thumb.thumb-fit { background: #fff; }
+.work-thumb.thumb-fit img { object-fit: contain; }
+.work-thumb.thumb-fit::after { display: none; }
 .work-grid.masonry {
   display: block;
   column-count: 2;
