@@ -500,10 +500,26 @@ body.home .hero-actions .btn-white:hover {
   height: 100%;
   object-fit: cover;
 }
+/* Two scrims, not one. The old single gradient was tuned for the near-black
+   abstract loop that used to sit here; the work showreel that replaced it runs
+   through bright frames — white packaging, a light warehouse — that swallowed
+   the headline whole.
+
+   The flat layer sets a floor of contrast the type can always rely on. The
+   gradient on top of it stays weak across the middle, where the imagery is,
+   and deepens top and bottom behind the nav and the stats capsule. Splitting it
+   that way keeps the work visible: one scrim heavy enough to carry the headline
+   over a white frame would have greyed out every darker frame in the reel. */
 .hero-video-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(12, 12, 12, 0.25) 0%, rgba(12, 12, 12, 0.4) 60%, rgba(12, 12, 12, 0.65) 100%);
+  background:
+    linear-gradient(to bottom,
+      rgba(12, 12, 12, 0.55) 0%,
+      rgba(12, 12, 12, 0.20) 34%,
+      rgba(12, 12, 12, 0.28) 62%,
+      rgba(12, 12, 12, 0.72) 100%),
+    rgba(12, 12, 12, 0.34);
 }
 .hero-inner { text-align: center; display: flex; flex-direction: column; align-items: center; }
 /* The landing headline runs larger than the global h1 scale — it is the one
@@ -992,6 +1008,22 @@ section { padding: 80px 0; position: relative; }
   .editorial-grid .work-item.span-3 .work-thumb,
   .editorial-grid .work-item.span-2 .work-thumb { height: 260px; }
   .editorial-grid .work-item.span-2 .work-view span { display: inline; }
+}
+/* Thumbnails whose artwork is squarer than the slot it sits in. The fixed row
+   heights above assume a wide source — a span-6 slot is about 2.24:1, and the
+   other full-width thumbs are 1.69 and 1.50, so object-fit: cover only shaves
+   their edges. The Monk Chair cover is 1.28:1, where the same crop takes 43%
+   of the height and the amazon lockup along with it.
+
+   Rather than re-cutting the artwork, the slot takes the picture's own ratio
+   and drops the fixed height, so nothing is ever cropped at any width. Set
+   --thumb-ratio to the source's width/height. */
+.editorial-grid .work-item.span-6 .work-thumb.thumb-uncropped,
+.editorial-grid .work-item.span-4 .work-thumb.thumb-uncropped,
+.editorial-grid .work-item.span-3 .work-thumb.thumb-uncropped,
+.editorial-grid .work-item.span-2 .work-thumb.thumb-uncropped {
+  height: auto;
+  aspect-ratio: var(--thumb-ratio);
 }
 
 /* ---------- Featured case study ---------- */
