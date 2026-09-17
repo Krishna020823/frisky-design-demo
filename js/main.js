@@ -92,6 +92,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Reduced motion: the hero reel is decoration, so hold it on a still frame
+  // rather than looping. Pausing instead of hiding keeps the hero composition,
+  // the scrim and the headline contrast exactly as designed — the picture stays,
+  // only the movement goes.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo) {
+    const applyStillness = () => {
+      if (reduceMotion.matches) {
+        heroVideo.removeAttribute('autoplay');
+        heroVideo.pause();
+      } else if (heroVideo.paused) {
+        // play() rejects if the gesture policy blocks it; nothing to recover.
+        heroVideo.play().catch(() => {});
+      }
+    };
+    applyStillness();
+    // Autoplay can start after this runs, so catch it on the way in too.
+    heroVideo.addEventListener('play', () => {
+      if (reduceMotion.matches) heroVideo.pause();
+    });
+    reduceMotion.addEventListener('change', applyStillness);
+  }
+
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {
@@ -263,6 +287,73 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       activate(0);
     }
+  }
+
+  // Our Process — the step crossing the middle of the viewport lights up and the
+  // large icon beside the list switches to it. Desktop only: below 861px the
+  // large icon is hidden and every step simply reads at full strength.
+  const processList = document.querySelector('.process-items');
+  if (processList && 'IntersectionObserver' in window) {
+    const items = processList.querySelectorAll('.process-item');
+    const features = document.querySelectorAll('.process-feature-item');
+    const wide = window.matchMedia('(min-width: 861px)');
+    const setActive = (index) => {
+      items.forEach((item, i) => item.classList.toggle('is-active', i === index));
+      features.forEach((f, i) => f.classList.toggle('is-active', i === index));
+    };
+    // A thin band across the centre of the screen: a step is current while any
+    // part of it sits inside that band.
+    const processIo = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActive([...items].indexOf(entry.target));
+      });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    const sync = () => {
+      processList.classList.toggle('is-live', wide.matches);
+      if (wide.matches) items.forEach(item => processIo.observe(item));
+      else processIo.disconnect();
+    };
+    setActive(0);
+    wide.addEventListener('change', sync);
+    sync();
+  }
+
+  // Services process panels — one panel open at a time. Hover, focus or click
+  // opens a panel; on desktop the open panel's timer line hands over to the
+  // next one when it fills, but only while the row is on screen (the CSS holds
+  // the timer otherwise) and never under reduced motion.
+  const panelRow = document.querySelector('.process-panels');
+  if (panelRow) {
+    const panels = [...panelRow.querySelectorAll('.process-panel')];
+    const wide = window.matchMedia('(min-width: 861px)');
+    const openPanel = (index) => {
+      panels.forEach((panel, i) => {
+        panel.classList.toggle('is-open', i === index);
+        panel.querySelector('.process-panel-trigger').setAttribute('aria-expanded', String(i === index));
+      });
+    };
+    panels.forEach((panel, i) => {
+      const trigger = panel.querySelector('.process-panel-trigger');
+      trigger.addEventListener('click', () => openPanel(i));
+      trigger.addEventListener('focus', () => openPanel(i));
+      panel.addEventListener('mouseenter', () => {
+        if (wide.matches) openPanel(i);
+      });
+      panel.querySelector('.process-panel-timer').addEventListener('animationend', () => {
+        openPanel((i + 1) % panels.length);
+      });
+    });
+    const syncAuto = () => {
+      panelRow.classList.toggle('is-auto', wide.matches && !reduceMotion.matches);
+    };
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach(entry => panelRow.classList.toggle('is-visible', entry.isIntersecting));
+      }, { threshold: 0.4 }).observe(panelRow);
+    }
+    wide.addEventListener('change', syncAuto);
+    reduceMotion.addEventListener('change', syncAuto);
+    syncAuto();
   }
 
   // Portfolio filters

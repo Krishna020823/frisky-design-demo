@@ -181,7 +181,7 @@
 </section>
 
 <!-- SERVICES PREVIEW -->
-<section>
+<section class="what-we-do">
   <div class="container">
     <div class="section-head section-head-tight reveal">
       <div>
@@ -294,49 +294,83 @@
 </div>
 
 <!-- OUR PROCESS -->
-<section>
-  <div class="container">
-    <div class="section-head reveal">
-      <div>
+<section class="process-section">
+  <svg class="process-sprite" aria-hidden="true" focusable="false">
+    <symbol id="pi-discovery" viewBox="0 0 48 48"><circle cx="21" cy="21" r="12"/><path d="M15 21a6 6 0 0 1 6-6"/><path d="M30 30l10 10"/></symbol>
+    <symbol id="pi-strategy" viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M24 12l4 12-4 12-4-12z"/><path d="M20 24h8"/><path d="M24 4v4M24 40v4M4 24h4M40 24h4"/></symbol>
+    <symbol id="pi-design" viewBox="0 0 48 48"><path d="M24 42L14 24l4-16h12l4 16z"/><path d="M24 42V27"/><circle cx="24" cy="24" r="2.5"/><path d="M18 8h12"/></symbol>
+    <symbol id="pi-refinement" viewBox="0 0 48 48"><path d="M8 14h18.5M33.5 14H40M8 24h4.5M19.5 24H40M8 34h22.5M37.5 34H40"/><circle cx="30" cy="14" r="3.5"/><circle cx="16" cy="24" r="3.5"/><circle cx="34" cy="34" r="3.5"/></symbol>
+    <symbol id="pi-delivery" viewBox="0 0 48 48"><path d="M24 6l16 8v20l-16 8-16-8V14z"/><path d="M8 14l16 8 16-8"/><path d="M24 22v20"/><path d="M16 10l16 8v6"/></symbol>
+    <symbol id="pi-growth" viewBox="0 0 48 48"><path d="M8 42h32"/><path d="M8 34l10-12 8 6 14-16"/><path d="M31 12h9v9"/></symbol>
+  </svg>
+  <div class="container process-layout">
+    <div class="process-aside">
+      <div class="reveal">
         <div class="eyebrow">Our Process</div>
         <h2>How an idea becomes<br>a brand.</h2>
       </div>
-    </div>
-    <div class="process-list process-horizontal">
-      <div class="process-step reveal">
-        <div class="process-num">01</div>
-        <div><h3>Discovery</h3><p>We dig into your brand, audience and market to uncover the real creative opportunity.</p></div>
-      </div>
-      <div class="process-step reveal">
-        <div class="process-num">02</div>
-        <div><h3>Strategy</h3><p>We define positioning and a creative direction built around your business goals.</p></div>
-      </div>
-      <div class="process-step reveal">
-        <div class="process-num">03</div>
-        <div><h3>Design</h3><p>Bold concepts, rapid iteration, and close collaboration until it feels unmistakably you.</p></div>
-      </div>
-      <div class="process-step reveal">
-        <div class="process-num">04</div>
-        <div><h3>Refinement</h3><p>We sharpen every detail against real feedback until the work is ready to ship.</p></div>
-      </div>
-      <div class="process-step reveal">
-        <div class="process-num">05</div>
-        <div><h3>Delivery</h3><p>We bring the design to life — pixel-perfect, performant and production-ready.</p></div>
-      </div>
-      <div class="process-step reveal">
-        <div class="process-num">06</div>
-        <div><h3>Growth Support</h3><p>We stick around to measure results and help the brand keep growing.</p></div>
+      <div class="process-feature" aria-hidden="true">
+        <div class="process-feature-item is-active"><svg class="process-feature-icon" aria-hidden="true" focusable="false"><use href="#pi-discovery"/></svg><span>Discovery</span></div>
+        <div class="process-feature-item"><svg class="process-feature-icon" aria-hidden="true" focusable="false"><use href="#pi-strategy"/></svg><span>Strategy</span></div>
+        <div class="process-feature-item"><svg class="process-feature-icon" aria-hidden="true" focusable="false"><use href="#pi-design"/></svg><span>Design</span></div>
+        <div class="process-feature-item"><svg class="process-feature-icon" aria-hidden="true" focusable="false"><use href="#pi-refinement"/></svg><span>Refinement</span></div>
+        <div class="process-feature-item"><svg class="process-feature-icon" aria-hidden="true" focusable="false"><use href="#pi-delivery"/></svg><span>Delivery</span></div>
+        <div class="process-feature-item"><svg class="process-feature-icon" aria-hidden="true" focusable="false"><use href="#pi-growth"/></svg><span>Growth Support</span></div>
       </div>
     </div>
+    <ol class="process-items">
+      <li class="process-item reveal">
+        <svg class="process-item-icon" aria-hidden="true" focusable="false"><use href="#pi-discovery"/></svg>
+        <div>
+          <h3>Discovery</h3>
+          <p>We learn the business first: who buys, who you're up against, and what the brand has to fix.</p>
+        </div>
+      </li>
+      <li class="process-item reveal">
+        <svg class="process-item-icon" aria-hidden="true" focusable="false"><use href="#pi-strategy"/></svg>
+        <div>
+          <h3>Strategy</h3>
+          <p>What we learn becomes a clear position and a direction for the design.</p>
+        </div>
+      </li>
+      <li class="process-item reveal">
+        <svg class="process-item-icon" aria-hidden="true" focusable="false"><use href="#pi-design"/></svg>
+        <div>
+          <h3>Design</h3>
+          <p>A few distinct routes, shown to you early, then one taken all the way.</p>
+        </div>
+      </li>
+      <li class="process-item reveal">
+        <svg class="process-item-icon" aria-hidden="true" focusable="false"><use href="#pi-refinement"/></svg>
+        <div>
+          <h3>Refinement</h3>
+          <p>Your feedback, print proofs and real screens decide the final details.</p>
+        </div>
+      </li>
+      <li class="process-item reveal">
+        <svg class="process-item-icon" aria-hidden="true" focusable="false"><use href="#pi-delivery"/></svg>
+        <div>
+          <h3>Delivery</h3>
+          <p>Everything handed over, organised and ready for your printer, developer or marketplace.</p>
+        </div>
+      </li>
+      <li class="process-item reveal">
+        <svg class="process-item-icon" aria-hidden="true" focusable="false"><use href="#pi-growth"/></svg>
+        <div>
+          <h3>Growth Support</h3>
+          <p>We keep designing after launch, so the brand stays consistent as it grows.</p>
+        </div>
+      </li>
+  </ol>
   </div>
 </section>
 
-<!-- GOOGLE REVIEWS -->
+<!-- REVIEWS -->
 <section>
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <div class="eyebrow">Google Reviews</div>
+        <div class="eyebrow">Reviews</div>
         <h2>Built together.<br>Trusted for years.</h2>
       </div>
     </div>
@@ -344,16 +378,14 @@
   <div class="reviews-slider">
     <div class="reviews-track">
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"Frisky completely transformed how our brand shows up in the world. Bold, sharp, and exactly what we needed to stand out."</p>
         <div class="testi-person">
-          <div class="testi-avatar" style="background:var(--grad-warm)">AK</div>
+          <div class="testi-avatar" style="background:linear-gradient(135deg,var(--orange),var(--purple))">AK</div>
           <div><div class="testi-name">Ava Khan</div><div class="testi-role">Founder, Young Veda</div></div>
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"The most collaborative design team we've worked with. Every round of feedback made the work sharper, not slower."</p>
         <div class="testi-person">
@@ -362,7 +394,6 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"Our conversion rate jumped 38% after the rebrand and new site. Frisky doesn't just make things pretty — it performs."</p>
         <div class="testi-person">
@@ -371,7 +402,6 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"Working with Frisky felt like having an in-house design team. Fast turnarounds and genuinely great taste."</p>
         <div class="testi-person">
@@ -380,7 +410,6 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"They understood our brand better than we did. The packaging redesign alone paid for itself in the first quarter."</p>
         <div class="testi-person">
@@ -389,7 +418,6 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"From logo to website, everything feels consistent and premium now. Customers noticed the difference immediately."</p>
         <div class="testi-person">
@@ -398,16 +426,14 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"Frisky completely transformed how our brand shows up in the world. Bold, sharp, and exactly what we needed to stand out."</p>
         <div class="testi-person">
-          <div class="testi-avatar" style="background:var(--grad-warm)">AK</div>
+          <div class="testi-avatar" style="background:linear-gradient(135deg,var(--orange),var(--purple))">AK</div>
           <div><div class="testi-name">Ava Khan</div><div class="testi-role">Founder, Young Veda</div></div>
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"The most collaborative design team we've worked with. Every round of feedback made the work sharper, not slower."</p>
         <div class="testi-person">
@@ -416,7 +442,6 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"Our conversion rate jumped 38% after the rebrand and new site. Frisky doesn't just make things pretty — it performs."</p>
         <div class="testi-person">
@@ -425,7 +450,6 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"Working with Frisky felt like having an in-house design team. Fast turnarounds and genuinely great taste."</p>
         <div class="testi-person">
@@ -434,7 +458,6 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"They understood our brand better than we did. The packaging redesign alone paid for itself in the first quarter."</p>
         <div class="testi-person">
@@ -443,7 +466,6 @@
         </div>
       </div>
       <div class="review-card">
-        <div class="review-badge"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span>Google Review</span></div>
         <div class="testi-stars">★★★★★</div>
         <p class="testi-quote">"From logo to website, everything feels consistent and premium now. Customers noticed the difference immediately."</p>
         <div class="testi-person">

@@ -28,7 +28,6 @@
 
   --grad-hero: linear-gradient(135deg, var(--pink) 0%, var(--purple) 48%, var(--orange) 100%);
   --grad-lime: linear-gradient(135deg, var(--lime), var(--blue));
-  --grad-warm: linear-gradient(135deg, var(--orange), var(--pink));
   --grad-text: linear-gradient(90deg, #ffffff 0%, #a8a8b3 55%, #55555f 100%);
 
   /* Boxes are square-cornered. Only genuinely pill-shaped elements — chips,
@@ -46,7 +45,7 @@
 
 /* Home page only: premium black theme.
    Every gradient/derived rule that references --pink/--purple/etc.
-   (buttons, CTA band, hero blobs, stats, thumbnails, testimonial
+   (buttons, CTA band, stats, thumbnails, testimonial
    avatars) is built from these, so redefining them here recolours
    the whole page to a black/charcoal palette with a muted gold
    accent, while every other page keeps the original bright colours. */
@@ -68,7 +67,7 @@ body.home .btn-nav, body.home .btn-nav:hover { box-shadow: none; }
 html { scroll-behavior: smooth; }
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
-ul { list-style: none; }
+ul, ol { list-style: none; }
 button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 input, textarea, select { font: inherit; color: inherit; }
 
@@ -402,52 +401,6 @@ body.home .hero-actions .btn-white:hover {
 .mobile-panel.open { opacity: 1; pointer-events: auto; }
 .mobile-panel a { font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 600; }
 
-/* ---------- Blobs / hero background ---------- */
-.blob-field {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  z-index: -1;
-  pointer-events: none;
-}
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.28;
-  animation: float 16s ease-in-out infinite;
-}
-.blob-1 { width: 480px; height: 480px; background: var(--pink); top: -140px; left: -100px; }
-.blob-2 { width: 420px; height: 420px; background: var(--purple); top: 100px; right: -140px; animation-delay: -4s; }
-.blob-3 { width: 360px; height: 360px; background: var(--orange); bottom: -160px; left: 30%; animation-delay: -8s; }
-
-/* Premium background dressing, home hero only */
-.hero .blob-field::before,
-.hero .blob-field::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(201, 163, 95, 0.25);
-  pointer-events: none;
-}
-.hero .blob-field::before { width: 640px; height: 640px; top: -240px; right: -220px; animation: spin-slow 60s linear infinite; }
-.hero .blob-field::after { width: 300px; height: 300px; bottom: -120px; left: 8%; border-color: rgba(255, 255, 255, 0.1); animation: spin-slow-reverse 45s linear infinite; }
-
-@keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -40px) scale(1.08); }
-  66% { transform: translate(-25px, 25px) scale(0.95); }
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-@keyframes spin-slow-reverse {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-
 /* ---------- Hero ---------- */
 /* The opening screen fills the viewport. svh rather than vh so mobile browser
    chrome collapsing doesn't leave a strip of the next section showing. The
@@ -767,12 +720,7 @@ section { padding: 80px 0; position: relative; }
 .client-logo .logo-color { opacity: 0; }
 .client-logo:hover .logo-color { opacity: 1; }
 
-/* ---------- Bento / cards ---------- */
-.bento {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 22px;
-}
+/* ---------- Cards ---------- */
 .card {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
@@ -783,13 +731,6 @@ section { padding: 80px 0; position: relative; }
   transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
 }
 .card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.25); }
-.card-icon {
-  width: 52px; height: 52px;
-  border-radius: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem;
-  margin-bottom: 22px;
-}
 .card h3 { margin-bottom: 12px; }
 .card p { color: var(--text-dim); font-size: 0.96rem; }
 
@@ -800,24 +741,10 @@ section { padding: 80px 0; position: relative; }
   color: var(--text-faint);
   margin-bottom: 18px;
 }
-.track-duration {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--lime);
-}
-
 .span-2 { grid-column: span 2; }
 .span-3 { grid-column: span 3; }
 .span-4 { grid-column: span 4; }
 .span-6 { grid-column: span 6; }
-
-.card-glow-pink .card-icon { background: var(--grad-warm); }
-.card-glow-purple .card-icon { background: linear-gradient(135deg, var(--purple), var(--blue)); }
-.card-glow-lime .card-icon { background: var(--grad-lime); color: #0c0c0c; }
 
 .card-num {
   position: absolute;
@@ -834,13 +761,6 @@ section { padding: 80px 0; position: relative; }
 .card-numbered { padding: 22px 20px; }
 .card-numbered .card-num { font-size: 1.4rem; top: 12px; right: 14px; }
 .card-numbered h3 { font-size: 1.05rem; line-height: 1.3; padding-right: 32px; margin-bottom: 0; }
-
-.card-feature {
-  background: var(--grad-hero);
-  color: #fff;
-  border: none;
-}
-.card-feature p { color: rgba(255,255,255,0.85); }
 
 /* ---------- Portfolio grid ---------- */
 .filters {
@@ -908,19 +828,6 @@ section { padding: 80px 0; position: relative; }
 .work-thumb.thumb-fit { background: #fff; }
 .work-thumb.thumb-fit img { object-fit: contain; }
 .work-thumb.thumb-fit::after { display: none; }
-.work-grid.masonry {
-  display: block;
-  column-count: 2;
-  column-gap: 26px;
-}
-.work-grid.masonry .work-item {
-  display: inline-block;
-  width: 100%;
-  break-inside: avoid;
-  margin-bottom: 26px;
-}
-.work-grid.masonry .work-item:nth-child(3n+2) .work-thumb { height: 400px; }
-.work-grid.masonry .work-item:nth-child(5n+1) .work-thumb { height: 250px; }
 .work-thumb::after {
   content: '';
   position: absolute; inset: 0;
@@ -981,6 +888,53 @@ section { padding: 80px 0; position: relative; }
   transition: all 0.3s var(--ease);
 }
 .work-item:hover .work-arrow { background: #fff; color: #0c0c0c; border-color: #fff; transform: rotate(45deg); }
+
+/* Home "Selected Work" and "What We Do", the portfolio grid and the Services
+   FAQ sit on white:
+   flip the tokens so the sections' text, rules and pills read dark, and invert
+   the hover states that assume a dark page. */
+#selected-work,
+#all-work,
+#services-faq,
+.what-we-do {
+  background: #ffffff;
+  --bg-alt: #ffffff;
+  --bg-soft: #f2f2f2;
+  --surface: rgba(10, 10, 10, 0.03);
+  --border: rgba(10, 10, 10, 0.14);
+  --text: #0a0a0a;
+  --text-dim: rgba(10, 10, 10, 0.7);
+  --text-faint: rgba(10, 10, 10, 0.55);
+  color: var(--text);
+}
+#selected-work .eyebrow,
+#selected-work .lead,
+#services-faq .eyebrow,
+#services-faq .faq-plus,
+.what-we-do .eyebrow,
+.what-we-do .lead { color: #0a0a0a; }
+#selected-work .btn-outline { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+#selected-work .btn-outline::after { background: #ffffff; }
+#selected-work .btn-outline:hover,
+#selected-work .btn-outline:focus-visible { border-color: #0a0a0a; color: #0a0a0a; }
+#selected-work .work-item:hover .work-meta,
+#all-work .work-item:hover .work-meta { border-top-color: rgba(10, 10, 10, 0.4); }
+#selected-work .work-arrow,
+#all-work .work-arrow { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+#selected-work .work-item:hover .work-arrow,
+#all-work .work-item:hover .work-arrow { background: #fff; color: #0a0a0a; border-color: #0a0a0a; }
+/* The selected filter is the black pill on white. */
+#all-work .filter-btn.active { background: #0a0a0a; color: #ffffff; border-color: #0a0a0a; }
+#all-work .filter-btn:not(.active):hover { border-color: #0a0a0a; }
+
+/* The service icons are white artwork, so the sticky panel stays black to hold
+   them, and the small inline copies used on mobile are inverted to read on white. */
+.what-we-do .service-visual-panel { background: #0a0a0a; border-color: #0a0a0a; }
+.what-we-do .service-row-icon { filter: invert(1); }
+.what-we-do .service-row::before { background: #0a0a0a; }
+.what-we-do .service-row:hover .service-row-index { color: #0a0a0a; }
+.what-we-do .service-row-arrow { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+.what-we-do .service-row:hover .service-row-arrow { background: #fff; color: #0a0a0a; border-color: #0a0a0a; }
 
 /* ---------- Editorial work grid (varied rhythm, not equal cards) ---------- */
 .editorial-grid {
@@ -1253,7 +1207,7 @@ section { padding: 80px 0; position: relative; }
 .logo-slide { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .logo-slide img { height: 46px; width: auto; max-width: 150px; object-fit: contain; }
 
-/* ---------- Google Reviews slider ---------- */
+/* ---------- Reviews slider ---------- */
 .reviews-slider { overflow: hidden; padding: 10px 0 6px; margin-top: 10px; }
 .reviews-track {
   display: flex;
@@ -1262,16 +1216,22 @@ section { padding: 80px 0; position: relative; }
   animation: scroll-left 60s linear infinite reverse;
 }
 .reviews-slider:hover .reviews-track { animation-play-state: paused; }
+/* White cards on the dark section: the tokens are flipped on the card itself,
+   so the quote, name and role inside read dark without touching the section. */
 .review-card {
+  --text: #0a0a0a;
+  --text-dim: rgba(10, 10, 10, 0.72);
+  --text-faint: rgba(10, 10, 10, 0.55);
   flex-shrink: 0;
   width: 340px;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  background: var(--surface);
+  border: 1px solid #ffffff;
+  background: #ffffff;
+  color: var(--text);
   padding: 32px;
 }
-.review-badge { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
-.review-badge span { font-family: 'Inter', sans-serif; font-size: 0.76rem; font-weight: 600; color: var(--text-faint); }
+/* The home palette makes the avatar gradients near-black, so their initials go white. */
+.review-card .testi-avatar { color: #ffffff; }
 @media (max-width: 760px) {
   .review-card { width: 280px; }
 }
@@ -1324,6 +1284,16 @@ body.home .cta-band p { color: rgba(255,255,255,0.85); }
 body.home .cta-band .btn-outline { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); color: var(--text); }
 body.home .cta-band .btn-outline:hover,
 body.home .cta-band .btn-outline:focus-visible { color: #0a0a0a; border-color: #ffffff; }
+
+/* Work and Services pages: the band goes black, so the button flips to solid
+   white and fills black on hover, with a white border holding its shape. */
+.cta-band.cta-band-dark { background: #0a0a0a; }
+.cta-band-dark h2 { color: #ffffff; }
+.cta-band-dark p { color: rgba(255, 255, 255, 0.72); }
+.cta-band-dark .btn-outline { background: #ffffff; border-color: #ffffff; color: #0a0a0a; }
+.cta-band-dark .btn-outline::after { background: #0a0a0a; }
+.cta-band-dark .btn-outline:hover,
+.cta-band-dark .btn-outline:focus-visible { background: #ffffff; border-color: #ffffff; color: #ffffff; }
 
 /* ---------- CTA band scroll reveal ---------- */
 /* Switched on by main.js, which also drives --cta-p (the wipe) and --cta-fade
@@ -1848,79 +1818,262 @@ body > div:has(> #min-widget),
   .team-card, .team-card:nth-child(2n), .team-card:nth-child(3n), .team-card:nth-child(4n) { border-right: none; }
 }
 
-.process-list { position: relative; display: flex; flex-direction: column; }
-.process-list::before {
+/* ---------- Services: process panels ----------
+   Six tall panels in a row. Each closed panel shows only its step name, set
+   vertically; the open one widens, turns white and shows the step. A hairline
+   along its foot fills as a timer and hands over to the next panel when it
+   completes (main.js listens for the animation ending). Hovering or focusing
+   a panel opens it and holds the timer. The timer only runs while the row is
+   on screen, and not at all under reduced motion or below 861px, where the
+   row becomes a tap-to-open list. */
+.process-panels {
+  display: flex;
+  height: clamp(380px, 38vw, 480px);
+  margin-top: 40px;
+  border-left: 1px solid var(--border);
+}
+.process-panel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-left: none;
+  transition: flex-grow 0.8s var(--ease-draw), background-color 0.5s var(--ease-draw);
+}
+.process-panel.is-open {
+  flex-grow: 4;
+  background: #ffffff;
+  border-color: #ffffff;
+}
+.process-panel-trigger {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.process-panel.is-open .process-panel-trigger { cursor: default; }
+/* The plus in the corner of a closed panel; it turns to a dash when open. */
+.process-panel-trigger::before,
+.process-panel-trigger::after {
   content: '';
   position: absolute;
-  left: 44px;
-  top: 10px;
-  bottom: 10px;
-  width: 1px;
-  background: var(--border);
+  top: 34px;
+  left: 28px;
+  width: 14px;
+  height: 1.5px;
+  background: var(--text-dim);
+  transition: transform 0.5s var(--ease-draw), background-color 0.5s var(--ease-draw);
 }
-.process-step {
+.process-panel-trigger::after { transform: rotate(90deg); }
+.process-panel.is-open .process-panel-trigger::before,
+.process-panel.is-open .process-panel-trigger::after { background: #0a0a0a; }
+.process-panel.is-open .process-panel-trigger::after { transform: rotate(0deg); }
+.process-panel-label {
+  position: absolute;
+  left: 22px;
+  bottom: 28px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--text-dim);
+  transition: opacity 0.3s var(--ease-draw), color 0.3s var(--ease-draw);
+}
+.process-panel:not(.is-open):hover .process-panel-label { color: var(--text); }
+.process-panel.is-open .process-panel-label { opacity: 0; }
+/* Fixed width so the copy doesn't rewrap while the panel is still growing. */
+.process-panel-body {
+  position: absolute;
+  left: 28px;
+  bottom: 40px;
+  width: min(380px, calc(100% - 56px));
+  min-width: 260px;
+  color: #0a0a0a;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  transition: opacity 0.3s var(--ease-draw), transform 0.3s var(--ease-draw), visibility 0s linear 0.3s;
+  pointer-events: none;
+}
+.process-panel.is-open .process-panel-body {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.6s var(--ease-draw) 0.35s, transform 0.6s var(--ease-draw) 0.35s, visibility 0s;
+}
+.process-panel-body h3 {
+  font-size: clamp(2.2rem, 3.6vw, 3.2rem);
+  margin-bottom: 14px;
+}
+.process-panel-body p {
+  color: rgba(10, 10, 10, 0.7);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.process-panel-timer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #0a0a0a;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.process-panels.is-auto .process-panel.is-open .process-panel-timer {
+  animation: process-panel-timer 6s linear forwards;
+  animation-play-state: paused;
+}
+.process-panels.is-auto.is-visible .process-panel.is-open .process-panel-timer { animation-play-state: running; }
+.process-panels.is-auto:hover .process-panel.is-open .process-panel-timer,
+.process-panels.is-auto:focus-within .process-panel.is-open .process-panel-timer { animation-play-state: paused; }
+@keyframes process-panel-timer {
+  to { transform: scaleX(1); }
+}
+@media (max-width: 860px) {
+  .process-panels {
+    flex-direction: column;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+  .process-panel {
+    flex: none;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.5s var(--ease-draw);
+  }
+  .process-panel-trigger {
+    position: relative;
+    inset: auto;
+    display: block;
+    padding: 24px 20px 24px 52px;
+  }
+  .process-panel-trigger::before,
+  .process-panel-trigger::after { top: 50%; left: 20px; }
+  .process-panel-label {
+    position: static;
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 1.5rem;
+  }
+  .process-panel.is-open .process-panel-label { opacity: 1; color: #0a0a0a; }
+  .process-panel-body { display: none; }
+  .process-panel.is-open .process-panel-body {
+    display: block;
+    position: static;
+    width: auto;
+    min-width: 0;
+    padding: 0 20px 26px 52px;
+  }
+  .process-panel-body h3 { display: none; }
+}
+
+/* ---------- Home: process ----------
+   Split layout. The heading and one large line icon hold still on the left
+   while the six steps scroll past on the right; whichever step crosses the
+   middle of the viewport lights up and the icon follows it (main.js
+   adds .is-live to switch the dimming on, so without JS every step reads at
+   full strength). Only title and one line per step — the space is the point. */
+.process-layout {
   display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 30px;
-  padding: 36px 0;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(40px, 8vw, 120px);
   align-items: start;
 }
-.process-num {
+.process-aside {
+  position: sticky;
+  top: 130px;
+}
+/* Icons live once in an inline sprite; each <use> strokes in currentColor. The
+   stroke scales with the icon (1.4 on a 48 grid, about 3% of its width), the
+   same proportion as the line art in What We Do. */
+.process-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.process-feature-icon,
+.process-item-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.process-feature {
   position: relative;
-  font-family: 'Inter', sans-serif;
-  font-size: 2.2rem;
-  font-weight: 700;
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  height: clamp(200px, 22vw, 280px);
+  margin-top: clamp(48px, 7vw, 88px);
 }
-.process-step h3 { margin-bottom: 10px; }
-.process-step p { color: var(--text-dim); max-width: 560px; }
-
-.process-horizontal {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px 36px;
-}
-.process-horizontal::before { display: none; }
-.process-horizontal .process-step {
+.process-feature-item {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 28px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--bg-soft);
-  position: relative;
-  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), background 0.35s var(--ease);
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 22px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s var(--ease-draw), transform 0.6s var(--ease-draw);
 }
-.process-horizontal .process-step:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.3);
-  background: var(--surface-strong);
+.process-feature-item.is-active { opacity: 1; transform: none; }
+.process-feature-icon {
+  width: clamp(130px, 14vw, 190px);
+  height: auto;
+  aspect-ratio: 1;
+  margin-left: -6px;
 }
-.process-horizontal .process-num {
-  font-size: 1.3rem;
-}
-.process-horizontal .process-step h3 {
-  font-size: 1.5rem;
-}
-.process-horizontal .process-step:not(:nth-child(3n))::after {
-  content: '→';
-  position: absolute;
-  top: 50%;
-  right: -30px;
-  transform: translateY(-50%);
-  font-size: 1.3rem;
+.process-feature-item span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--text-faint);
 }
-@media (max-width: 900px) {
-  .process-horizontal { grid-template-columns: repeat(2, 1fr); }
-  .process-horizontal .process-step:not(:nth-child(3n))::after { display: none; }
+.process-items { border-top: 1px solid var(--border); }
+.process-item {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 24px;
+  padding: clamp(36px, 4vw, 52px) 0;
+  border-bottom: 1px solid var(--border);
 }
-@media (max-width: 560px) {
-  .process-horizontal { grid-template-columns: 1fr; }
+.process-item-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.process-item h3 {
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.process-item p {
+  color: var(--text-dim);
+  max-width: 44ch;
+  line-height: 1.65;
+}
+/* Dimming rides on the step's contents, so it never fights the .reveal fade on
+   the row itself. */
+.process-items.is-live .process-item > * {
+  opacity: 0.28;
+  transition: opacity 0.6s var(--ease-draw);
+}
+.process-items.is-live .process-item.is-active > * { opacity: 1; }
+@media (max-width: 860px) {
+  .process-layout { grid-template-columns: 1fr; gap: 40px; }
+  .process-aside { position: static; }
+  .process-feature { display: none; }
+  .process-item { grid-template-columns: 40px 1fr; gap: 16px; }
 }
 
 /* ---------- Services page ---------- */
@@ -2476,10 +2629,8 @@ body > div:has(> #min-widget),
 
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
-  .bento { grid-template-columns: repeat(2, 1fr); }
   .span-2, .span-3, .span-4 { grid-column: span 2; }
   .work-grid { grid-template-columns: 1fr; }
-  .work-grid.masonry { column-count: 1; }
   .testi-grid { grid-template-columns: 1fr; }
   .about-grid, .service-block, .contact-grid { grid-template-columns: 1fr; }
   .values-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2496,7 +2647,6 @@ body > div:has(> #min-widget),
   .corner-logo { display: none; }
   section { padding: 70px 0; }
   .footer-grid { grid-template-columns: 1fr; }
-  .process-step { grid-template-columns: 1fr; gap: 10px; }
   .form-row { grid-template-columns: 1fr; }
 }
 
@@ -2623,4 +2773,26 @@ body > div:has(> #min-widget),
 @media (max-width: 480px) {
   .whatsapp-float { width: 52px; height: 52px; bottom: 18px; right: 18px; }
   .whatsapp-float svg { width: 26px; height: 26px; }
+}
+
+/* ---------- Reduced motion ----------
+   "Reduce motion" is an accessibility setting, not a taste one — large
+   scroll-triggered movement is genuinely nauseating with a vestibular
+   disorder. Everything decorative stops here; nothing is hidden, so the page
+   still reads identically, just still. Hover feedback is deliberately left
+   alone: it is small, user-initiated, and removing it makes the site feel
+   broken rather than calm. Last in the file so it wins on source order —
+   a media query adds no specificity of its own. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  /* Reveals land in their final state instead of travelling 28px. */
+  .reveal { opacity: 1; transform: none; transition: none; }
+
+  /* The four looping tracks hold at their start position, where their content
+     is already on screen, so no copy or logo is lost by stopping them. */
+  .marquee-track,
+  .image-slider-track,
+  .logo-slider-track,
+  .reviews-track { animation: none; }
 }
