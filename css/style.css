@@ -3,7 +3,7 @@
    Bold, colour-obsessed, maximalist agency theme
 =========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400..800;1,400..800&display=swap');
 
 :root {
   /* Palette */
@@ -28,14 +28,15 @@
 
   --grad-hero: linear-gradient(135deg, var(--pink) 0%, var(--purple) 48%, var(--orange) 100%);
   --grad-lime: linear-gradient(135deg, var(--lime), var(--blue));
-  --grad-text: linear-gradient(90deg, #ffffff 0%, #a8a8b3 55%, #55555f 100%);
 
-  /* Boxes are square-cornered. Only genuinely pill-shaped elements — chips,
-     tags, the nav capsule — keep a radius, via --radius-pill. */
+  /* Everything is square-cornered — boxes, buttons, chips, tags, the nav
+     capsule, the stats bar. --radius-pill is kept as the one knob that would
+     bring the pill shapes back; the circles (arrow buttons, avatars, the
+     WhatsApp badge) set border-radius: 50% directly and are unaffected. */
   --radius-sm: 0px;
   --radius-md: 0px;
   --radius-lg: 0px;
-  --radius-pill: 999px;
+  --radius-pill: 0px;
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* Shared easing for the hover wipes and line draws. */
@@ -74,7 +75,7 @@ input, textarea, select { font: inherit; color: inherit; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
   line-height: 1.5;
   overflow-x: hidden;
   position: relative;
@@ -106,41 +107,29 @@ body::before {
 
 /* ---------- Typography ---------- */
 h1, h2, h3, h4 {
-  font-family: 'Fraunces', serif;
   line-height: 1.08;
   letter-spacing: -0.01em;
-  font-weight: 600;
-  font-optical-sizing: auto;
+  font-weight: 700;
 }
 
 h1 { font-size: clamp(2rem, 4.4vw, 3.6rem); }
 h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); }
 h3 { font-size: clamp(1.05rem, 1.6vw, 1.3rem); }
 
-.text-grad {
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Home hero only: white text, same size as rest of headline */
-body.home .text-grad {
-  background-image: none;
-  color: var(--text);
-}
+/* The emphasis spans are solid, not clipped gradients. The class stays so the
+   markup on seven pages keeps working, and so there is one place to give the
+   emphasis a treatment again later. */
+.text-grad { color: var(--text); }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #fff;
-  font-weight: 800;
   margin-bottom: 18px;
 }
 
@@ -184,7 +173,6 @@ body.home .text-grad {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.92rem;
   padding: 16px 30px;
@@ -318,7 +306,6 @@ body.home .hero-actions .btn-white:hover {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: -0.02em;
@@ -336,7 +323,7 @@ body.home .hero-actions .btn-white:hover {
   align-items: center;
   gap: 34px;
   font-size: 0.92rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 .nav-links a { position: relative; padding: 4px 0; color: var(--text-dim); transition: color 0.25s; }
 .nav-links a:hover, .nav-links a.active { color: var(--text); }
@@ -398,7 +385,7 @@ body.home .hero-actions .btn-white:hover {
   transition: opacity 0.35s var(--ease);
 }
 .mobile-panel.open { opacity: 1; pointer-events: auto; }
-.mobile-panel a { font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 600; }
+.mobile-panel a { font-size: 1.6rem; font-weight: 600; }
 
 /* ---------- Hero ---------- */
 /* The opening screen fills the viewport. svh rather than vh so mobile browser
@@ -485,9 +472,8 @@ body.home .hero-actions .btn-white:hover {
   margin-bottom: 22px;
 }
 .hero-tagline {
-  font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-faint);
@@ -514,16 +500,12 @@ body.home .hero-actions .btn-white:hover {
 }
 .hero-statement .accent {
   display: inline-block;
-  font-family: 'Fraunces', serif;
   font-style: italic;
   font-weight: 600;
   font-size: 1.4em;
   letter-spacing: -0.01em;
   margin: 8px 0;
-  background: linear-gradient(90deg, var(--text) 0%, var(--text) 55%, var(--text-faint) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--text);
 }
 .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 22px; }
 
@@ -531,7 +513,6 @@ body.home .hero-actions .btn-white:hover {
   position: relative;
   height: 1.4em;
   margin: 0 auto 40px;
-  font-family: 'Inter', sans-serif;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   color: var(--text-faint);
@@ -573,7 +554,6 @@ body.home .hero-actions .btn-white:hover {
 }
 .hero-stats .stat:last-child { border-right: none; }
 .hero-stats .num {
-  font-family: 'Inter', sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
   color: #ffffff;
@@ -595,7 +575,6 @@ body.home .hero-actions .btn-white:hover {
   animation: scroll-left 26s linear infinite;
 }
 .marquee-track span {
-  font-family: 'Inter', sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text);
@@ -646,7 +625,6 @@ body.home .hero-actions .btn-white:hover {
   bottom: 16px;
   background: rgba(60, 60, 65, 0.85);
   color: #fff;
-  font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   padding: 6px 14px;
@@ -693,7 +671,6 @@ section { padding: 80px 0; position: relative; }
   .logo-line { flex-wrap: wrap; gap: 20px 54px !important; }
 }
 .logo-row .client-name {
-  font-family: 'Inter', sans-serif;
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--text-faint);
@@ -734,7 +711,6 @@ section { padding: 80px 0; position: relative; }
 .card p { color: var(--text-dim); font-size: 0.96rem; }
 
 .track-num {
-  font-family: 'Fraunces', serif;
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--text-faint);
@@ -818,7 +794,6 @@ section { padding: 80px 0; position: relative; }
   background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.18), transparent 60%);
 }
 .work-thumb .glyph {
-  font-family: 'Inter', sans-serif;
   font-size: 3.4rem;
   font-weight: 700;
   color: rgba(255,255,255,0.22);
@@ -854,7 +829,6 @@ section { padding: 80px 0; position: relative; }
   flex-shrink: 0;
 }
 .work-view span {
-  font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--text-faint);
@@ -1005,7 +979,6 @@ section { padding: 80px 0; position: relative; }
   .build-item:hover { background: #1b1b1b; transform: translateY(-4px); }
 }
 .build-name {
-  font-family: 'Fraunces', serif;
   font-size: clamp(1rem, 1.4vw, 1.18rem);
   font-weight: 600;
   line-height: 1.3;
@@ -1175,7 +1148,6 @@ section { padding: 80px 0; position: relative; }
   color: #fff;
   font-weight: 700;
   margin-bottom: 8px;
-  font-family: 'Inter', sans-serif;
 }
 .featured-case-stage p { color: var(--text-dim); font-size: 0.94rem; line-height: 1.6; }
 @media (max-width: 860px) {
@@ -1213,7 +1185,6 @@ section { padding: 80px 0; position: relative; }
   width: 44px; height: 44px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Inter', sans-serif;
   font-weight: 700;
   color: #0c0c0c;
 }
@@ -1259,7 +1230,6 @@ section { padding: 80px 0; position: relative; }
   top: 0;
   left: 0;
   white-space: nowrap;
-  font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
   color: #0a0a0a;
@@ -1469,7 +1439,7 @@ body > div:has(> #min-widget),
 .footer-contact { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
 .footer-contact a, .footer-contact p { display: block; color: var(--text-faint); font-size: 0.85rem; max-width: 240px; }
 .footer-contact a:hover { color: var(--text); }
-.footer-col h4 { font-family: 'Inter', sans-serif; font-size: 0.85rem; margin-bottom: 18px; color: var(--text); }
+.footer-col h4 { font-size: 0.85rem; margin-bottom: 18px; color: var(--text); }
 .footer-col a { display: block; color: var(--text-faint); font-size: 0.9rem; margin-bottom: 12px; transition: color 0.25s; }
 .footer-col a:hover { color: var(--text); }
 .footer-bottom {
@@ -1501,7 +1471,6 @@ body > div:has(> #min-widget),
 .page-hero h1 { margin: 0 auto 20px; }
 .page-hero .lead { margin: 0 auto; text-align: center; max-width: 1000px; }
 .page-hero .hero-meta {
-  font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -1514,7 +1483,6 @@ body > div:has(> #min-widget),
 .page-hero .hero-stats { margin: 28px auto 0; }
 
 .error-num {
-  font-family: 'Fraunces', serif;
   font-weight: 700;
   font-size: clamp(6rem, 18vw, 11rem);
   line-height: 1;
@@ -1533,7 +1501,6 @@ body > div:has(> #min-widget),
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   padding: 14px 22px;
-  font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -1589,7 +1556,7 @@ body > div:has(> #min-widget),
 .article-body ul { margin: 0 0 24px; padding-left: 22px; color: var(--text-dim); }
 .article-body ul li { margin-bottom: 10px; line-height: 1.7; }
 .article-body strong { color: var(--text); }
-.article-body blockquote { border-left: 3px solid var(--lime); padding: 6px 0 6px 24px; margin: 32px 0; font-family: 'Fraunces', serif; font-size: 1.2rem; color: var(--text); font-style: italic; }
+.article-body blockquote { border-left: 3px solid var(--lime); padding: 6px 0 6px 24px; margin: 32px 0; font-size: 1.2rem; color: var(--text); font-style: italic; }
 .article-body img { width: 100%; border-radius: var(--radius-md); margin: 8px 0 32px; display: block; }
 .article-byline { text-align: center; color: var(--text-faint); font-size: 0.9rem; margin-top: -8px; }
 .article-cta-heading { text-align: center; margin: 48px 0 6px; }
@@ -1648,7 +1615,6 @@ body > div:has(> #min-widget),
 }
 /* The one-line summary of how the work was made. */
 .case-process {
-  font-family: 'Inter', sans-serif;
   font-size: 0.72rem !important;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -1697,7 +1663,6 @@ body > div:has(> #min-widget),
   align-items: center;
   gap: 16px;
   padding: 30px 4px;
-  font-family: 'Inter', sans-serif;
   transition: color 0.3s var(--ease-draw), gap 0.3s var(--ease-draw);
 }
 .case-nav-back {
@@ -1719,7 +1684,6 @@ body > div:has(> #min-widget),
   color: var(--text-faint);
 }
 .case-nav-title {
-  font-family: 'Fraunces', serif;
   font-size: clamp(1.3rem, 2.4vw, 2rem);
   font-weight: 600;
   line-height: 1.1;
@@ -1775,7 +1739,6 @@ body > div:has(> #min-widget),
 }
 .tenet:nth-child(even) { padding-left: 40px; }
 .tenet-index {
-  font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1825,7 +1788,6 @@ body > div:has(> #min-widget),
   .practice:hover { padding-left: 12px; }
 }
 .practice-index {
-  font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1849,7 +1811,6 @@ body > div:has(> #min-widget),
    enough that the discipline still reads first. */
 .practice-body > p.practice-proof {
   margin-top: 14px;
-  font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -1904,8 +1865,8 @@ body > div:has(> #min-widget),
   gap: 6px;
   white-space: nowrap;
 }
-.owner-badge .name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.88rem; color: #fff; }
-.owner-badge .role { font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 700; color: #fff; text-decoration: underline; }
+.owner-badge .name { font-weight: 700; font-size: 0.88rem; color: #fff; }
+.owner-badge .role { font-size: 0.88rem; font-weight: 700; color: #fff; text-decoration: underline; }
 
 
 /* Team: a hairline-ruled table of people rather than a row of floating cards.
@@ -1933,7 +1894,6 @@ body > div:has(> #min-widget),
   border-radius: 50%;
   margin: 0 0 18px;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -1945,7 +1905,6 @@ body > div:has(> #min-widget),
 .team-card h3 { margin-bottom: 6px; font-size: 1.2rem; }
 .team-card .role {
   color: var(--text);
-  font-family: 'Inter', sans-serif;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -2029,9 +1988,8 @@ body > div:has(> #min-widget),
   bottom: 28px;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-family: 'Fraunces', serif;
   font-size: clamp(1.5rem, 2.2vw, 2rem);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
   white-space: nowrap;
   color: var(--text-dim);
@@ -2180,7 +2138,6 @@ body > div:has(> #min-widget),
   margin-left: -6px;
 }
 .process-feature-item span {
-  font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -2203,7 +2160,7 @@ body > div:has(> #min-widget),
 }
 .process-item h3 {
   font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 12px;
 }
 .process-item p {
@@ -2235,7 +2192,7 @@ body > div:has(> #min-widget),
   border-top: 1px solid var(--border);
 }
 .service-block:last-child { border-bottom: 1px solid var(--border); }
-.service-num { color: var(--text-faint); font-family: 'Inter', sans-serif; margin-bottom: 18px; }
+.service-num { color: var(--text-faint); margin-bottom: 18px; }
 .service-list { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
 .service-list li { display: flex; align-items: center; gap: 12px; color: var(--text-dim); font-size: 0.94rem; }
 .service-list li::before { content: '✦'; color: var(--lime); }
@@ -2252,7 +2209,6 @@ body > div:has(> #min-widget),
   .capability-row-nowrap { flex-wrap: wrap; }
 }
 .capability-pill {
-  font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text);
@@ -2335,7 +2291,6 @@ body > div:has(> #min-widget),
   .service-row:hover { padding-left: 14px; }
 }
 .service-row-index {
-  font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -2500,8 +2455,8 @@ body > div:has(> #min-widget),
   transform: scale(1.03);
 }
 .price-card.featured * { color: #fff !important; }
-.price-card .price-name { font-family: 'Inter', sans-serif; font-size: 0.9rem; margin-bottom: 10px; }
-.price-card .price-amount { font-family: 'Inter', sans-serif; font-size: 2.4rem; font-weight: 700; margin-bottom: 20px; }
+.price-card .price-name { font-size: 0.9rem; margin-bottom: 10px; }
+.price-card .price-amount { font-size: 2.4rem; font-weight: 700; margin-bottom: 20px; }
 .price-card ul { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; flex-grow: 1; }
 .price-card ul li { font-size: 0.9rem; color: var(--text-dim); display: flex; gap: 10px; }
 .price-card ul li::before { content: '✓'; color: #ffffff; font-weight: 700; }
@@ -2559,7 +2514,7 @@ body > div:has(> #min-widget),
   -webkit-appearance: none;
   appearance: none;
   height: 4px;
-  border-radius: 999px;
+  border-radius: 0;
   background: var(--border);
   outline: none;
   cursor: pointer;
@@ -2591,7 +2546,7 @@ body > div:has(> #min-widget),
 }
 .style-slider::-moz-range-track {
   height: 4px;
-  border-radius: 999px;
+  border-radius: 0;
   background: var(--border);
 }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -2639,7 +2594,6 @@ body > div:has(> #min-widget),
   .contact-line:hover { padding-left: 12px; }
 }
 .contact-line-label {
-  font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -2651,7 +2605,6 @@ body > div:has(> #min-widget),
 .contact-line-body { display: block; min-width: 0; }
 .contact-line-value {
   display: block;
-  font-family: 'Fraunces', serif;
   font-size: clamp(1.1rem, 1.9vw, 1.45rem);
   line-height: 1.2;
   color: var(--text);
@@ -2770,7 +2723,7 @@ body > div:has(> #min-widget),
 }
 .color-swatch:has(input:checked) img { border-color: #fff; border-width: 3px; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18); transform: scale(1.04); }
 .color-swatch span { display: block; margin-top: 8px; font-size: 0.78rem; color: var(--text-dim); }
-.color-swatch:has(input:checked) span { color: #fff; font-weight: 800; }
+.color-swatch:has(input:checked) span { color: #fff; font-weight: 600; }
 @media (max-width: 640px) {
   .color-swatch-grid { grid-template-columns: repeat(3, 1fr); }
 }
@@ -2820,7 +2773,6 @@ body > div:has(> #min-widget),
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
   font-size: 0.98rem;
   font-weight: 600;
 }
@@ -3005,3 +2957,31 @@ body > div:has(> #min-widget),
   .logo-slider-track,
   .reviews-track { animation: none; }
 }
+
+/* ---------- Pen-tool cursor ---------- */
+/* The nib artwork, scaled to 32px — browsers cap cursor images, so the 512px
+   original could not be used at its own size. It is white with a black
+   keyline, the way a default arrow is drawn, which is also what keeps it
+   legible: this site runs white sections against dark ones and black tiles
+   against white, and a single-colour nib disappears on one of them.
+   The nib is tilted 25 degrees, leaning toward the upper left but standing
+   more upright than a default arrow, and hotspot 3 0 is its point, where the
+   click actually lands.
+   Text fields keep the I-beam: a nib over an input hides the caret. */
+body {
+  cursor: url('../assets/cursors/pen.png') 3 0, auto;
+  cursor: image-set(url('../assets/cursors/pen.png') 1x,
+                    url('../assets/cursors/pen@2x.png') 2x) 3 0, auto;
+}
+/* The same nib over anything clickable. This rule is not redundant: every
+   selector here declares its own `cursor: pointer`, and a declared value beats
+   the one inherited from body, so without it the hand would come back. */
+a, button, label, select, summary, [role='button'],
+.faq-q, .process-panel-trigger, .style-slider,
+.build-option, .color-swatch, .budget-pill, .checkbox-row label {
+  cursor: url('../assets/cursors/pen.png') 3 0, pointer;
+  cursor: image-set(url('../assets/cursors/pen.png') 1x,
+                    url('../assets/cursors/pen@2x.png') 2x) 3 0, pointer;
+}
+input:not([type='radio']):not([type='checkbox']):not([type='submit']):not([type='button']):not([type='range']),
+textarea { cursor: text; }
