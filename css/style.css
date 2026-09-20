@@ -230,7 +230,6 @@ body.home .text-grad {
 .btn-outline:hover,
 .btn-outline:focus-visible,
 .featured-case .btn-outline:hover,
-.contact-info-card .btn-outline:hover,
 .form-back:hover,
 body.home .btn-outline:hover,
 .hero-actions .btn-outline:hover {
@@ -746,21 +745,6 @@ section { padding: 80px 0; position: relative; }
 .span-4 { grid-column: span 4; }
 .span-6 { grid-column: span 6; }
 
-.card-num {
-  position: absolute;
-  top: 18px;
-  right: 22px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: 2rem;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.14);
-  pointer-events: none;
-}
-.card-numbered { padding: 22px 20px; }
-.card-numbered .card-num { font-size: 1.4rem; top: 12px; right: 14px; }
-.card-numbered h3 { font-size: 1.05rem; line-height: 1.3; padding-right: 32px; margin-bottom: 0; }
 
 /* ---------- Portfolio grid ---------- */
 .filters {
@@ -896,6 +880,9 @@ section { padding: 80px 0; position: relative; }
 #selected-work,
 #all-work,
 #services-faq,
+#how-we-work,
+#project-form,
+#what-youll-build,
 .what-we-do {
   background: #ffffff;
   --bg-alt: #ffffff;
@@ -911,6 +898,9 @@ section { padding: 80px 0; position: relative; }
 #selected-work .lead,
 #services-faq .eyebrow,
 #services-faq .faq-plus,
+#how-we-work .eyebrow,
+#project-form .eyebrow,
+#what-youll-build .eyebrow,
 .what-we-do .eyebrow,
 .what-we-do .lead { color: #0a0a0a; }
 #selected-work .btn-outline { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
@@ -927,6 +917,58 @@ section { padding: 80px 0; position: relative; }
 #all-work .filter-btn.active { background: #0a0a0a; color: #ffffff; border-color: #0a0a0a; }
 #all-work .filter-btn:not(.active):hover { border-color: #0a0a0a; }
 
+/* The enquiry form on white. The token flip above handles the fields, labels
+   and hairlines, but every "selected" and "focused" state in the form was
+   drawn as white-on-dark and would vanish here, so each one is restated as
+   its opposite. Grouped together so the form's two themes stay in step. */
+#project-form .form-group input:focus,
+#project-form .form-group textarea:focus,
+#project-form .form-group select:focus { border-color: #0a0a0a; }
+#project-form .form-group select { color-scheme: light; }
+#project-form .form-group select option { background: #ffffff; color: #0a0a0a; }
+/* The chosen option is the black pill on white, matching the work filters. */
+#project-form .budget-pill.checked,
+#project-form .budget-pill:has(input:checked) {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+}
+#project-form .build-option:has(input:checked) {
+  border-color: #0a0a0a;
+  background: rgba(10, 10, 10, 0.04);
+}
+#project-form .build-option:has(input:checked) .dot { border-color: #0a0a0a; background: #0a0a0a; }
+#project-form .color-swatch:has(input:checked) img {
+  border-color: #0a0a0a;
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.18);
+}
+#project-form .color-swatch:has(input:checked) span { color: #0a0a0a; }
+#project-form .style-slider::-webkit-slider-thumb { background: #0a0a0a; }
+#project-form .style-slider::-moz-range-thumb { background: #0a0a0a; }
+#project-form .confirm-steps .check { background: #0a0a0a; color: #ffffff; }
+/* Continue and Submit are white buttons everywhere else on the site, which
+   leaves nothing to see here. They go black, and the curtain that rises on
+   hover — theirs is black, the outline button's is white — swaps with them. */
+#project-form .form-next,
+#project-form .form-submit {
+  background: #0a0a0a;
+  border-color: #0a0a0a;
+  color: #ffffff;
+}
+#project-form .form-next::after,
+#project-form .form-submit::after { background: #ffffff; }
+#project-form .form-next:hover,
+#project-form .form-submit:hover {
+  background: #0a0a0a;
+  border-color: #0a0a0a;
+  color: #0a0a0a;
+}
+#project-form .btn-outline { border-color: #0a0a0a; color: #0a0a0a; }
+#project-form .btn-outline::after { background: #0a0a0a; }
+#project-form .btn-outline:hover,
+#project-form .btn-outline:focus-visible,
+#project-form .form-back:hover { border-color: #0a0a0a; color: #ffffff; }
+
 /* The service icons are white artwork, so the sticky panel stays black to hold
    them, and the small inline copies used on mobile are inverted to read on white. */
 .what-we-do .service-visual-panel { background: #0a0a0a; border-color: #0a0a0a; }
@@ -935,6 +977,49 @@ section { padding: 80px 0; position: relative; }
 .what-we-do .service-row:hover .service-row-index { color: #0a0a0a; }
 .what-we-do .service-row-arrow { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
 .what-we-do .service-row:hover .service-row-arrow { background: #fff; color: #0a0a0a; border-color: #0a0a0a; }
+
+/* The eight deliverables are black tiles on the white section — the only
+   thing on the page that reverses the page's own contrast, which is what
+   makes the row read as a set. One centred name each: the numbers and the
+   descriptions this replaced turned a list you scan in seconds into work. */
+.build-index {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 30px;
+}
+.build-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Holds the tile's proportions now that nothing but the name sits in it. */
+  min-height: 132px;
+  padding: 26px 24px;
+  background: #0a0a0a;
+  border-radius: var(--radius-md);
+  transition: background 0.4s var(--ease-draw), transform 0.4s var(--ease-draw);
+}
+@media (hover: hover) and (min-width: 861px) {
+  .build-item:hover { background: #1b1b1b; transform: translateY(-4px); }
+}
+.build-name {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1rem, 1.4vw, 1.18rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #ffffff;
+}
+@media (max-width: 900px) {
+  .build-index { grid-template-columns: repeat(2, 1fr); }
+}
+/* One column on a phone, and the tile loses its height so eight of them
+   don't turn into a column of blocks taller than the screen. */
+@media (max-width: 520px) {
+  .build-index { grid-template-columns: 1fr; gap: 10px; }
+  .build-item { min-height: 0; padding: 20px; }
+}
 
 /* ---------- Editorial work grid (varied rhythm, not equal cards) ---------- */
 .editorial-grid {
@@ -1661,61 +1746,136 @@ body > div:has(> #min-widget),
   align-items: center;
 }
 
-.capsule {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), background 0.35s var(--ease);
-}
-.capsule:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.3);
-  background: var(--surface-strong);
-}
-.principles-grid-row {
+/* Principles are a numbered list, not a row of tiles. Four equal boxes gave
+   four aphorisms equal weight and no room to justify themselves; in a list
+   each rule can carry the sentence that earns it, and the hairlines do the
+   work the four borders used to. */
+.tenet-list {
+  list-style: none;
+  margin-top: 30px;
+  /* Two across rather than four down: as a single column the four rules ran
+     most of a screen while half the width sat empty beside them. Paired, the
+     section reads in one glance and the measure stays short enough to skim. */
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border);
 }
-/* A white rule draws across the top edge on hover, left to right. */
-.principle-box {
-  align-items: flex-start;
-  text-align: left;
-  padding: 40px 26px;
-  position: relative;
-  overflow: hidden;
+.tenet {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
 }
-.principle-box::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: #ffffff;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.8s var(--ease-draw);
+/* The hairline between the columns belongs to the left cell, so the two
+   halves stay separated without a box around either. */
+.tenet:nth-child(odd) {
+  border-right: 1px solid var(--border);
+  padding-right: 44px;
 }
-.principle-box:hover::before,
-.principle-box:focus-within::before { transform: scaleX(1); }
-.principle-box p {
-  font-family: 'Fraunces', serif;
-  font-size: 1.2rem;
+.tenet:nth-child(even) { padding-left: 40px; }
+.tenet-index {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  /* Sits on the cap height of the heading beside it, not its box. */
+  padding-top: 0.45em;
+}
+.tenet h3 {
+  font-size: clamp(1.1rem, 1.7vw, 1.4rem);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.tenet p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin: 0;
+}
+@media (max-width: 760px) {
+  .tenet-list { grid-template-columns: 1fr; }
+  .tenet:nth-child(odd) { border-right: none; padding-right: 0; }
+  .tenet:nth-child(even) { padding-left: 0; }
+}
+@media (max-width: 480px) {
+  .tenet { grid-template-columns: 1fr; padding: 22px 0; }
+  .tenet-index { padding-top: 0; margin-bottom: 8px; }
+}
+
+/* What We Do: rows that name the work proving each discipline. The cards this
+   replaces held a ghost number and a title and nothing else, which is what a
+   placeholder looks like. The proof line is the reason the section exists, so
+   the whole row is a link into that part of the portfolio. */
+.practice-list {
+  border-top: 1px solid var(--border);
+  margin-top: 30px;
+}
+.practice {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0 16px;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.4s var(--ease);
+}
+@media (hover: hover) and (min-width: 861px) {
+  .practice:hover { padding-left: 12px; }
+}
+.practice-index {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  padding-top: 0.5em;
+  transition: color 0.4s var(--ease);
+}
+.practice:hover .practice-index { color: var(--text); }
+.practice h3 {
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.practice-body > p {
+  color: var(--text-dim);
+  max-width: 58ch;
+  line-height: 1.65;
+  margin: 0;
+}
+/* The client names are a caption, not a sentence: small, spaced and quiet
+   enough that the discipline still reads first. */
+.practice-body > p.practice-proof {
+  margin-top: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
   font-weight: 600;
-  line-height: 1.35;
-  color: var(--text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
-@media (max-width: 900px) {
-  .principles-grid-row { grid-template-columns: 1fr 1fr; }
+.practice-arrow {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: all 0.4s var(--ease);
 }
-@media (max-width: 560px) {
-  .principles-grid-row { grid-template-columns: 1fr; }
+.practice:hover .practice-arrow {
+  background: #ffffff;
+  color: #0c0c0c;
+  border-color: #ffffff;
+  transform: rotate(45deg);
 }
+@media (max-width: 640px) {
+  .practice { grid-template-columns: 1fr auto; gap: 0 12px; padding: 24px 0; }
+  .practice-index { display: none; }
+}
+
 .about-visual {
   aspect-ratio: 1;
   border-radius: var(--radius-lg);
@@ -1747,17 +1907,6 @@ body > div:has(> #min-widget),
 .owner-badge .name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.88rem; color: #fff; }
 .owner-badge .role { font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 700; color: #fff; text-decoration: underline; }
 
-.values-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-}
-.values-grid.wrap-5 {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.values-grid.wrap-5 .card { flex: 1 1 200px; max-width: 230px; }
 
 /* Team: a hairline-ruled table of people rather than a row of floating cards.
    Avatars are monochrome initials so nobody's tile competes with the work. */
@@ -2473,15 +2622,78 @@ body > div:has(> #min-widget),
 }
 .form-success.show { display: block; }
 
-.contact-info-card {
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  padding: 36px;
-  margin-bottom: 20px;
+/* Contact routes are rows, not cards. As cards they held unequal content —
+   two carried a button, two carried nothing — so the grid read as ragged.
+   As rows the address is the link, which is the only thing anyone came for. */
+.contact-direct { border-top: 1px solid var(--border); }
+.contact-line {
+  display: grid;
+  grid-template-columns: 136px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.4s var(--ease);
 }
-.contact-info-card h3 { margin-bottom: 8px; }
-.contact-info-card p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 18px; }
+@media (hover: hover) and (min-width: 861px) {
+  .contact-line:hover { padding-left: 12px; }
+}
+.contact-line-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  transition: color 0.4s var(--ease);
+}
+.contact-line:hover .contact-line-label { color: var(--text); }
+.contact-line-body { display: block; min-width: 0; }
+.contact-line-value {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.1rem, 1.9vw, 1.45rem);
+  line-height: 1.2;
+  color: var(--text);
+  /* Long addresses break rather than push the arrow off the row. */
+  overflow-wrap: anywhere;
+}
+.contact-line-note {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.contact-line-arrow {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: all 0.4s var(--ease);
+}
+.contact-line:hover .contact-line-arrow {
+  background: #ffffff;
+  color: #0c0c0c;
+  border-color: #ffffff;
+  transform: rotate(45deg);
+}
+.contact-meta {
+  margin-top: 26px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 60ch;
+}
+@media (max-width: 640px) {
+  .contact-line { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 22px 0; }
+  .contact-line-label { grid-column: 1; margin-bottom: -6px; }
+  .contact-line-body { grid-column: 1; }
+  .contact-line-arrow { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+}
+
 .social-row { display: flex; gap: 12px; }
 .social-row a {
   width: 42px; height: 42px;
@@ -2633,7 +2845,6 @@ body > div:has(> #min-widget),
   .work-grid { grid-template-columns: 1fr; }
   .testi-grid { grid-template-columns: 1fr; }
   .about-grid, .service-block, .contact-grid { grid-template-columns: 1fr; }
-  .values-grid { grid-template-columns: repeat(2, 1fr); }
   .pricing-grid { grid-template-columns: 1fr; }
   .price-card.featured { transform: none; }
   .footer-grid { grid-template-columns: 1fr 1fr 1fr; }
@@ -2659,7 +2870,6 @@ body > div:has(> #min-widget),
     font-size: 0.85rem;
     max-width: 100%;
   }
-  .contact-info-card { padding: 26px 20px; }
 }
 
 /* Two across rather than four stacked: a single column of four ran taller
@@ -2679,7 +2889,6 @@ body > div:has(> #min-widget),
 
 @media (max-width: 480px) {
   .container { padding: 0 18px; }
-  .values-grid { grid-template-columns: 1fr; }
 }
 
 /* ---------- WhatsApp floating button ---------- */
