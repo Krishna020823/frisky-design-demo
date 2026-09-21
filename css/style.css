@@ -3,8 +3,6 @@
    Bold, colour-obsessed, maximalist agency theme
 =========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400..800;1,400..800&display=swap');
-
 :root {
   /* Palette */
   --bg: #0c0c0c;
@@ -1584,6 +1582,10 @@ body > div:has(> #min-widget),
 .case-body { max-width: 980px; margin: 0 auto; }
 .case-body > p { color: var(--text-dim); font-size: 1.02rem; line-height: 1.75; margin-bottom: 22px; max-width: 720px; }
 .case-body h2 { font-size: 1.7rem; margin: 56px 0 18px; }
+/* In-copy links need to read as links; the global reset strips colour and underline. */
+.article-body p a, .case-body > p a, .related-work a { color: var(--text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.article-body p a:hover, .case-body > p a:hover, .related-work a:hover { color: var(--lime); }
+.related-work { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-top: 32px; }
 .case-body img { width: 100%; border-radius: var(--radius-md); display: block; }
 .case-full-img { margin: 32px 0; }
 .case-gallery-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; align-items: stretch; }

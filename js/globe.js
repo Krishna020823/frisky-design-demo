@@ -147,8 +147,26 @@ function initGlobe() {
       dot, el, world: new THREE.Vector3(), shown: false,
       x: 0, y: 0, facing: -1, want: false,
       lx: 0, ly: 0, slot: 0, // resolved pill position, and which slot it settled in
+      halfW: 0, halfH: 0,    // pill size, measured once per resize (see measure())
     };
   });
+
+  // Layout reads are cached here rather than taken every frame: reading offsetWidth
+  // inside the render loop forced a synchronous layout 60 times a second.
+  let stageW = 0;
+  let stageH = 0;
+  let viewportH = 0;
+  const measure = () => {
+    stageW = stage.clientWidth;
+    stageH = stage.clientHeight;
+    viewportH = stage.parentElement.clientHeight;
+    pins.forEach((pin) => {
+      pin.halfW = pin.el.offsetWidth / 2;
+      pin.halfH = pin.el.offsetHeight / 2;
+    });
+  };
+  // Pill widths change once the web font swaps in.
+  if (document.fonts) document.fonts.ready.then(measure);
 
   // Reused each frame to rank pills by how face-on they are; never re-allocated.
   const byFacing = pins.slice();
@@ -229,24 +247,14 @@ function initGlobe() {
   el.addEventListener('pointerleave', endDrag);
 
   const resize = () => {
-    const w = stage.clientWidth;
-    const h = stage.clientHeight;
-    if (!w || !h) return;
-    camera.aspect = w / h;
+    measure();
+    if (!stageW || !stageH) return;
+    camera.aspect = stageW / stageH;
     camera.updateProjectionMatrix();
-    renderer.setSize(w, h, false);
+    renderer.setSize(stageW, stageH, false);
   };
   resize();
   window.addEventListener('resize', resize);
-
-  // Only render while the section is actually on screen.
-  let visible = true;
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(
-      ([entry]) => { visible = entry.isIntersecting; },
-      { rootMargin: '150px' }
-    ).observe(stage);
-  }
 
   const toCam = new THREE.Vector3();
   const proj = new THREE.Vector3();
@@ -259,9 +267,8 @@ function initGlobe() {
   const placed = [];     // pill boxes already granted a slot this frame
 
   const updateLabels = () => {
-    const w = stage.clientWidth;
-    const h = stage.clientHeight;
-    const viewportH = stage.parentElement.clientHeight;
+    const w = stageW;
+    const h = stageH;
 
     // Pass 1 — where each dot lands on screen, and how face-on it is.
     pins.forEach((pin) => {
@@ -288,8 +295,7 @@ function initGlobe() {
       let show = false;
 
       if (pin.want) {
-        const halfW = pin.el.offsetWidth / 2;
-        const halfH = pin.el.offsetHeight / 2;
+        const { halfW, halfH } = pin;
         const boxW = halfW + LABEL_GAP;
         const boxH = halfH + LABEL_GAP;
 
@@ -326,10 +332,11 @@ function initGlobe() {
   };
 
   const clock = new THREE.Clock();
+  let frame = 0;
   const animate = () => {
-    requestAnimationFrame(animate);
-    if (!visible) return;
-    const dt = clock.getDelta();
+    frame = requestAnimationFrame(animate);
+    // Capped so the first frame after a pause doesn't jump the spin forward.
+    const dt = Math.min(clock.getDelta(), 0.1);
 
     if (!dragging) {
       // Let the throw decay, then ease the idle spin back in.
@@ -351,7 +358,30 @@ function initGlobe() {
     renderer.render(scene, camera);
     updateLabels();
   };
-  animate();
+
+  // The loop runs only while the section is on screen and the tab is in front;
+  // otherwise no frame is scheduled at all, so the page sits idle.
+  let onScreen = false;
+  const sync = () => {
+    const run = onScreen && !document.hidden;
+    if (run && !frame) {
+      clock.getDelta(); // discard the time spent paused
+      animate();
+    } else if (!run && frame) {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    }
+  };
+  document.addEventListener('visibilitychange', sync);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      sync();
+    }, { rootMargin: '150px' }).observe(stage);
+  } else {
+    onScreen = true;
+    sync();
+  }
 }
 
 if (stage && canvasHost && labelHost) {
@@ -361,7 +391,7 @@ if (stage && canvasHost && labelHost) {
       if (!entry.isIntersecting) return;
       warmup.disconnect();
       initGlobe();
-    }, { rootMargin: '1400px' });
+    }, { rootMargin: '600px' });
     warmup.observe(stage);
   } else {
     initGlobe();
