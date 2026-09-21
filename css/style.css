@@ -1532,7 +1532,7 @@ body > div:has(> #min-widget),
 @media (max-width: 600px) { .mastery-grid { grid-template-columns: 1fr; } }
 
 /* ---------- Insight articles ---------- */
-.back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-faint); font-size: 0.85rem; font-weight: 600; margin-bottom: 28px; transition: color 0.25s; }
+.back-link { display: flex; width: fit-content; align-items: center; gap: 8px; color: var(--text-faint); font-size: 0.85rem; font-weight: 600; margin-bottom: 28px; transition: color 0.25s; }
 .back-link:hover { color: var(--text); }
 .article-hero-img { border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 40px; border: 1px solid var(--border); }
 .article-hero-img img {
@@ -1553,11 +1553,25 @@ body > div:has(> #min-widget),
 .article-body { max-width: 760px; margin: 0 auto; }
 .article-body p { color: var(--text-dim); font-size: 1.02rem; line-height: 1.75; margin-bottom: 22px; }
 .article-body h2 { font-size: 1.6rem; margin: 44px 0 18px; }
-.article-body ul { margin: 0 0 24px; padding-left: 22px; color: var(--text-dim); }
+.article-body ul { margin: 0 0 24px; padding-left: 22px; color: var(--text-dim); list-style: disc; }
 .article-body ul li { margin-bottom: 10px; line-height: 1.7; }
 .article-body strong { color: var(--text); }
 .article-body blockquote { border-left: 3px solid var(--lime); padding: 6px 0 6px 24px; margin: 32px 0; font-size: 1.2rem; color: var(--text); font-style: italic; }
 .article-body img { width: 100%; border-radius: var(--radius-md); margin: 8px 0 32px; display: block; }
+/* Longer articles carry sub-headings inside a section, numbered sequences and
+   captioned diagrams — none of which the first two posts needed. */
+.article-body h3 { font-size: 1.12rem; margin: 28px 0 10px; }
+.article-body ol { margin: 0 0 24px; padding-left: 22px; color: var(--text-dim); list-style: decimal; }
+.article-body ol li { margin-bottom: 10px; line-height: 1.7; }
+.article-body figure { margin: 8px 0 32px; }
+.article-body figure img { margin: 0; }
+.article-body figcaption {
+  margin-top: 12px;
+  color: var(--text-faint);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  text-align: center;
+}
 .article-byline { text-align: center; color: var(--text-faint); font-size: 0.9rem; margin-top: -8px; }
 .article-cta-heading { text-align: center; margin: 48px 0 6px; }
 .article-comments { max-width: 760px; margin: 60px auto 0; padding-top: 50px; border-top: 1px solid var(--border); }
@@ -2959,19 +2973,20 @@ body > div:has(> #min-widget),
 }
 
 /* ---------- Pen-tool cursor ---------- */
-/* The nib artwork, scaled to 32px — browsers cap cursor images, so the 512px
-   original could not be used at its own size. It is white with a black
-   keyline, the way a default arrow is drawn, which is also what keeps it
+/* The nib artwork, scaled to 26px — about the size of a native arrow's
+   artwork, and well inside the cap browsers put on cursor images. It is
+   white with a black keyline, the way a default arrow is drawn, which is
+   also what keeps it
    legible: this site runs white sections against dark ones and black tiles
    against white, and a single-colour nib disappears on one of them.
    The nib is tilted 25 degrees, leaning toward the upper left but standing
-   more upright than a default arrow, and hotspot 3 0 is its point, where the
+   more upright than a default arrow, and hotspot 2 0 is its point, where the
    click actually lands.
    Text fields keep the I-beam: a nib over an input hides the caret. */
 body {
-  cursor: url('../assets/cursors/pen.png') 3 0, auto;
+  cursor: url('../assets/cursors/pen.png') 2 0, auto;
   cursor: image-set(url('../assets/cursors/pen.png') 1x,
-                    url('../assets/cursors/pen@2x.png') 2x) 3 0, auto;
+                    url('../assets/cursors/pen@2x.png') 2x) 2 0, auto;
 }
 /* The same nib over anything clickable. This rule is not redundant: every
    selector here declares its own `cursor: pointer`, and a declared value beats
@@ -2979,9 +2994,9 @@ body {
 a, button, label, select, summary, [role='button'],
 .faq-q, .process-panel-trigger, .style-slider,
 .build-option, .color-swatch, .budget-pill, .checkbox-row label {
-  cursor: url('../assets/cursors/pen.png') 3 0, pointer;
+  cursor: url('../assets/cursors/pen.png') 2 0, pointer;
   cursor: image-set(url('../assets/cursors/pen.png') 1x,
-                    url('../assets/cursors/pen@2x.png') 2x) 3 0, pointer;
+                    url('../assets/cursors/pen@2x.png') 2x) 2 0, pointer;
 }
 input:not([type='radio']):not([type='checkbox']):not([type='submit']):not([type='button']):not([type='range']),
 textarea { cursor: text; }
