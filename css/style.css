@@ -1718,6 +1718,294 @@ body > div:has(> #min-widget),
   .case-nav-next { text-align: left; flex-direction: row-reverse; justify-content: flex-end; }
 }
 
+/* ---------- Website case studies ----------
+   A build needs more furniture than an identity: the facts a buyer scans first
+   (scope, platform, link to the live site), a working view of the site, and the
+   feature lists. All of it stays ruled and square like the rest of the page. */
+.case-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 30px;
+}
+.case-hero-actions .btn { font-weight: 700; }
+.case-meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 8px 0 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.case-meta div {
+  padding: 22px 22px 22px 0;
+  border-right: 1px solid var(--border);
+}
+.case-meta div + div { padding-left: 22px; }
+.case-meta div:last-child { border-right: 0; }
+.case-meta dt {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+.case-meta dd { color: var(--text); font-size: 0.95rem; line-height: 1.55; }
+.case-meta dd a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.case-meta dd a:hover { color: var(--lime); }
+@media (max-width: 760px) {
+  .case-meta { grid-template-columns: 1fr 1fr; }
+  .case-meta div,
+  .case-meta div + div { padding: 18px 16px 18px 0; border-right: 0; border-bottom: 1px solid var(--border); }
+  .case-meta div:nth-child(odd) { border-right: 1px solid var(--border); }
+  .case-meta div:nth-child(even) { padding-left: 16px; }
+  .case-meta div:nth-last-child(-n+2) { border-bottom: 0; }
+}
+
+/* A live-feeling browser: the full homepage capture scrolls inside a fixed
+   window, so the reader can travel the page without leaving the study. */
+.case-browser {
+  margin: 32px 0 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+.case-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
+  background: #1a1a1a;
+}
+.case-browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
+.case-browser-bar span {
+  margin-left: 12px;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  letter-spacing: 0.02em;
+}
+.case-browser-view {
+  height: min(68vh, 620px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.case-browser-view img { border-radius: 0; }
+.case-caption {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin: 0 0 32px;
+}
+
+/* Numbered steps — the booking flow, read left to right. */
+.case-steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 8px 0 32px;
+  border-top: 1px solid var(--border);
+}
+.case-steps li {
+  padding: 24px 22px 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+.case-steps li + li { padding-left: 22px; border-left: 1px solid var(--border); }
+.case-steps b {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  margin-bottom: 12px;
+}
+.case-steps strong { display: block; font-size: 1.05rem; margin-bottom: 6px; }
+.case-steps span { color: var(--text-dim); font-size: 0.92rem; line-height: 1.6; }
+@media (max-width: 860px) {
+  .case-steps { grid-template-columns: 1fr 1fr; }
+  .case-steps li:nth-child(3) { padding-left: 0; border-left: 0; }
+}
+@media (max-width: 520px) {
+  .case-steps { grid-template-columns: 1fr; }
+  .case-steps li,
+  .case-steps li + li { padding: 20px 0; border-left: 0; }
+}
+
+/* The admin console's sections, grouped the way its sidebar groups them. */
+.case-modules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 8px 0 32px;
+  border-top: 1px solid var(--border);
+}
+.case-modules div {
+  padding: 22px 22px 22px 0;
+  border-bottom: 1px solid var(--border);
+}
+.case-modules div:not(:nth-child(3n+1)) { padding-left: 22px; border-left: 1px solid var(--border); }
+.case-modules h3 {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 12px;
+}
+.case-modules ul { list-style: none; }
+.case-modules li { color: var(--text-dim); font-size: 0.92rem; line-height: 1.85; }
+@media (max-width: 760px) {
+  .case-modules { grid-template-columns: 1fr 1fr; }
+  .case-modules div:not(:nth-child(3n+1)) { padding-left: 0; border-left: 0; }
+  .case-modules div:nth-child(even) { padding-left: 18px; border-left: 1px solid var(--border); }
+}
+
+/* A piece of the client's site shown live and edge to edge, breaking out of
+   the 980px story column to the full viewport width. */
+.case-bleed {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+/* Buzz & Bond footer, rebuilt from buzzandbond.com: its own colours, type and
+   wordmark motion, scoped here so none of it leaks into the Frisky page. */
+.bb-footer {
+  --bb-brand: #F05E2E;
+  background: var(--bb-brand);
+  color: rgba(255, 255, 255, .92);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 56px 0 0;
+  overflow: hidden;
+  /* Taller than the content needs, as on the live site: the links sit at the
+     top and the wordmark is pushed down to the bottom edge. */
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(560px, 74vh, 740px);
+}
+.bb-footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
+.bb-footer-grid { display: grid; gap: 28px; grid-template-columns: 1fr 1fr; }
+.bb-footer-grid > :first-child { grid-column: 1 / -1; }
+.bb-footer-logo { display: block; color: #fff; }
+.bb-footer-logo svg { height: 32px; width: auto; max-width: 100%; }
+.bb-footer p { margin-top: 12px; max-width: 340px; }
+.bb-footer h3 {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.bb-footer li { list-style: none; margin: 6px 0; }
+.bb-footer-socials { display: flex; gap: 10px; margin-top: 14px; }
+.bb-footer-socials span {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, .16);
+}
+.bb-footer-socials svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.bb-soon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--bb-brand);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.bb-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, .25);
+  margin-top: 28px;
+  padding-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  font-size: 13px;
+}
+.bb-made-by { display: inline-flex; align-items: center; gap: 8px; color: rgba(255, 255, 255, .6); }
+.bb-made-by b { font-weight: 700; }
+.bb-made-by img { width: 18px; height: 18px; opacity: .6; }
+@media (min-width: 900px) {
+  .bb-footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+  .bb-footer-grid > :first-child { grid-column: auto; }
+}
+
+/* The wordmark. main.js splits it into one <g> per letter (rise and hover)
+   around a <text> (idle motion), exactly as on buzzandbond.com. */
+.bb-wordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: auto;
+  padding: 40px 4px 0;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 152px;
+  letter-spacing: -.02em;
+  user-select: none;
+  pointer-events: none;
+}
+.bb-wordmark text { fill-opacity: .9; }
+.bb-wordmark .wm-g {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: translateY(115%);
+  transition: transform .95s cubic-bezier(.2, 1.35, .4, 1) calc(var(--i) * 75ms);
+}
+.bb-wordmark.is-in .wm-g { transform: none; }
+.bb-wordmark.is-settled .wm-g { transition-delay: 0s; transition-duration: .35s; }
+.bb-wordmark .wm-l { transform-box: fill-box; transform-origin: 50% 60%; }
+.bb-wordmark.is-settled .wm-z { animation: bb-wm-buzz 4.2s ease-in-out infinite; animation-delay: calc(var(--i) * 180ms); }
+.bb-wordmark.is-settled .wm-amp { animation: bb-wm-beat 2.4s ease-in-out infinite; }
+.bb-wordmark .wm-amp { fill: #FFD3C4; }
+@media (hover: hover) {
+  .bb-wordmark.is-settled { pointer-events: auto; }
+  .bb-wordmark.is-settled .wm-g:hover {
+    transform: translateY(-9%) rotate(-3deg);
+    transition-timing-function: cubic-bezier(.3, 1.8, .5, 1);
+  }
+}
+@keyframes bb-wm-buzz {
+  0%, 12%, 100% { transform: none; }
+  2% { transform: translate(-1.5%, -1%) rotate(-3deg); }
+  4% { transform: translate(1.5%, 0) rotate(3deg); }
+  6% { transform: translate(-1%, -1.5%) rotate(-2deg); }
+  8% { transform: translate(1%, 0) rotate(2deg); }
+  10% { transform: translate(0, -.5%) rotate(-1deg); }
+}
+@keyframes bb-wm-beat {
+  0%, 40%, 100% { transform: scale(1); }
+  10% { transform: scale(1.12); }
+  20% { transform: scale(.98); }
+  30% { transform: scale(1.07); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bb-wordmark .wm-g { transform: none; transition: none; }
+  .bb-wordmark .wm-z,
+  .bb-wordmark .wm-amp { animation: none; }
+}
+
 /* ---------- About page ---------- */
 .about-grid {
   display: grid;

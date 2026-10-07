@@ -356,6 +356,65 @@ document.addEventListener('DOMContentLoaded', () => {
     syncAuto();
   }
 
+  // Buzz & Bond case study: the client's footer wordmark, rebuilt with the same
+  // motion it has on buzzandbond.com. The single line of text is split into one
+  // element per letter, measured where the stretched text put each glyph, so
+  // the letters can rise in one after another the first time the footer scrolls
+  // into view. Once they land the Zs buzz, the ampersand beats, and each letter
+  // hops on hover. Reduced motion keeps the static wordmark.
+  const bbWordmark = document.querySelector('[data-bb-wordmark]');
+  if (bbWordmark && !reduceMotion.matches) {
+    const build = () => {
+      const src = bbWordmark.querySelector('text');
+      if (!src || typeof src.getExtentOfChar !== 'function') return;
+      const ns = 'http://www.w3.org/2000/svg';
+      const chars = Array.from(src.textContent);
+      const group = document.createElementNS(ns, 'g');
+      try {
+        chars.forEach((ch, i) => {
+          const box = src.getExtentOfChar(i);
+          const g = document.createElementNS(ns, 'g');
+          g.setAttribute('class', 'wm-g');
+          g.style.setProperty('--i', i);
+          const t = document.createElementNS(ns, 'text');
+          t.textContent = ch;
+          t.setAttribute('x', box.x + box.width / 2);
+          t.setAttribute('y', src.getAttribute('y'));
+          t.setAttribute('text-anchor', 'middle');
+          t.setAttribute('textLength', box.width);
+          t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
+          t.setAttribute('fill', src.getAttribute('fill'));
+          t.setAttribute('class', 'wm-l' + (ch === '&' ? ' wm-amp' : ch === 'Z' ? ' wm-z' : ''));
+          t.style.setProperty('--i', i);
+          g.appendChild(t);
+          group.appendChild(g);
+        });
+      } catch (_) {
+        return; // keep the static wordmark
+      }
+      src.replaceWith(group);
+
+      const reveal = () => {
+        bbWordmark.classList.add('is-in');
+        setTimeout(() => bbWordmark.classList.add('is-settled'), 950 + chars.length * 75);
+      };
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          if (entries.some((e) => e.isIntersecting)) { io.disconnect(); reveal(); }
+        }, { threshold: 0.4 });
+        io.observe(bbWordmark);
+      } else {
+        reveal();
+      }
+    };
+    // Glyph widths are only right once Plus Jakarta Sans has loaded.
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load('800 152px "Plus Jakarta Sans"').then(build, build);
+    } else {
+      build();
+    }
+  }
+
   // Portfolio filters
   const filterBtns = document.querySelectorAll('.filter-btn');
   const workItems = document.querySelectorAll('.work-item');
