@@ -1865,90 +1865,18 @@ body > div:has(> #min-widget),
   position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
+  padding: 0;
+  margin-top: 24px;
 }
 
-/* Buzz & Bond footer, rebuilt from buzzandbond.com: its own colours, type and
-   wordmark motion, scoped here so none of it leaks into the Frisky page. */
+/* The animated wordmark from the Buzz & Bond footer, on the client's orange
+   and edge to edge. Only the wordmark is shown, at the client's request. */
 .bb-footer {
-  --bb-brand: #F05E2E;
-  background: var(--bb-brand);
-  color: rgba(255, 255, 255, .92);
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 56px 0 0;
+  background: #F05E2E;
   overflow: hidden;
-  /* Taller than the content needs, as on the live site: the links sit at the
-     top and the wordmark is pushed down to the bottom edge. */
-  display: flex;
-  flex-direction: column;
-  min-height: clamp(560px, 74vh, 740px);
-}
-.bb-footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
-.bb-footer-grid { display: grid; gap: 28px; grid-template-columns: 1fr 1fr; }
-.bb-footer-grid > :first-child { grid-column: 1 / -1; }
-.bb-footer-logo { display: block; color: #fff; }
-.bb-footer-logo svg { height: 32px; width: auto; max-width: 100%; }
-.bb-footer p { margin-top: 12px; max-width: 340px; }
-.bb-footer h3 {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.bb-footer li { list-style: none; margin: 6px 0; }
-.bb-footer-socials { display: flex; gap: 10px; margin-top: 14px; }
-.bb-footer-socials span {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, .16);
-}
-.bb-footer-socials svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.bb-soon {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 6px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #fff;
-  color: var(--bb-brand);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  line-height: 1.6;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-.bb-footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, .25);
-  margin-top: 28px;
-  padding-top: 18px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: space-between;
-  font-size: 13px;
-}
-.bb-made-by { display: inline-flex; align-items: center; gap: 8px; color: rgba(255, 255, 255, .6); }
-.bb-made-by b { font-weight: 700; }
-.bb-made-by img { width: 18px; height: 18px; opacity: .6; }
-@media (min-width: 900px) {
-  .bb-footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
-  .bb-footer-grid > :first-child { grid-column: auto; }
+  /* A little room under the floor line, so letters that tilt or buzz after
+     landing stay whole instead of dipping past the band's edge. */
+  padding: clamp(40px, 8vw, 110px) 0 clamp(8px, 1.6vw, 26px);
 }
 
 /* The wordmark. main.js splits it into one <g> per letter (rise and hover)
@@ -1957,8 +1885,7 @@ body > div:has(> #min-widget),
   display: block;
   width: 100%;
   height: auto;
-  margin-top: auto;
-  padding: 40px 4px 0;
+  padding: 0 4px;
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-weight: 800;
   font-size: 152px;
@@ -1974,6 +1901,10 @@ body > div:has(> #min-widget),
   transition: transform .95s cubic-bezier(.2, 1.35, .4, 1) calc(var(--i) * 75ms);
 }
 .bb-wordmark.is-in .wm-g { transform: none; }
+/* As on the live site, the svg's own box is the floor the letters rise from
+   behind, so they are clipped while they come up. Once they have landed the
+   clip lifts, so the hover hop and the idle buzz are never cut. */
+.bb-wordmark.is-settled { overflow: visible; }
 .bb-wordmark.is-settled .wm-g { transition-delay: 0s; transition-duration: .35s; }
 .bb-wordmark .wm-l { transform-box: fill-box; transform-origin: 50% 60%; }
 .bb-wordmark.is-settled .wm-z { animation: bb-wm-buzz 4.2s ease-in-out infinite; animation-delay: calc(var(--i) * 180ms); }
@@ -3147,6 +3078,160 @@ body > div:has(> #min-widget),
   .container { padding: 0 18px; }
 }
 
+/* The footer is a column flexbox, and a flex item with `margin: 0 auto`
+   shrinks to its content: the link grid came out 296px wide and centred, so on
+   a phone the footer sat indented 65px while its bottom bar ran full width.
+   Stretching the containers keeps them on the page's own gutters. */
+.footer > .container { width: 100%; }
+
+/* ---------- Phones: mobile-first refinements ----------
+   The layouts above were drawn for the desktop and folded down to one column,
+   which left phones with stretched blocks: centred pyramids of pills, eight
+   full-width tiles in a row, a 1440px-tall footer, cards whose titles were
+   squeezed by hover-only labels. This block re-sets those pieces for a
+   thumb-held screen. It only reshapes layout and sizing — colours, type,
+   square corners and the black-and-white system are untouched. */
+
+/* Touch screens never hover, so the "View Case Study" / "Read Article" label
+   that fades in beside the arrow is never seen — but it still took up width
+   and squeezed every card title into a narrow column. On small screens it goes
+   whatever the pointer; the arrow stays. */
+@media (hover: none), (max-width: 760px) {
+  .work-item .work-view > span { display: none !important; }
+}
+
+@media (max-width: 760px) {
+  /* Card headings take the full row; the tags under them sit side by side
+     instead of stacking one per line. */
+  .work-meta > div:first-child { flex: 1 1 auto; min-width: 0; }
+  .work-meta h3 { font-size: 1.15rem; line-height: 1.25; }
+  .work-tags .pill { font-size: 0.75rem; }
+
+  /* Inner-page heroes clear the floating nav without a screenful of black. */
+  .page-hero { padding: 116px 0 40px; }
+
+  /* Home hero: the headline holds two balanced lines instead of orphaning
+     "That" on a line of its own, and the strapline over the video gets enough
+     contrast to read. */
+  .hero h1 { font-size: clamp(1.85rem, 8.2vw, 2.4rem); text-wrap: balance; }
+  .hero h1 br { display: none; }
+  .hero h1 br + .text-grad::before { content: ' '; }
+  .hero-statement { color: rgba(255, 255, 255, 0.8); font-size: 0.98rem; }
+  .hero-stats .num { font-size: 1.2rem; }
+  .hero-stats .label { font-size: 0.75rem; }
+
+  /* Work filters: one swipeable row of chips rather than three rows of
+     boxes. The row bleeds to the screen edges so it reads as scrollable. */
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    margin: 0 -18px 32px;
+    padding: 0 18px 4px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-btn { flex-shrink: 0; padding: 10px 18px; scroll-snap-align: start; }
+
+  /* Insights covers are 3:2 artwork with their headline set in the image; a
+     fixed 320px slot cropped that headline off both sides. */
+  .work-grid .work-thumb { height: auto; aspect-ratio: 3 / 2; }
+
+  /* Home client logos: an even three-up grid instead of two ragged lines that
+     left single logos stranded in the middle. */
+  .logo-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px 14px;
+    justify-items: center;
+    align-items: center;
+  }
+  .logo-line { display: contents; }
+  .client-logo { width: 100%; max-width: 104px; height: 40px; }
+
+  /* Services capabilities: equal full-width rows, not a centred pyramid of
+     pills of five different widths. */
+  .capability-row,
+  .capability-row-nowrap {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin: 24px 0 0;
+  }
+  .capability-row + .capability-row { margin-top: 10px; }
+  .capability-row:not(:has(+ .capability-row)) { margin-bottom: 32px; }
+  .capability-pill { text-align: center; padding: 14px 18px; }
+
+  /* Academy "why" list: a two-up grid of equal tiles. */
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .trust-item { padding: 14px 12px; font-size: 0.84rem; line-height: 1.3; text-align: left; }
+
+  /* Academy modules: the same cards with less padding, so all six don't run
+     two screens long. */
+  .mastery-grid { gap: 12px; }
+  .mastery-grid .card { padding: 24px 22px; }
+  .mastery-grid .track-num { font-size: 1.3rem; margin-bottom: 10px; }
+  .trust-item:last-child:nth-child(odd) { grid-column: 1 / -1; justify-content: center; }
+
+  /* Footer: the four link groups pair up two by two, the page-tall minimum
+     height goes, and links get a thumb-sized hit area. */
+  .footer { min-height: 0; padding-top: 64px; }
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 20px;
+    padding-bottom: 44px;
+  }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-brand p { max-width: none; }
+  .footer-col h4 { margin-bottom: 10px; }
+  .footer-col a { padding: 6px 0; margin-bottom: 2px; }
+  .footer-illustration { height: 170px; }
+  /* Clear of the docked search bar and WhatsApp button at the very end. */
+  .footer-bottom { padding-bottom: 90px; }
+
+  /* Case study pairs: the logo boards in these are artwork, not photos, so
+     they show whole instead of being cropped to a fixed 340px. */
+  .case-gallery-2 img { height: auto; }
+
+  /* Form steps: Back and Continue fill the row, easy to hit with a thumb. */
+  .form-nav .btn { flex: 1 1 0; }
+
+  /* iPhones zoom the whole page when a field under 16px takes focus, and
+     leave it zoomed. 16px keeps the page still while typing. */
+  input:not([type='radio']):not([type='checkbox']):not([type='range']),
+  textarea,
+  select,
+  .site-search input { font-size: 16px; }
+}
+
+/* Small phones (most of them): tighter tiles where one column was wasteful. */
+@media (max-width: 520px) {
+  /* Academy "What you'll build": two compact tiles per row instead of eight
+     full-width blocks. */
+  .build-index { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .build-item { min-height: 76px; padding: 14px 12px; }
+  .build-name { font-size: 0.92rem; }
+}
+
+@media (max-width: 480px) {
+  /* Team: two people per row, so six fit in one screen instead of three. */
+  .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .team-card { padding: 24px 16px; }
+  .team-card:nth-child(2n),
+  .team-card:nth-child(3n),
+  .team-card:nth-child(4n) { border-right: none; }
+  .team-card:nth-child(odd) { border-right: 1px solid var(--border); }
+  .team-avatar { width: 46px; height: 46px; margin-bottom: 14px; }
+  .team-card h3 { font-size: 1.05rem; }
+  .team-card .role { font-size: 0.62rem; letter-spacing: 0.1em; line-height: 1.5; }
+}
+
 /* ---------- WhatsApp floating button ---------- */
 /* ---------- Floating site search ---------- */
 /* Held back over the hero and faded in by main.js once the landing view has
@@ -3213,9 +3298,23 @@ body > div:has(> #min-widget),
 /* Chrome's own clear button clashes with the pill's styling. */
 .site-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
 @media (max-width: 860px) {
-  /* Too narrow to sit beside the WhatsApp button, so it stacks above it. */
-  .site-search { width: calc(100vw - 36px); bottom: 96px; padding: 13px 20px; }
-  .site-search input { font-size: 0.88rem; }
+  /* Docked along the bottom edge beside the WhatsApp button, the same height
+     as it, rather than stacked above it — up there it floated over the middle
+     of the page and covered whatever was being read. */
+  .site-search {
+    left: 18px;
+    right: 82px;
+    bottom: 18px;
+    width: auto;
+    height: 52px;
+    padding: 0 18px;
+    transform: translateY(16px);
+  }
+  .site-search.is-visible { transform: none; }
+  .site-search input { font-size: 16px; }
+}
+@media (min-width: 481px) and (max-width: 860px) {
+  .site-search { left: 24px; right: 96px; bottom: 24px; height: 60px; }
 }
 
 .whatsapp-float {
