@@ -1267,7 +1267,12 @@ section { padding: 80px 0; position: relative; }
   background: #ffffff;
   color: var(--text);
   padding: 32px;
+  /* Cards stretch to the tallest review; pinning the reviewer to the bottom
+     keeps every name on one line however long or short the quote is. */
+  display: flex;
+  flex-direction: column;
 }
+.review-card .testi-person { margin-top: auto; }
 /* Reviewer profile photos from the Google listing. */
 .review-card .testi-avatar { flex-shrink: 0; object-fit: cover; background: #e9e9e9; }
 @media (max-width: 760px) {
