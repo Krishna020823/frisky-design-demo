@@ -6,7 +6,7 @@
 :root {
   /* Palette */
   --bg: #0c0c0c;
-  --bg-alt: #131313;
+  --bg-alt: #0c0c0c;
   --bg-soft: #191919;
   --surface: rgba(255, 255, 255, 0.05);
   --surface-strong: rgba(255, 255, 255, 0.09);
@@ -293,11 +293,19 @@ body.home .hero-actions .btn-white:hover {
   gap: 20px;
   padding: 10px 18px;
   max-width: 960px;
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.7);
+}
+/* Desktop: the corner mark alone on the left (no wordmark), the menu and CTA
+   on the far right. The phone header keeps its own layout. */
+@media (min-width: 761px) {
+  .nav {
+    width: 100%;
+    max-width: none;
+    justify-content: flex-start;
+    gap: 34px;
+    padding: 10px 28px 10px 124px;
+  }
+  .nav .logo { display: none; }
+  .nav-links { margin-left: auto; }
 }
 
 .logo {
@@ -569,18 +577,23 @@ body.home .hero-actions .btn-white:hover {
 }
 .marquee-track {
   display: inline-flex;
-  gap: 60px;
-  animation: scroll-left 26s linear infinite;
+  gap: 72px;
+  animation: scroll-left 45s linear infinite;
 }
-.marquee-track span {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text);
+/* Two identical groups; the track slides by exactly one group (-50%), so the
+   gap between groups must equal the gap inside them for the loop to be seamless. */
+.marquee-group {
   display: inline-flex;
   align-items: center;
-  gap: 60px;
+  gap: 72px;
 }
-.marquee-track span i { color: var(--lime); font-style: normal; }
+.marquee .client-logo { flex-shrink: 0; width: 144px; height: 53px; }
+@media (max-width: 760px) {
+  .marquee { padding: 18px 0; }
+  .marquee-track,
+  .marquee-group { gap: 44px; }
+  .marquee .client-logo { width: 104px; height: 40px; }
+}
 @keyframes scroll-left {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -649,34 +662,6 @@ section { padding: 80px 0; position: relative; }
   text-transform: uppercase;
   margin-bottom: 34px;
 }
-.logo-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 34px;
-  padding: 16px 0;
-}
-.logo-line {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  gap: 40px;
-}
-.logo-line-a { gap: 22px; }
-@media (max-width: 1240px) {
-  .logo-line { flex-wrap: wrap; gap: 20px 54px !important; }
-}
-.logo-row .client-name {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--text-faint);
-  opacity: 0.55;
-  transition: opacity 0.3s var(--ease), color 0.3s var(--ease);
-  letter-spacing: -0.01em;
-}
-.logo-row .client-name:hover { opacity: 1; color: var(--lime); }
 .client-logo {
   position: relative;
   display: inline-block;
@@ -1266,7 +1251,7 @@ section { padding: 80px 0; position: relative; }
   display: flex;
   gap: 24px;
   width: max-content;
-  animation: scroll-left 60s linear infinite reverse;
+  animation: scroll-left 84s linear infinite reverse;
 }
 .reviews-slider:hover .reviews-track { animation-play-state: paused; }
 /* White cards on the dark section: the tokens are flipped on the card itself,
@@ -1283,8 +1268,8 @@ section { padding: 80px 0; position: relative; }
   color: var(--text);
   padding: 32px;
 }
-/* The home palette makes the avatar gradients near-black, so their initials go white. */
-.review-card .testi-avatar { color: #ffffff; }
+/* Reviewer profile photos from the Google listing. */
+.review-card .testi-avatar { flex-shrink: 0; object-fit: cover; background: #e9e9e9; }
 @media (max-width: 760px) {
   .review-card { width: 280px; }
 }
@@ -3139,18 +3124,6 @@ body > div:has(> #min-widget),
      fixed 320px slot cropped that headline off both sides. */
   .work-grid .work-thumb { height: auto; aspect-ratio: 3 / 2; }
 
-  /* Home client logos: an even three-up grid instead of two ragged lines that
-     left single logos stranded in the middle. */
-  .logo-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 28px 14px;
-    justify-items: center;
-    align-items: center;
-  }
-  .logo-line { display: contents; }
-  .client-logo { width: 100%; max-width: 104px; height: 40px; }
-
   /* Services capabilities: equal full-width rows, not a centred pyramid of
      pills of five different widths. */
   .capability-row,
@@ -3206,8 +3179,7 @@ body > div:has(> #min-widget),
      leave it zoomed. 16px keeps the page still while typing. */
   input:not([type='radio']):not([type='checkbox']):not([type='range']),
   textarea,
-  select,
-  .site-search input { font-size: 16px; }
+  select { font-size: 16px; }
 }
 
 /* Small phones (most of them): tighter tiles where one column was wasteful. */
@@ -3233,90 +3205,6 @@ body > div:has(> #min-widget),
 }
 
 /* ---------- WhatsApp floating button ---------- */
-/* ---------- Floating site search ---------- */
-/* Held back over the hero and faded in by main.js once the landing view has
-   scrolled away, so it never competes with the opening statement. Sits under
-   the WhatsApp button (z 999) and clear of it horizontally. */
-.site-search {
-  position: fixed;
-  left: 50%;
-  bottom: 32px;
-  z-index: 600;
-  width: min(600px, calc(100vw - 220px));
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 15px 24px;
-  border-radius: var(--radius-pill);
-  /* Frosted rather than solid: the fill is translucent enough for the blur to
-     actually read, which it can't at near-full opacity. saturate() stops the
-     blurred-through imagery going grey and flat. */
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.66);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  box-shadow: 0 14px 40px -12px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-50%) translateY(16px);
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), visibility 0.5s;
-}
-.site-search.is-visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-.site-search svg {
-  width: 19px;
-  height: 19px;
-  flex-shrink: 0;
-  fill: none;
-  stroke: rgba(10, 10, 10, 0.45);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-.site-search input {
-  flex: 1 1 auto;
-  min-width: 0;
-  border: none;
-  background: none;
-  outline: none;
-  font-size: 0.95rem;
-  color: #0a0a0a;
-}
-.site-search input::placeholder { color: rgba(10, 10, 10, 0.5); }
-/* Solidify while typing — frosted glass is nice to look at, poor to read against. */
-.site-search:focus-within {
-  border-color: rgba(0, 0, 0, 0.18);
-  background: rgba(255, 255, 255, 0.97);
-}
-/* Safari/Firefox without backdrop-filter would leave the text on a see-through
-   panel, so those browsers get the solid fill instead of a broken frost. */
-@supports not (backdrop-filter: blur(1px)) {
-  .site-search { background: rgba(255, 255, 255, 0.95); }
-}
-/* Chrome's own clear button clashes with the pill's styling. */
-.site-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
-@media (max-width: 860px) {
-  /* Docked along the bottom edge beside the WhatsApp button, the same height
-     as it, rather than stacked above it — up there it floated over the middle
-     of the page and covered whatever was being read. */
-  .site-search {
-    left: 18px;
-    right: 82px;
-    bottom: 18px;
-    width: auto;
-    height: 52px;
-    padding: 0 18px;
-    transform: translateY(16px);
-  }
-  .site-search.is-visible { transform: none; }
-  .site-search input { font-size: 16px; }
-}
-@media (min-width: 481px) and (max-width: 860px) {
-  .site-search { left: 24px; right: 96px; bottom: 24px; height: 60px; }
-}
-
 .whatsapp-float {
   position: fixed;
   bottom: 24px;

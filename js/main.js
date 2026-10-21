@@ -199,42 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sync();
   }
 
-  // Floating search bar — kept out of the way over the landing view, then faded
-  // in once the hero has scrolled off. Threshold is the hero's own height, so
-  // it appears at the moment the opening screen is behind you rather than at
-  // some fixed pixel count that would be wrong on every other viewport.
-  const siteSearch = document.querySelector('.site-search');
-  if (siteSearch) {
-    const hero = document.querySelector('.hero, .page-hero');
-    let trigger = 0;
-    let searchQueued = false;
-
-    const measureTrigger = () => {
-      trigger = hero ? hero.offsetTop + hero.offsetHeight * 0.75 : window.innerHeight * 0.75;
-    };
-
-    const applySearch = () => {
-      searchQueued = false;
-      siteSearch.classList.toggle('is-visible', window.scrollY > trigger);
-    };
-
-    const onSearchScroll = () => {
-      if (searchQueued) return;
-      searchQueued = true;
-      requestAnimationFrame(applySearch);
-    };
-
-    // Nothing to submit to yet, so keep Enter from reloading the page with a
-    // stray ?q= on the URL. Remove this once the search itself is built.
-    siteSearch.addEventListener('submit', (e) => e.preventDefault());
-
-    window.addEventListener('scroll', onSearchScroll, { passive: true });
-    window.addEventListener('resize', () => { measureTrigger(); onSearchScroll(); });
-    window.addEventListener('load', () => { measureTrigger(); applySearch(); });
-    measureTrigger();
-    applySearch();
-  }
-
   // Animated stat counters
   const statNums = document.querySelectorAll('.hero-stats .num');
   if (statNums.length) {
